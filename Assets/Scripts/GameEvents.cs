@@ -9,6 +9,7 @@ using UnityEngine;
 /// GameEvents.OnPickUpItem is an event, you can choose other events.
 /// PickUpItemLogic is the function you want to be run when this event happens.
 /// In that function you could have like moneygathered, pickupsound, add item to ui etc
+/// ask me
 /// </summary>
 public static class GameEvents 
 {
