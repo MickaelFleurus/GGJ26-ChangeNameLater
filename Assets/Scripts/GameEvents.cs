@@ -39,6 +39,7 @@ public static class GameEvents
     public static void InvokePlayerNotWalking() => OnPlayerNotWalking?.Invoke();  
 
     //Environment
+    public static int CurrentMoney { get; set; }
     public static event Action onLootCollected;
     public static event Action OnDoorOpen;
     public static event Action OnUIClick;

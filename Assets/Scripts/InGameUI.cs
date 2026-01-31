@@ -39,6 +39,7 @@ public class InGameUI : MonoBehaviour
         mOnLootCollectedFunc = (value, lootType) =>
         {
             mTotalCollected += value;
+            GameEvents.CurrentMoney = mTotalCollected;
             if (mAmountCollected != null)
                 mAmountCollected.text = mTotalCollected.ToString();
         };
@@ -75,6 +76,7 @@ public class InGameUI : MonoBehaviour
         mLootValue.visible = false;
 
         mTotalCollected = 0;
+        GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
     }
 
@@ -120,7 +122,14 @@ public class InGameUI : MonoBehaviour
             {
                 mLootValue.visible = true;
                 int value = interactable.GetValue();
-                float requiredSeconds = value / 2f;
+                float requiredSeconds = interactable.GetRequiredHoldTime();
+
+                if (interactable is Door door && GameEvents.CurrentMoney < door.GetValue())
+                {
+                    mLootValue.text = "Need " + door.GetValue() + " money";
+                    ResetHoldState();
+                    return;
+                }
 
                 if (eHeld)
                 {
