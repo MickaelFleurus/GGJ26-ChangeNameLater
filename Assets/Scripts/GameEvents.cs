@@ -26,14 +26,16 @@ public static class GameEvents
     public static event Action OnPickUpItem;
 
     //GameStates
-    public static event Action OnPlayerDeath;
+    public static event Action OnGameLost;
     public static event Action OnGameWon;
 
     //Player
     public static event Action OnPlayerWalking;
     public static event Action OnPlayerNotWalking;
 
-    //Door
+    //LootCollectionEvents
+    public static event Action onLootCollected;
     public static event Action OnDoorOpen;
+    
 
 }
