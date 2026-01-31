@@ -841,7 +841,7 @@ MonoBehaviour:
   deathSound: {fileID: 0}
   maskOnSound: {fileID: 0}
   maskOffSound: {fileID: 0}
-  breathingSound: {fileID: 0}
+  breathingSound: {fileID: 8300000, guid: 2ce0eee0475204245afe6bf4719288f4, type: 3}
   pickupSound: {fileID: 0}
   moneySound: {fileID: 8300000, guid: 23061b0bb81c9e844957fa5d0dfe5509, type: 3}
   musicClip: {fileID: 8300000, guid: b9212efab45c77047bc5578b716c35e7, type: 3}

@@ -76,7 +76,10 @@ public class SoundManager : MonoBehaviour
         ambienceSource.volume = 0.2f;
         StartAmbience();
 
-        //breathingSource.clip =
+        breathingSource = gameObject.AddComponent<AudioSource>();
+        breathingSource.clip = breathingSound;
+        breathingSource.loop = true;
+        breathingSource.volume = 0.2f;
     }
 
     void OnEnable()
@@ -85,7 +88,9 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnPlayerNotWalking += StopWalkSound;
 
         GameEvents.OnMaskEquipped += PlayMaskOnSound;
+        GameEvents.OnMaskEquipped += PlayBreathingSound;
         GameEvents.OnMaskOff += PlayMaskOffSound;
+        GameEvents.OnMaskOff += StopBreathingSound;
 
         GameEvents.OnGameLost += PlayDeathSound;
         GameEvents.OnGameWon += PlayGameWonSound;
@@ -159,6 +164,18 @@ public class SoundManager : MonoBehaviour
     {
         walkSource.Stop();
     }
+
+    void PlayBreathingSound()
+    {
+        if (!breathingSource.isPlaying)
+            breathingSource.Play();
+    }
+
+    void StopBreathingSound()
+    {
+        breathingSource?.Stop();
+    }
+
     #endregion
 
     public void SetMusicVolume(float volume)
