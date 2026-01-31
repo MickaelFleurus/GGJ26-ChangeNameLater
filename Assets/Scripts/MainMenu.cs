@@ -2,6 +2,7 @@ using UnityEngine;
 
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
 {
@@ -9,12 +10,13 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
 
     private VisualElement mMainMenu;
     private VisualElement mCreditsMenu;
-    private ScrollView mCreditsView;
+    private VisualElement mCreditsView;
     private VisualElement[] mButtons;
 
     private MenuInputs mInputs;
 
-    private int mSelectedItemIndex = 0;
+    private int? mSelectedItemIndex = 0;
+    private Vector2 mLastMousePosition = Vector2.zero;
 
     void Awake()
     {
@@ -32,6 +34,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
         mButtons[1] = mMainMenu.Q<VisualElement>("Credit");
         mButtons[2] = mMainMenu.Q<VisualElement>("Close");
         LoadCredits();
+        UnityEngine.Cursor.visible = false;
     }
 
     private void LoadCredits()
@@ -92,8 +95,47 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
         ResolveActive();
     }
 
+    void Update()
+    {
+        if (!mMainMenu.visible) return;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        if (mLastMousePosition == Vector2.zero)
+        {
+            mLastMousePosition = mousePos;
+            return;
+        }
+
+        if (mLastMousePosition == mousePos) return;
+        mLastMousePosition = mousePos;
+        mousePos.y = Screen.height - mousePos.y;
+
+        UnityEngine.Cursor.visible = true;
+        // Find which button is under the mouse
+        for (int i = 0; i < mButtons.Length; i++)
+        {
+            if (mButtons[i].worldBound.Contains(mousePos))
+            {
+                mSelectedItemIndex = i;
+                ResolveActive();
+                return;
+            }
+        }
+        mSelectedItemIndex = null;
+        ResolveActive();
+    }
+
     private void ResolveActive()
     {
+        if (!mSelectedItemIndex.HasValue)
+        {
+            foreach (VisualElement btn in mButtons)
+            {
+                btn.AddToClassList("unselected");
+                btn.RemoveFromClassList("selected");
+                btn.RemoveFromClassList("pressed");
+            }
+        }
+
         for (int i = 0; i < mButtons.Length; i++)
         {
             if (i == mSelectedItemIndex)
@@ -108,16 +150,23 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
                 mButtons[i].RemoveFromClassList("selected");
                 mButtons[i].RemoveFromClassList("pressed");
             }
+
         }
     }
 
     public void OnUp(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        mSelectedItemIndex--;
-        if (mSelectedItemIndex < 0)
+
+        UnityEngine.Cursor.visible = false;
+        if (!mSelectedItemIndex.HasValue) { mSelectedItemIndex = 0; }
+        else
         {
-            mSelectedItemIndex = mButtons.Length - 1;
+            mSelectedItemIndex--;
+            if (mSelectedItemIndex < 0)
+            {
+                mSelectedItemIndex = mButtons.Length - 1;
+            }
         }
         ResolveActive();
     }
@@ -125,17 +174,24 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
     public void OnDown(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        mSelectedItemIndex++;
-        if (mSelectedItemIndex >= mButtons.Length)
+
+        UnityEngine.Cursor.visible = false;
+        if (!mSelectedItemIndex.HasValue) { mSelectedItemIndex = 0; }
+        else
         {
-            mSelectedItemIndex = 0;
+            mSelectedItemIndex++;
+            if (mSelectedItemIndex >= mButtons.Length)
+            {
+                mSelectedItemIndex = 0;
+            }
         }
         ResolveActive();
     }
 
     public void OnSelect(InputAction.CallbackContext context)
     {
-        if (!context.performed) return;
+        if (!mSelectedItemIndex.HasValue || !context.performed) return;
+
         switch (mSelectedItemIndex)
         {
             case 0:
