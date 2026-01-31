@@ -1,10 +1,10 @@
 
 using UnityEngine;
 
-public class Clock : MonoBehaviour
+public class Add3DSound : MonoBehaviour
 {
     [Header("3D Sound")]
-    public AudioClip tickSound;
+    public AudioClip soundClip;
     public float minDistance = 3f;   // Full volume within 3 meters
     public float maxDistance = 9f;  // Silent beyond 15 meters
     public float volume = 0.5f;
@@ -15,9 +15,9 @@ public class Clock : MonoBehaviour
     {
         // clocks 3d sound
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = tickSound;
+        audioSource.clip = soundClip;
         audioSource.loop = true;               // Always looping
-        audioSource.spatialBlend = 1f;         // Full 3D
+        audioSource.spatialBlend = 1f;         // Full 3D, importanto
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
         audioSource.volume = volume;

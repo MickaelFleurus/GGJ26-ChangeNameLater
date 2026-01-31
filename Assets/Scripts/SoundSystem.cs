@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip maskOnSound;
     public AudioClip maskOffSound;
+    public AudioClip breathingSound;
 
     [Header("Item Sounds")]
     public AudioClip pickupSound;
@@ -33,6 +34,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource walkSource;
     private AudioSource musicSource;
     private AudioSource ambienceSource;
+    private AudioSource breathingSource;
 
     void Awake()
     {
@@ -73,6 +75,8 @@ public class SoundManager : MonoBehaviour
         ambienceSource.loop = true;
         ambienceSource.volume = 0.2f;
         StartAmbience();
+
+        //breathingSource.clip =
     }
 
     void OnEnable()
