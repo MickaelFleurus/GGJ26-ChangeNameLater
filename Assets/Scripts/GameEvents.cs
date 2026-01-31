@@ -38,22 +38,5 @@ public static class GameEvents
     public static event Action onLootCollected;
     public static event Action OnDoorOpen;
 
-    //call these methods to trigger the events
-    public static void ItemCollected(int current, int required);
-    {
-        onItemCollected?.Invoke(current, required);
-    }
-    public static void onLootCollected();
-    {
-        onLootCollected?.Invoke();
-    }
-    public static void onDoorOpen();
-    {
-        onDoorOpen?.Invoke();
-    }
-    public static void onGameLost();
-    {
-        onGameLost?.Invoke();
-    }
 
 }
