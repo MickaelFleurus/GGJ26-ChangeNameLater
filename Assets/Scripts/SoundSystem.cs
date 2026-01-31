@@ -96,7 +96,6 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnGameWon += PlayGameWonSound;
 
         GameEvents.OnPickUpItem += PlayPickupSound;
-        GameEvents.OnDoorOpen += PlayDoorOpenSound;
         GameEvents.onLootCollected += PlayMoneySound;
 
 
@@ -115,7 +114,6 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnGameWon -= PlayGameWonSound;
 
         GameEvents.OnPickUpItem -= PlayPickupSound;
-        GameEvents.OnDoorOpen -= PlayDoorOpenSound;
 
         GameEvents.OnUIClick -= PlayClickSound;
     }
@@ -125,9 +123,8 @@ public class SoundManager : MonoBehaviour
     void PlayMoneySound() => sfxSource.PlayOneShot(moneySound);
     void PlayMaskOnSound() => sfxSource.PlayOneShot(maskOnSound);
     void PlayMaskOffSound() => sfxSource.PlayOneShot(maskOffSound);
-    void PlayGameWonSound() => sfxSource.PlayOneShot(gameWon);
+    void PlayGameWonSound() => sfxSource.PlayOneShot(doorOpen);
     void PlayDeathSound() => sfxSource.PlayOneShot(deathSound);
-    void PlayDoorOpenSound() => sfxSource.PlayOneShot(doorOpen);
     void PlayClickSound() => sfxSource.PlayOneShot(click);
     #endregion
 
