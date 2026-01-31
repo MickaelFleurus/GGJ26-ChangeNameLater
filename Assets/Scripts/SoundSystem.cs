@@ -20,7 +20,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip ambienceClip;
 
     [Header("GameStates")]
-    public AudioClip playerDeath;
+    public AudioClip gameLost;
     public AudioClip gameWon;
 
     [Header("Environment")]
@@ -36,7 +36,7 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton pattern - only one SoundManager exists
+        // Singleton 
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -44,33 +44,33 @@ public class SoundManager : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject); // Persists across scenes!
+        DontDestroyOnLoad(gameObject); //survive all scnenes
 
-        // Create audio sources
+      
         sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.spatialBlend = 0f; // 2D
+        sfxSource.spatialBlend = 0f;
 
         musicSource = gameObject.AddComponent<AudioSource>();
-        musicSource.spatialBlend = 0f; // 2D
+        musicSource.spatialBlend = 0f; 
 
         ambienceSource = gameObject.AddComponent<AudioSource>();
-        ambienceSource.spatialBlend = 0f; // 2D
+        ambienceSource.spatialBlend = 0f; 
 
         walkSource = gameObject.AddComponent<AudioSource>();
         walkSource.clip = walkSound;
         walkSource.loop = true;
-        walkSource.spatialBlend = 0f; // 2D
+        walkSource.spatialBlend = 0f; 
 
         // Setup music
         musicSource.clip = musicClip;
         musicSource.loop = true;
-        musicSource.volume = 0.5f;
+        musicSource.volume = 0.3f;
         StartMusic();
 
         // Setup ambience
         ambienceSource.clip = ambienceClip;
         ambienceSource.loop = true;
-        ambienceSource.volume = 0.3f;
+        ambienceSource.volume = 0.2f;
         StartAmbience();
     }
 
