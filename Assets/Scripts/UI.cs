@@ -14,12 +14,13 @@ public class UI : MonoBehaviour
 
     private Action mOnMaskOffFunc;
     private Action mOnMaskOnFunc;
+    private Action<int, LootType> mOnLootCollectedFunc;
 
     private bool mCanSeeLoot = false;
+    private int mTotalCollected;
 
     void Awake()
     {
-
         mOnMaskOffFunc = () =>
         {
             mCanSeeLoot = false;
@@ -28,14 +29,23 @@ public class UI : MonoBehaviour
         {
             mCanSeeLoot = true;
         };
+        mOnLootCollectedFunc = (value, lootType) =>
+        {
+            mTotalCollected += value;
+            if (mAmountCollected != null)
+                mAmountCollected.text = mTotalCollected.ToString();
+        };
 
         GameEvents.OnMaskOff += mOnMaskOffFunc;
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
+        GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
     }
+
     void OnDestroy()
     {
         GameEvents.OnMaskOff -= mOnMaskOffFunc;
         GameEvents.OnMaskEquipped -= mOnMaskOnFunc;
+        GameEvents.OnLootCollectedWithData -= mOnLootCollectedFunc;
     }
 
     void Start()
@@ -47,7 +57,8 @@ public class UI : MonoBehaviour
         mHints.visible = false;
         mLootValue.visible = false;
 
-        mAmountCollected.text = "0";
+        mTotalCollected = 0;
+        mAmountCollected.text = mTotalCollected.ToString();
     }
 
     void Update()
