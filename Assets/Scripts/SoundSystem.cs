@@ -28,6 +28,9 @@ public class SoundManager : MonoBehaviour
     [Header("Enviroment")]
     public AudioClip doorOpen;
 
+    [Header("UI")]
+    public AudioClip click;
+
     private AudioSource sfxSource;      // For sound effects
     private AudioSource walkSource;
     private AudioSource musicSource;    // For music
@@ -49,13 +52,13 @@ public class SoundManager : MonoBehaviour
         musicSource.clip = musicClip;
         musicSource.loop = true;
         musicSource.volume = 0.5f;
-        musicSource.Play();
+        StartMusic();
 
         // Setup ambience
         ambienceSource.clip = ambienceClip;
         ambienceSource.loop = true;
         ambienceSource.volume = 0.3f;
-        ambienceSource.Play();
+        StartAmbience();
     }
 
     void OnEnable()
@@ -78,7 +81,19 @@ public class SoundManager : MonoBehaviour
 
     void OnDisable()
     {
-       
+        GameEvents.OnPlayerWalking -= StartWalkSound; ;
+        GameEvents.OnPlayerNotWalking -= StopWalkSound;
+
+        GameEvents.OnMaskEquipped -= PlayMaskOnSound;
+        GameEvents.OnMaskOff -= PlayMaskOffSound;
+
+
+        GameEvents.OnGameLost -= PlayDeathSound;
+        GameEvents.OnGameWon -= PlayGameWonSound;
+
+
+        GameEvents.OnPickUpItem -= PlayPickupSound;
+        GameEvents.OnDoorOpen -= PlayDoorOpenSound;
     }
 
     #region PlayOneShots
