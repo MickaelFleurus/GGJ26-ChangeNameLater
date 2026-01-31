@@ -26,7 +26,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
 
         mMainMenu.visible = true;
         mCreditsMenu.visible = false;
-        mCreditsView = UIDocument.rootVisualElement.Q<ScrollView>("CreditsScroll");
+        mCreditsView = UIDocument.rootVisualElement.Q<VisualElement>("CreditText");
 
         mButtons[0] = mMainMenu.Q<VisualElement>("Start");
         mButtons[1] = mMainMenu.Q<VisualElement>("Credit");
@@ -56,7 +56,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
                     sectionLabel.AddToClassList("credit_section");
                     mCreditsView.Add(sectionLabel);
                 }
-                else if (!string.IsNullOrWhiteSpace(line))
+                else
                 {
                     Label creditLabel = new Label(line);
                     creditLabel.AddToClassList("credit_text");
@@ -139,7 +139,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
         switch (mSelectedItemIndex)
         {
             case 0:
-                // start the game
+                SceneManager.LoadScene("MainScene");
                 break;
             case 1:
                 if (mMainMenu.visible)
@@ -154,11 +154,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
                 }
                 break;
             case 2:
-#if UNITY_EDITOR
-    UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
+                CloseGame();
                 break;
         }
     }
@@ -173,8 +169,17 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
                 mCreditsMenu.visible = false;
                 break;
             default:
-                // Do nothing
+                CloseGame();
                 break;
         }
+    }
+
+    private void CloseGame()
+    {
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
