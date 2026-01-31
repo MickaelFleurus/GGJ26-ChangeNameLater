@@ -6,10 +6,12 @@ using UnityEngine.UIElements;
 public class InGameUI : MonoBehaviour
 {
     [SerializeField] public UIDocument UIDocument;
+    [SerializeField] MaskController maskController;
 
     private Label mHints;
     private Label mAmountCollected;
     private Label mLootValue;
+    private Slider mMaskTimeSlider;
 
     private Action mOnMaskOffFunc;
     private Action mOnMaskOnFunc;
@@ -55,9 +57,19 @@ public class InGameUI : MonoBehaviour
 
     void Start()
     {
+        if (maskController == null)
+            maskController = FindObjectOfType<MaskController>();
+
         mHints = UIDocument.rootVisualElement.Q<Label>("Hints");
         mAmountCollected = UIDocument.rootVisualElement.Q<VisualElement>("Collected").Q<Label>("Amount");
         mLootValue = UIDocument.rootVisualElement.Q<Label>("ObjectValue");
+        mMaskTimeSlider = UIDocument.rootVisualElement.Q<Slider>("MaskTimeSlider");
+
+        if (mMaskTimeSlider != null && maskController != null)
+        {
+            mMaskTimeSlider.lowValue = 0f;
+            mMaskTimeSlider.highValue = maskController.MaxMaskTime;
+        }
 
         mHints.visible = false;
         mLootValue.visible = false;
@@ -76,6 +88,12 @@ public class InGameUI : MonoBehaviour
 
     void Update()
     {
+        if (maskController != null && mMaskTimeSlider != null)
+        {
+            mMaskTimeSlider.highValue = maskController.MaxMaskTime;
+            mMaskTimeSlider.value = maskController.MaxMaskTime - maskController.CurrentMaskTime;
+        }
+
         bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
 
         if (!mCanSeeLoot)
