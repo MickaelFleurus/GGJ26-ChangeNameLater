@@ -48,7 +48,7 @@ public static class GameEvents
     public static event Action onLootCollected;
     public static event Action OnDoorOpen;
 
-    public static event Action onClick;
+    public static event Action OnUIClick;
 
 
 }

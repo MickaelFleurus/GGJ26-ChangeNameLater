@@ -1,12 +1,10 @@
-using System.Data.SqlTypes;
 using UnityEngine;
 
-/// <summary>
-/// This is only for 2D sounds, for 3D sounds we keep
-/// that on the objects
-/// </summary>
 public class SoundManager : MonoBehaviour
 {
+    // Add this static reference
+    private static SoundManager instance;
+
     [Header("Player Sounds")]
     public AudioClip walkSound;
     public AudioClip deathSound;
@@ -25,25 +23,40 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerDeath;
     public AudioClip gameWon;
 
-    [Header("Enviroment")]
+    [Header("Environment")]
     public AudioClip doorOpen;
 
     [Header("UI")]
     public AudioClip click;
 
-    private AudioSource sfxSource;      // For sound effects
+    private AudioSource sfxSource;
     private AudioSource walkSource;
-    private AudioSource musicSource;    // For music
-    private AudioSource ambienceSource; // For ambience
+    private AudioSource musicSource;
+    private AudioSource ambienceSource;
 
     void Awake()
     {
-        // Create 3 audio sources
-        sfxSource = gameObject.AddComponent<AudioSource>();
-        musicSource = gameObject.AddComponent<AudioSource>();
-        ambienceSource = gameObject.AddComponent<AudioSource>();
-        walkSource = gameObject.AddComponent<AudioSource>();
+        // Singleton pattern - only one SoundManager exists
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        instance = this;
+        DontDestroyOnLoad(gameObject); // Persists across scenes!
+
+        // Create audio sources
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.spatialBlend = 0f; // 2D
+
+        musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource.spatialBlend = 0f; // 2D
+
+        ambienceSource = gameObject.AddComponent<AudioSource>();
+        ambienceSource.spatialBlend = 0f; // 2D
+
+        walkSource = gameObject.AddComponent<AudioSource>();
         walkSource.clip = walkSound;
         walkSource.loop = true;
         walkSource.spatialBlend = 0f; // 2D
@@ -63,52 +76,48 @@ public class SoundManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnPlayerWalking += StartWalkSound; ;
+        GameEvents.OnPlayerWalking += StartWalkSound;
         GameEvents.OnPlayerNotWalking += StopWalkSound;
 
         GameEvents.OnMaskEquipped += PlayMaskOnSound;
         GameEvents.OnMaskOff += PlayMaskOffSound;
 
-
         GameEvents.OnGameLost += PlayDeathSound;
         GameEvents.OnGameWon += PlayGameWonSound;
 
-      
         GameEvents.OnPickUpItem += PlayPickupSound;
         GameEvents.OnDoorOpen += PlayDoorOpenSound;
 
+
+        GameEvents.OnUIClick += PlayClickSound;
     }
 
     void OnDisable()
     {
-        GameEvents.OnPlayerWalking -= StartWalkSound; ;
+        GameEvents.OnPlayerWalking -= StartWalkSound;
         GameEvents.OnPlayerNotWalking -= StopWalkSound;
 
         GameEvents.OnMaskEquipped -= PlayMaskOnSound;
         GameEvents.OnMaskOff -= PlayMaskOffSound;
 
-
         GameEvents.OnGameLost -= PlayDeathSound;
         GameEvents.OnGameWon -= PlayGameWonSound;
 
-
         GameEvents.OnPickUpItem -= PlayPickupSound;
         GameEvents.OnDoorOpen -= PlayDoorOpenSound;
+
+        GameEvents.OnUIClick -= PlayClickSound;
     }
 
     #region PlayOneShots
-    // void PlayWalkSound() => sfxSource.PlayOneShot(walkSound);
-
     void PlayPickupSound() => sfxSource.PlayOneShot(pickupSound);
     void PlayMoneySound() => sfxSource.PlayOneShot(moneySound);
-
     void PlayMaskOnSound() => sfxSource.PlayOneShot(maskOnSound);
     void PlayMaskOffSound() => sfxSource.PlayOneShot(maskOffSound);
-
     void PlayGameWonSound() => sfxSource.PlayOneShot(gameWon);
     void PlayDeathSound() => sfxSource.PlayOneShot(deathSound);
-
     void PlayDoorOpenSound() => sfxSource.PlayOneShot(doorOpen);
+    void PlayClickSound() => sfxSource.PlayOneShot(click);
     #endregion
 
     #region start&stop functions for looping sounds
@@ -161,5 +170,4 @@ public class SoundManager : MonoBehaviour
         sfxSource.volume = Mathf.Clamp01(volume);
         walkSource.volume = Mathf.Clamp01(volume);
     }
-
 }
