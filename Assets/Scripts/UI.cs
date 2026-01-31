@@ -41,7 +41,10 @@ public class UI : MonoBehaviour
             }
 
         }
-        mLootValue.visible = false;
+        if (mLootValue.visible)
+        {
+            mLootValue.visible = false;
+        }
 
     }
 
