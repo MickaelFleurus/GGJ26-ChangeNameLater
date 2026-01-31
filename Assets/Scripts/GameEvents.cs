@@ -18,6 +18,9 @@ public static class GameEvents
     public static event Action OnMaskEquipped;
     public static event Action OnMaskOff;
 
+    public static void InvokeMaskEquipped() => OnMaskEquipped?.Invoke();
+    public static void InvokeMaskOff() => OnMaskOff?.Invoke();
+
     //Enemy
     public static event Action OnPlayerLookingAtEnemy;
     public static event Action OnPlayerLookingAway;
