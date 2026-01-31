@@ -14,15 +14,46 @@ using UnityEngine;
 public static class GameEvents 
 {
 
+    //Mask
     public static event Action OnMaskEquipped;
     public static event Action OnMaskOff;
 
+    //Enemy
     public static event Action OnPlayerLookingAtEnemy;
     public static event Action OnPlayerLookingAway;
+    public static event Action OnEnemyMoveHead;
 
+    //Item
     public static event Action OnPickUpItem;
 
-    public static event Action OnDeath;
-
+    //GameStates
+    public static event Action OnGameLost;
     public static event Action OnGameWon;
+
+    //Player
+    public static event Action OnPlayerWalking;
+    public static event Action OnPlayerNotWalking;
+
+    //LootCollectionEvents
+    public static event Action onLootCollected;
+    public static event Action OnDoorOpen;
+
+    //call these methods to trigger the events
+    public static void ItemCollected(int current, int required);
+    {
+        onItemCollected?.Invoke(current, required);
+    }
+    public static void onLootCollected();
+    {
+        onLootCollected?.Invoke();
+    }
+    public static void onDoorOpen();
+    {
+        onDoorOpen?.Invoke();
+    }
+    public static void onGameLost();
+    {
+        onGameLost?.Invoke();
+    }
+
 }
