@@ -4,6 +4,7 @@ public interface IInteractable
 {
     void OnInteract();
     int GetValue();
+    float GetRequiredHoldTime();
 }
 
 public enum LootType
@@ -32,4 +33,5 @@ public class Loot : MonoBehaviour, IInteractable
     }
 
     public int GetValue() => Value;
+    public float GetRequiredHoldTime() => Value / 2f;
 }
