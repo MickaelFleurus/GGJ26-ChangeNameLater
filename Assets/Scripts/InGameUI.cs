@@ -2,10 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UI : MonoBehaviour
+public class InGameUI : MonoBehaviour
 {
     [SerializeField] public UIDocument UIDocument;
-
 
     private Label mHints;
     private Label mAmountCollected;
