@@ -19,6 +19,12 @@ public class UI : MonoBehaviour
     private bool mCanSeeLoot = false;
     private int mTotalCollected;
 
+    // Hold E to pick up: required time = Value / 2 seconds
+    private int mHoldTargetId;
+    private float mHoldElapsed;
+    private float mHoldRequiredTime;
+    private IInteractable mHoldInteractable;
+
     void Awake()
     {
         mOnMaskOffFunc = () =>
@@ -61,21 +67,27 @@ public class UI : MonoBehaviour
         mAmountCollected.text = mTotalCollected.ToString();
     }
 
+    void ResetHoldState()
+    {
+        mHoldTargetId = 0;
+        mHoldElapsed = 0f;
+        mHoldRequiredTime = 0f;
+        mHoldInteractable = null;
+    }
+
     void Update()
     {
-        bool ePressed = Keyboard.current != null && Keyboard.current[Key.E].wasPressedThisFrame;
+        bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
 
         if (!mCanSeeLoot)
         {
-            if (ePressed)
-                Debug.Log("[UI] E pressed but mask is off (mCanSeeLoot=false). Put mask on first.");
+            ResetHoldState();
             return;
         }
 
         if (Camera.main == null)
         {
-            if (ePressed)
-                Debug.Log("[UI] E pressed but Camera.main is null. Set Main Camera tag.");
+            ResetHoldState();
             return;
         }
 
@@ -90,28 +102,41 @@ public class UI : MonoBehaviour
             if (interactable != null)
             {
                 mLootValue.visible = true;
-                mLootValue.text = interactable.GetValue().ToString();
-                if (ePressed)
+                int value = interactable.GetValue();
+                float requiredSeconds = value / 2f;
+
+                if (eHeld)
                 {
-                    Debug.Log("[UI] E pressed, calling OnInteract() on: " + hit.collider.gameObject.name);
-                    interactable.OnInteract();
+                    int targetId = hit.collider.GetInstanceID();
+                    if (mHoldTargetId != targetId)
+                    {
+                        mHoldTargetId = targetId;
+                        mHoldRequiredTime = requiredSeconds;
+                        mHoldElapsed = 0f;
+                        mHoldInteractable = interactable;
+                    }
+                    mHoldElapsed += Time.deltaTime;
+                    float remaining = Mathf.Max(0f, mHoldRequiredTime - mHoldElapsed);
+                    mLootValue.text = string.Format("{0:F1}s", remaining);
+
+                    if (mHoldElapsed >= mHoldRequiredTime && mHoldInteractable != null)
+                    {
+                        mHoldInteractable.OnInteract();
+                        ResetHoldState();
+                    }
+                }
+                else
+                {
+                    mLootValue.text = value + " (hold E " + requiredSeconds + "s)";
+                    ResetHoldState();
                 }
                 return;
             }
-
-            if (ePressed)
-                Debug.Log("[UI] E pressed but hit object has no IInteractable: " + hit.collider.gameObject.name);
-        }
-        else
-        {
-            if (ePressed)
-                Debug.Log("[UI] E pressed but raycast hit nothing (look at item within 5m, mask on).");
         }
 
+        ResetHoldState();
         if (mLootValue.visible)
-        {
             mLootValue.visible = false;
-        }
     }
 
 }

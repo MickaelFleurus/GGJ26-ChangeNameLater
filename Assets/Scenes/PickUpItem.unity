@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4743b1c1d992a481283e798ab211067e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Loot
-  lootType: 4
+  lootType: 3
   Value: 10
 --- !u!1 &2068106865
 GameObject:
