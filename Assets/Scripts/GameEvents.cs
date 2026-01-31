@@ -5,12 +5,12 @@ using UnityEngine;
 /// This class hold the events that tells the game what is happening
 /// If you want to subscribe to this
 /// In the onEnable function write for example
-/// GameState.OnPickUpItem += PickUpItemLogic;
-/// GameState.OnPickUpItem is an event, you can choose other events.
+/// GameEvents.OnPickUpItem += PickUpItemLogic;
+/// GameEvents.OnPickUpItem is an event, you can choose other events.
 /// PickUpItemLogic is the function you want to be run when this event happens.
 /// In that function you could have like moneygathered, pickupsound, add item to ui etc
 /// </summary>
-public static class GameState 
+public static class GameEvents 
 {
 
     public static event Action OnMaskEquipped;
