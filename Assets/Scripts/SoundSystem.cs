@@ -49,6 +49,7 @@ public class SoundManager : MonoBehaviour
       
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.spatialBlend = 0f;
+        sfxSource.volume = 0.5f;
 
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.spatialBlend = 0f; 
@@ -87,6 +88,7 @@ public class SoundManager : MonoBehaviour
 
         GameEvents.OnPickUpItem += PlayPickupSound;
         GameEvents.OnDoorOpen += PlayDoorOpenSound;
+        GameEvents.onLootCollected += PlayMoneySound;
 
 
         GameEvents.OnUIClick += PlayClickSound;

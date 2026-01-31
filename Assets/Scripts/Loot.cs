@@ -25,7 +25,8 @@ public class Loot : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         Debug.Log("[Loot] OnInteract() called. Type=" + lootType + ", Value=" + Value + ", name=" + gameObject.name);
-        GameEvents.InvokeLootCollected(Value, lootType);
+        GameEvents.InvokeLootCollected(Value, lootType);  //this can be for telling player loot has been picked and what item
+        GameEvents.InvokeLootCollected();//this one is for sound
         GameEvents.InvokePickUpItem();
         Destroy(gameObject);
     }

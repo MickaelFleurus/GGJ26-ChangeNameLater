@@ -842,10 +842,10 @@ MonoBehaviour:
   maskOnSound: {fileID: 0}
   maskOffSound: {fileID: 0}
   pickupSound: {fileID: 0}
-  moneySound: {fileID: 0}
-  musicClip: {fileID: 0}
+  moneySound: {fileID: 8300000, guid: 23061b0bb81c9e844957fa5d0dfe5509, type: 3}
+  musicClip: {fileID: 8300000, guid: b9212efab45c77047bc5578b716c35e7, type: 3}
   ambienceClip: {fileID: 8300000, guid: 02425c51f6915c94b85bed864efc9f4c, type: 3}
-  playerDeath: {fileID: 0}
+  gameLost: {fileID: 0}
   gameWon: {fileID: 0}
   doorOpen: {fileID: 0}
   click: {fileID: 0}
