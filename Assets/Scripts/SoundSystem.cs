@@ -74,7 +74,6 @@ public class SoundManager : MonoBehaviour
         ambienceSource.clip = ambienceClip;
         ambienceSource.loop = true;
         ambienceSource.volume = 0.2f;
-        StartAmbience();
 
         breathingSource = gameObject.AddComponent<AudioSource>();
         breathingSource.clip = breathingSound;
@@ -98,6 +97,7 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnPickUpItem += PlayPickupSound;
         GameEvents.onLootCollected += PlayMoneySound;
 
+        GameEvents.OnInGame += StartAmbience;
 
         GameEvents.OnUIClick += PlayClickSound;
     }

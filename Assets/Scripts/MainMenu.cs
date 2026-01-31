@@ -192,10 +192,12 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
     {
         if (!mSelectedItemIndex.HasValue || !context.performed) return;
 
+         GameEvents.InvokeUIClick();//a click sound for when selecting since we select with click
         switch (mSelectedItemIndex)
         {
             case 0:
                 SceneManager.LoadScene("MainScene");
+                GameEvents.InvokeInGame();
                 break;
             case 1:
                 if (mMainMenu.visible)
@@ -212,6 +214,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
             case 2:
                 CloseGame();
                 break;
+
         }
     }
 

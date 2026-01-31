@@ -732,6 +732,39 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &97515230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 97515231}
+  m_Layer: 0
+  m_Name: 3DStaticSoundObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &97515231
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97515230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.94976, y: 1.50843, z: 9.06089}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 384518350}
+  - {fileID: 1991611910}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &137086541
 Mesh:
   m_ObjectHideFlags: 0
@@ -3022,7 +3055,7 @@ GameObject:
   - component: {fileID: 384518347}
   - component: {fileID: 384518351}
   m_Layer: 0
-  m_Name: TestClock
+  m_Name: Clock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3114,12 +3147,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 384518346}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.04, y: 1.08, z: 8.35}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.9097605, y: -0.42842996, z: -0.7108898}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 97515231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &384518351
 MonoBehaviour:
@@ -8626,63 +8659,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!1 &1365140063
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1365140065}
-  - component: {fileID: 1365140064}
-  m_Layer: 0
-  m_Name: SoundManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1365140064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365140063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dcbd0279c5b55a459dc10664514861e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
-  walkSound: {fileID: 0}
-  deathSound: {fileID: 0}
-  maskOnSound: {fileID: 0}
-  maskOffSound: {fileID: 0}
-  breathingSound: {fileID: 8300000, guid: 2ce0eee0475204245afe6bf4719288f4, type: 3}
-  pickupSound: {fileID: 0}
-  moneySound: {fileID: 8300000, guid: 23061b0bb81c9e844957fa5d0dfe5509, type: 3}
-  musicClip: {fileID: 8300000, guid: b9212efab45c77047bc5578b716c35e7, type: 3}
-  ambienceClip: {fileID: 8300000, guid: 02425c51f6915c94b85bed864efc9f4c, type: 3}
-  gameLost: {fileID: 0}
-  gameWon: {fileID: 0}
-  doorOpen: {fileID: 0}
-  click: {fileID: 0}
---- !u!4 &1365140065
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365140063}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1367181479
 Mesh:
   m_ObjectHideFlags: 0
@@ -13246,7 +13222,7 @@ GameObject:
   - component: {fileID: 1991611907}
   - component: {fileID: 1991611906}
   m_Layer: 0
-  m_Name: TestAnother3DSound
+  m_Name: WaterDriping
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13356,12 +13332,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991611905}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.55, y: 5.41, z: 19.03}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.6002398, y: 3.9015698, z: 9.9691105}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 97515231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &2114813292
 Mesh:
@@ -13903,16 +13879,14 @@ SceneRoots:
   m_Roots:
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1365140065}
-  - {fileID: 384518350}
   - {fileID: 86408637}
   - {fileID: 1803458150}
   - {fileID: 765689535}
   - {fileID: 1638926400}
   - {fileID: 1399070141}
-  - {fileID: 1991611910}
   - {fileID: 1926653507}
   - {fileID: 1383447716}
   - {fileID: 360436036}
   - {fileID: 897528191}
   - {fileID: 292803887}
+  - {fileID: 97515231}

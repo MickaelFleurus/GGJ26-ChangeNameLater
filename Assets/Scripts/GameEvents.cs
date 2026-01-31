@@ -29,8 +29,10 @@ public static class GameEvents
     //GameStates
     public static event Action OnGameLost;
     public static event Action OnGameWon;
+    public static event Action OnInGame;
     public static void InvokeGameLost() => OnGameLost?.Invoke();
     public static void InvokeGameWon() => OnGameWon?.Invoke();
+    public static void InvokeInGame() => OnInGame?.Invoke();
 
     //Player
     public static event Action OnPlayerWalking;
