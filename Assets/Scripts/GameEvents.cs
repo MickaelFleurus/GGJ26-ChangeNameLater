@@ -13,15 +13,27 @@ using UnityEngine;
 public static class GameEvents 
 {
 
+    //Mask
     public static event Action OnMaskEquipped;
     public static event Action OnMaskOff;
 
+    //Enemy
     public static event Action OnPlayerLookingAtEnemy;
     public static event Action OnPlayerLookingAway;
+    public static event Action OnEnemyMoveHead;
 
+    //Item
     public static event Action OnPickUpItem;
 
-    public static event Action OnDeath;
-
+    //GameStates
+    public static event Action OnPlayerDeath;
     public static event Action OnGameWon;
+
+    //Player
+    public static event Action OnPlayerWalking;
+    public static event Action OnPlayerNotWalking;
+
+    //Door
+    public static event Action OnDoorOpen;
+
 }
