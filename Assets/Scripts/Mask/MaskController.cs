@@ -15,13 +15,25 @@ public class MaskController : MonoBehaviour
     [Tooltip("Mannequins with AIPath (IAstarAI). They move toward the player when mask is on, stop when mask is off.")]
     public GameObject[] mannequins = new GameObject[0];
 
+    [Header("Mask Time")]
+    [Tooltip("Max seconds when mask is off. Refills when mask is on. Decreases 1/s when off, increases 1/s when on.")]
+    public float maxMaskOffTime = 100f;
+
+    float mCurrentMaskTime;
+    float mAccumulator;
+    bool mHasTriggeredGameOver;
+
     bool isMaskOn;
 
     /// <summary>True when the player is wearing the mask. Use this for item collection checks.</summary>
     public bool IsMaskOn => isMaskOn;
 
+    public float CurrentMaskTime => mCurrentMaskTime;
+    public float MaxMaskTime => maxMaskOffTime;
+
     void Start()
     {
+        mCurrentMaskTime = maxMaskOffTime;
         SetMannequinMovement(isMaskOn);
     }
 
@@ -37,6 +49,27 @@ public class MaskController : MonoBehaviour
                 GameEvents.InvokeMaskOff();
 
             SetMannequinMovement(isMaskOn);
+        }
+
+        mAccumulator += Time.deltaTime;
+        while (mAccumulator >= 1f)
+        {
+            mAccumulator -= 1f;
+            if (isMaskOn)
+            {
+                mCurrentMaskTime = Mathf.Min(maxMaskOffTime, mCurrentMaskTime + 1f);
+                if (mCurrentMaskTime > 0f)
+                    mHasTriggeredGameOver = false;
+            }
+            else
+            {
+                mCurrentMaskTime = Mathf.Max(0f, mCurrentMaskTime - 1f);
+                if (mCurrentMaskTime <= 0f && !mHasTriggeredGameOver)
+                {
+                    mHasTriggeredGameOver = true;
+                    GameEvents.InvokeGameLost();
+                }
+            }
         }
     }
 

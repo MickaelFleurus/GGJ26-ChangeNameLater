@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
 
         mMainMenu.visible = true;
         mCreditsMenu.visible = false;
-        mCreditsView = UIDocument.rootVisualElement.Q<VisualElement>("CreditText");
+        mCreditsView = UIDocument.rootVisualElement.Q<ScrollView>("CreditText");
 
         mButtons[0] = mMainMenu.Q<VisualElement>("Start");
         mButtons[1] = mMainMenu.Q<VisualElement>("Credit");
