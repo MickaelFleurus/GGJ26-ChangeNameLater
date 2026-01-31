@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 using Pathfinding;
 
 /// <summary>
-/// Controls mask equip/unequip. When mask is on: item collection allowed, mannequins stop moving.
-/// When mask is off: item collection disabled, mannequins move (A* IAstarAI).
+/// Controls mask equip/unequip. When mask is on: item collection allowed, mannequins move toward the player (risk).
+/// When mask is off: item collection disabled, mannequins stop moving.
 /// </summary>
 public class MaskController : MonoBehaviour
 {
@@ -12,13 +12,18 @@ public class MaskController : MonoBehaviour
     public Key toggleMaskKey = Key.M;
 
     [Header("Mannequins")]
-    [Tooltip("Mannequins with AIPath (IAstarAI). Movement is stopped when mask is on.")]
+    [Tooltip("Mannequins with AIPath (IAstarAI). They move toward the player when mask is on, stop when mask is off.")]
     public GameObject[] mannequins = new GameObject[0];
 
     bool isMaskOn;
 
     /// <summary>True when the player is wearing the mask. Use this for item collection checks.</summary>
     public bool IsMaskOn => isMaskOn;
+
+    void Start()
+    {
+        SetMannequinMovement(isMaskOn);
+    }
 
     void Update()
     {
@@ -31,7 +36,7 @@ public class MaskController : MonoBehaviour
             else
                 GameEvents.InvokeMaskOff();
 
-            SetMannequinMovement(!isMaskOn);
+            SetMannequinMovement(isMaskOn);
         }
     }
 

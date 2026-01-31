@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UI : MonoBehaviour
@@ -13,12 +14,13 @@ public class UI : MonoBehaviour
 
     private Action mOnMaskOffFunc;
     private Action mOnMaskOnFunc;
+    private Action<int, LootType> mOnLootCollectedFunc;
 
     private bool mCanSeeLoot = false;
+    private int mTotalCollected;
 
     void Awake()
     {
-
         mOnMaskOffFunc = () =>
         {
             mCanSeeLoot = false;
@@ -27,14 +29,23 @@ public class UI : MonoBehaviour
         {
             mCanSeeLoot = true;
         };
+        mOnLootCollectedFunc = (value, lootType) =>
+        {
+            mTotalCollected += value;
+            if (mAmountCollected != null)
+                mAmountCollected.text = mTotalCollected.ToString();
+        };
 
         GameEvents.OnMaskOff += mOnMaskOffFunc;
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
+        GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
     }
+
     void OnDestroy()
     {
         GameEvents.OnMaskOff -= mOnMaskOffFunc;
         GameEvents.OnMaskEquipped -= mOnMaskOnFunc;
+        GameEvents.OnLootCollectedWithData -= mOnLootCollectedFunc;
     }
 
     void Start()
@@ -46,13 +57,27 @@ public class UI : MonoBehaviour
         mHints.visible = false;
         mLootValue.visible = false;
 
-        mAmountCollected.text = "0";
+        mTotalCollected = 0;
+        mAmountCollected.text = mTotalCollected.ToString();
     }
 
     void Update()
     {
+        bool ePressed = Keyboard.current != null && Keyboard.current[Key.E].wasPressedThisFrame;
+
         if (!mCanSeeLoot)
-        { return; }
+        {
+            if (ePressed)
+                Debug.Log("[UI] E pressed but mask is off (mCanSeeLoot=false). Put mask on first.");
+            return;
+        }
+
+        if (Camera.main == null)
+        {
+            if (ePressed)
+                Debug.Log("[UI] E pressed but Camera.main is null. Set Main Camera tag.");
+            return;
+        }
 
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
@@ -66,15 +91,27 @@ public class UI : MonoBehaviour
             {
                 mLootValue.visible = true;
                 mLootValue.text = interactable.GetValue().ToString();
+                if (ePressed)
+                {
+                    Debug.Log("[UI] E pressed, calling OnInteract() on: " + hit.collider.gameObject.name);
+                    interactable.OnInteract();
+                }
                 return;
             }
 
+            if (ePressed)
+                Debug.Log("[UI] E pressed but hit object has no IInteractable: " + hit.collider.gameObject.name);
         }
+        else
+        {
+            if (ePressed)
+                Debug.Log("[UI] E pressed but raycast hit nothing (look at item within 5m, mask on).");
+        }
+
         if (mLootValue.visible)
         {
             mLootValue.visible = false;
         }
-
     }
 
 }

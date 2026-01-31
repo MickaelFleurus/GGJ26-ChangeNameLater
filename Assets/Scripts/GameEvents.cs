@@ -28,6 +28,13 @@ public static class GameEvents
 
     //Item
     public static event Action OnPickUpItem;
+    public static void InvokePickUpItem() => OnPickUpItem?.Invoke();
+
+    public static event Action<int, LootType> OnLootCollectedWithData;
+    public static void InvokeLootCollected(int value, LootType lootType)
+    {
+        OnLootCollectedWithData?.Invoke(value, lootType);
+    }
 
     //GameStates
     public static event Action OnGameLost;
