@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UI : MonoBehaviour
@@ -51,8 +52,21 @@ public class UI : MonoBehaviour
 
     void Update()
     {
+        bool ePressed = Keyboard.current != null && Keyboard.current[Key.E].wasPressedThisFrame;
+
         if (!mCanSeeLoot)
-        { return; }
+        {
+            if (ePressed)
+                Debug.Log("[UI] E pressed but mask is off (mCanSeeLoot=false). Put mask on first.");
+            return;
+        }
+
+        if (Camera.main == null)
+        {
+            if (ePressed)
+                Debug.Log("[UI] E pressed but Camera.main is null. Set Main Camera tag.");
+            return;
+        }
 
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
@@ -66,15 +80,27 @@ public class UI : MonoBehaviour
             {
                 mLootValue.visible = true;
                 mLootValue.text = interactable.GetValue().ToString();
+                if (ePressed)
+                {
+                    Debug.Log("[UI] E pressed, calling OnInteract() on: " + hit.collider.gameObject.name);
+                    interactable.OnInteract();
+                }
                 return;
             }
 
+            if (ePressed)
+                Debug.Log("[UI] E pressed but hit object has no IInteractable: " + hit.collider.gameObject.name);
         }
+        else
+        {
+            if (ePressed)
+                Debug.Log("[UI] E pressed but raycast hit nothing (look at item within 5m, mask on).");
+        }
+
         if (mLootValue.visible)
         {
             mLootValue.visible = false;
         }
-
     }
 
 }
