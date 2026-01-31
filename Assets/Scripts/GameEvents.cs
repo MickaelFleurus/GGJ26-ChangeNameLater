@@ -42,6 +42,17 @@ public static class GameEvents
     {
         onItemCollected?.Invoke(current, required);
     }
-    
+    public static void onLootCollected();
+    {
+        onLootCollected?.Invoke();
+    }
+    public static void onDoorOpen();
+    {
+        onDoorOpen?.Invoke();
+    }
+    public static void onGameLost();
+    {
+        onGameLost?.Invoke();
+    }
 
 }
