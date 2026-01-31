@@ -11,6 +11,32 @@ public class UI : MonoBehaviour
     private Label mAmountCollected;
     private Label mLootValue;
 
+    private Action mOnMaskOffFunc;
+    private Action mOnMaskOnFunc;
+
+    private bool mCanSeeLoot = false;
+
+    void Awake()
+    {
+
+        mOnMaskOffFunc = () =>
+        {
+            mCanSeeLoot = false;
+        };
+        mOnMaskOnFunc = () =>
+        {
+            mCanSeeLoot = true;
+        };
+
+        GameEvents.OnMaskOff += mOnMaskOffFunc;
+        GameEvents.OnMaskEquipped += mOnMaskOnFunc;
+    }
+    void OnDestroy()
+    {
+        GameEvents.OnMaskOff -= mOnMaskOffFunc;
+        GameEvents.OnMaskEquipped -= mOnMaskOnFunc;
+    }
+
     void Start()
     {
         mHints = UIDocument.rootVisualElement.Q<Label>("Hints");
@@ -25,6 +51,9 @@ public class UI : MonoBehaviour
 
     void Update()
     {
+        if (!mCanSeeLoot)
+        { return; }
+
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
         float rayDistance = 5f;
