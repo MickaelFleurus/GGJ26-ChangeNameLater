@@ -207,5 +207,6 @@ public class SoundManager : MonoBehaviour
     {
         sfxSource.volume = Mathf.Clamp01(volume);
         walkSource.volume = Mathf.Clamp01(volume);
+
     }
 }

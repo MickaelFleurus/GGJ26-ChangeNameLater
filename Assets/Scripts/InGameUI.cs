@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -18,6 +19,7 @@ public class InGameUI : MonoBehaviour
     private Action<int, LootType> mOnLootCollectedFunc;
 
     private bool mCanSeeLoot = false;
+    private bool isUnlocked = false;
     private int mTotalCollected;
 
     // Hold E to pick up: required time = Value / 2 seconds
@@ -47,6 +49,8 @@ public class InGameUI : MonoBehaviour
         GameEvents.OnMaskOff += mOnMaskOffFunc;
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
+
+  
     }
 
     void OnDestroy()
@@ -78,6 +82,7 @@ public class InGameUI : MonoBehaviour
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
+        
     }
 
     void ResetHoldState()
@@ -132,6 +137,13 @@ public class InGameUI : MonoBehaviour
                         ResetHoldState();
                         return;
                     }
+                    else if (GameEvents.CurrentMoney >= door.GetValue() && !isUnlocked)
+                    {
+                        GameEvents.InvokeDoorUnlocked();
+                        isUnlocked = true;
+                        return;
+                    }
+                        
                 }
 
                 if (eHeld)
