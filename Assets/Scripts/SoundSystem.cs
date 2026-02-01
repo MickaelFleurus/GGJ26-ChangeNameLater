@@ -12,7 +12,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip breathingSound;
 
     [Header("Item Sounds")]
-    public AudioClip pickupSound;
     public AudioClip moneySound;
 
     [Header("Music & Ambience")]
@@ -131,7 +130,6 @@ public class SoundManager : MonoBehaviour
     }
 
     #region PlayOneShots
-    void PlayPickupSound() => sfxSource.PlayOneShot(pickupSound);
     void PlayMoneySound() => sfxSource.PlayOneShot(moneySound);
     void PlayMaskOnSound() => sfxSource.PlayOneShot(maskSound);
     void PlayMaskOffSound() => sfxSource.PlayOneShot(maskSound);

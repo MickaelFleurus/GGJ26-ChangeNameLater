@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   walkSound: {fileID: 0}
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 9b58e432c3d73564598a089f2eee8292, type: 3}
   maskSound: {fileID: 8300000, guid: 149dfe4c5f6036e44b339d03a601530c, type: 3}
   breathingSound: {fileID: 8300000, guid: 2ce0eee0475204245afe6bf4719288f4, type: 3}
   pickupSound: {fileID: 0}
