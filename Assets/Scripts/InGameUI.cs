@@ -79,6 +79,10 @@ public class InGameUI : MonoBehaviour
         mHints.visible = false;
         mLootValue.visible = false;
 
+        var gameOverPanel = UIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
+        if (gameOverPanel != null)
+            gameOverPanel.visible = false;
+
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
