@@ -105,6 +105,7 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnMaskOff += StopBreathingSound;
 
         GameEvents.OnGameLost += PlayDeathSound;
+        GameEvents.OnGameLost += StopBreathingSound;
         GameEvents.OnGameWon += PlayGameWonSound;
         GameEvents.onLootCollected += PlayMoneySound;
 
