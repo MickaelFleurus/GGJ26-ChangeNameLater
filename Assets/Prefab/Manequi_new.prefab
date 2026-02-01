@@ -34,19 +34,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000018626451
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.00000016400158
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       propertyPath: m_Name
-      value: Manequin
+      value: Manequi_new
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -75,6 +75,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3598558764370662879}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4466590837646125466}
   m_SourcePrefab: {fileID: 100100000, guid: 9d166f16e9dd6444bae07d49fb282299, type: 3}
 --- !u!1 &7233811622512726609 stripped
 GameObject:
@@ -108,3 +111,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4466590837646125466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233811622512726609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1fbfee868b243d3b8aec37f5183323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MannequinVisibility
