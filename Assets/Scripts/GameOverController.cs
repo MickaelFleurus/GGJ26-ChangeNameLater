@@ -24,6 +24,12 @@ public class GameOverController : MonoBehaviour
     float m_shakeDuration;
     float m_shakeSeed;
 
+    void Start()
+    {
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void OnEnable()
     {
         GameEvents.OnGameLost += HandleGameLost;
