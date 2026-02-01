@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
 
         mMainMenu.visible = true;
         mCreditsMenu.visible = false;
-        mCreditsView = UIDocument.rootVisualElement.Q<ScrollView>("CreditText");
+        mCreditsView = mCreditsMenu.Q<VisualElement>("CreditText");
 
         mButtons[0] = mMainMenu.Q<VisualElement>("Start");
         mButtons[1] = mMainMenu.Q<VisualElement>("Credit");
@@ -192,7 +192,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
     {
         if (!mSelectedItemIndex.HasValue || !context.performed) return;
 
-         GameEvents.InvokeUIClick();//a click sound for when selecting since we select with click
+        GameEvents.InvokeUIClick();//a click sound for when selecting since we select with click
         switch (mSelectedItemIndex)
         {
             case 0:
