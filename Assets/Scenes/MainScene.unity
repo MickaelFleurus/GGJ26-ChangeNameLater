@@ -2041,6 +2041,10 @@ PrefabInstance:
       propertyPath: 'mannequins.Array.data[0]'
       value: 
       objectReference: {fileID: 1803458151}
+    - target: {fileID: 1931166081925900676, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 5500934124571565845, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: UIDocument
       value: 
@@ -2056,6 +2060,14 @@ PrefabInstance:
     - target: {fileID: 8443540327992627410, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575682186974579702, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+      propertyPath: RotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973927429779628214, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+      propertyPath: field of view
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 9048154509441451371, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: m_LocalPosition.x

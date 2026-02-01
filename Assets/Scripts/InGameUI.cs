@@ -149,9 +149,12 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         if (mPauseMenu.visible) return;
         // Handle pause menu showing
         if (!mJustUnpaused && Keyboard.current != null && Keyboard.current[Key.Escape].wasPressedThisFrame)
-        { ShowPause(); return; }
+        { 
+            ShowPause(); 
+            return;
+        }
 
-
+        mJustUnpaused = false;
         if (maskController != null && mMaskTimeSlider != null)
         {
             mMaskTimeSlider.highValue = maskController.MaxMaskTime;
