@@ -1825,6 +1825,28 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 626273165}
   m_SourcePrefab: {fileID: 100100000, guid: b73b3125b7345f446a490a9e2cc4af0f, type: 3}
+--- !u!114 &80808250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1368692938553378311, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+  m_PrefabInstance: {fileID: 86408637}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86408640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1216b7e5f688fe4194bdb63debb5088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaskController
+--- !u!114 &80808251 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8575682186974579702, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+  m_PrefabInstance: {fileID: 86408637}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86408640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &81078073
 Mesh:
   m_ObjectHideFlags: 0
@@ -2023,6 +2045,14 @@ PrefabInstance:
       propertyPath: UIDocument
       value: 
       objectReference: {fileID: 489682533}
+    - target: {fileID: 5500934124571565845, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 80808251}
+    - target: {fileID: 5500934124571565845, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
+      propertyPath: maskController
+      value: 
+      objectReference: {fileID: 80808250}
     - target: {fileID: 8443540327992627410, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: m_Name
       value: Player

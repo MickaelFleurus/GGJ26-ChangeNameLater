@@ -25,6 +25,8 @@ public class Add3DSound : MonoBehaviour
 
         //Play on start
         audioSource.Play();
+
+        GameEvents.OnMasterVolumeChanged += ChangeVolume;
     }
 
     public void StopClock()
@@ -35,8 +37,16 @@ public class Add3DSound : MonoBehaviour
     public void StartClock()
     {
         if (!audioSource.isPlaying)
+        {
+            audioSource.volume = volume * SoundManager.Instance.GetMasterVolume();
             audioSource.Play();
+        }
     }
 
-    
+    public void ChangeVolume()
+    {
+        audioSource.volume = volume * SoundManager.Instance.GetMasterVolume();
+    }
+
+
 }

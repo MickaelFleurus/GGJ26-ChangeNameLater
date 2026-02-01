@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonMove : MonoBehaviour
@@ -8,14 +9,27 @@ public class FirstPersonMove : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
+    private bool mGamePause = false;
+    private Action<bool> mGamePausedFunc;
 
     void Awake()
     {
+        mGamePausedFunc = (bool paused) =>
+        {
+            mGamePause = paused;
+        };
+        GameEvents.OnGamePausedChanged += mGamePausedFunc;
         controller = GetComponent<CharacterController>();
+    }
+
+    void Destroy()
+    {
+        GameEvents.OnGamePausedChanged -= mGamePausedFunc;
     }
 
     void Update()
     {
+        if (mGamePause) return;
         float x = Input.GetAxis("Horizontal"); // A/D
         float z = Input.GetAxis("Vertical");   // W/S
 

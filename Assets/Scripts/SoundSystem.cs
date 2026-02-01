@@ -4,6 +4,7 @@ public class SoundManager : MonoBehaviour
 {
     // Add this static reference
     private static SoundManager instance;
+    public static SoundManager Instance => instance;
 
     [Header("Player Sounds")]
     public AudioClip walkSound;
@@ -36,6 +37,13 @@ public class SoundManager : MonoBehaviour
     private AudioSource ambienceSource;
     private AudioSource breathingSource;
 
+    private float masterVolume = 1.0f;
+    private float defaultSfxVolume = 0.5f;
+    private float defaultMusicVolume = 0.1f;
+    private float defaultAmbienceSourceVolume = 0.08f;
+    private float defaultBreathingSourceVolume = 0.2f;
+    private float defaultMainMenuVolume = 0.1f;
+
     void Awake()
     {
         // Singleton 
@@ -48,41 +56,41 @@ public class SoundManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject); //survive all scnenes
 
-      
+
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.spatialBlend = 0f;
-        sfxSource.volume = 0.5f;
+        sfxSource.volume = defaultSfxVolume;
 
         musicSource = gameObject.AddComponent<AudioSource>();
-        musicSource.spatialBlend = 0f; 
+        musicSource.spatialBlend = 0f;
 
         ambienceSource = gameObject.AddComponent<AudioSource>();
-        ambienceSource.spatialBlend = 0f; 
+        ambienceSource.spatialBlend = 0f;
 
         walkSource = gameObject.AddComponent<AudioSource>();
         walkSource.clip = walkSound;
         walkSource.loop = true;
-        walkSource.spatialBlend = 0f; 
+        walkSource.spatialBlend = 0f;
 
         // Setup music
         musicSource.clip = musicClip;
         musicSource.loop = true;
-        musicSource.volume = 0.1f;
+        musicSource.volume = defaultMusicVolume;
 
         // Setup ambience
         ambienceSource.clip = ambienceClip;
         ambienceSource.loop = true;
-        ambienceSource.volume = 0.08f;
+        ambienceSource.volume = defaultAmbienceSourceVolume;
 
         breathingSource = gameObject.AddComponent<AudioSource>();
         breathingSource.clip = breathingSound;
         breathingSource.loop = true;
-        breathingSource.volume = 0.2f;
+        breathingSource.volume = defaultBreathingSourceVolume;
 
         mainMenuSource = gameObject.AddComponent<AudioSource>();
         mainMenuSource.clip = mainMenuMusic;
         mainMenuSource.loop = true;
-        mainMenuSource.volume = 0.1f;
+        mainMenuSource.volume = defaultMainMenuVolume;
         mainMenuSource.Play();
     }
 
@@ -203,4 +211,27 @@ public class SoundManager : MonoBehaviour
         walkSource.volume = Mathf.Clamp01(volume);
 
     }
+
+    public void SetMasterVolume(float volume)
+    {
+        masterVolume = volume;
+        GameEvents.InvokeMasterVolumeChanged();
+
+        musicSource.volume = masterVolume * defaultMusicVolume;
+        sfxSource.volume = masterVolume * defaultSfxVolume;
+        walkSource.volume = masterVolume * defaultSfxVolume;
+        breathingSource.volume = masterVolume * defaultBreathingSourceVolume;
+        mainMenuSource.volume = masterVolume * defaultMainMenuVolume;
+    }
+
+    public float GetMasterVolume()
+    {
+        return masterVolume;
+    }
+
+    public bool IsSoundOn()
+    {
+        return masterVolume >= 1.0f;
+    }
 }
+

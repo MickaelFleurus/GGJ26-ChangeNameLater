@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Pathfinding;
+using System;
 
 /// <summary>
 /// Controls mask equip/unequip. When mask is on: item collection allowed, mannequins move toward the player (risk).
@@ -31,6 +32,24 @@ public class MaskController : MonoBehaviour
     public float CurrentMaskTime => mCurrentMaskTime;
     public float MaxMaskTime => maxMaskOffTime;
 
+    private bool mGamePause = false;
+    private Action<bool> mGamePausedFunc;
+
+    void Awake()
+    {
+        mGamePausedFunc = (bool paused) =>
+        {
+            mGamePause = paused;
+        };
+        GameEvents.OnGamePausedChanged += mGamePausedFunc;
+    }
+
+    void Destroy()
+    {
+        GameEvents.OnGamePausedChanged -= mGamePausedFunc;
+    }
+
+
     void Start()
     {
         mCurrentMaskTime = maxMaskOffTime;
@@ -39,6 +58,7 @@ public class MaskController : MonoBehaviour
 
     void Update()
     {
+        if (mGamePause) { return; }
         if (Keyboard.current != null && Keyboard.current[toggleMaskKey].wasPressedThisFrame)
         {
             isMaskOn = !isMaskOn;
