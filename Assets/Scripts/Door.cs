@@ -17,6 +17,7 @@ public class Door : MonoBehaviour, IInteractable
     public float volume = 0.5f;
 
     private AudioSource audioSource;
+    private bool isUnlocked = false;
 
     void Start()
     {
@@ -37,7 +38,7 @@ public class Door : MonoBehaviour, IInteractable
     public void Update()
     {
         
-        if(GameEvents.CurrentMoney >= requiredMoney)
+        if(Score.Instance.GetScoreFloat() >= requiredMoney && !isUnlocked)
             PlayDoorUnlockedSound();
     }
 
@@ -48,14 +49,17 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (audioSource != null)
             audioSource.Play();
+        isUnlocked = true;
     }
 
 
     public void OnInteract()
     {
-       
+       if(Score.Instance.GetScoreFloat() >= requiredMoney)
+        {
             GameEvents.InvokeDoorOpen();
             GameEvents.InvokeGameWon();
             Destroy(gameObject);
+        }
     }
 }

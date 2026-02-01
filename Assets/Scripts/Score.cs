@@ -38,6 +38,8 @@ public class Score : MonoBehaviour
 
     public string GetScore() { return mScore.ToString(); }
 
+    public int GetScoreFloat() { return mScore; }
+
     public string GetDurationAsString()
     {
         float duration = mEndTime - mStartTime;
