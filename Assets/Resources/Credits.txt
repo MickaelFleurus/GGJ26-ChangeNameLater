@@ -1,16 +1,15 @@
-A game made during the Global Game Jam 2026
+A horror game made during the Global Game Jam 2026
 
-@ Programming Team
-Bla bla name bla bla
 
-@ Art Team
-BliBlou
-jfrehgudr
-grdjfgshdfg
-gfdshgsdfhgisdfhg
-sfgkduhiughisdfhgisdfhg
-fdsguukshdgishfgihdsf
-iusdhgiudfshgihdsfg
-dfgisdfhgiuhdfsg
-dfgihdsfighdsfgdfsoifgdfsog
-fgdoghsdfigo
+
+@ The Team
+Sebastian Andersson -  3D Models/Textures
+Thanisha Baskaran - Audio/Game Programmer
+Mickaël Fleurus - UI/Game Programmer
+Janina Carvajal Ibacache - Audio Programmer 
+Yuhui Gan - Narrative, Level Design, Programmer
+Yuto Manri - Game design, Programmer
+
+
+
+Special thanks to Elements Stockholm for the organization!
