@@ -2,6 +2,7 @@
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
+using System;
 
 namespace StarterAssets
 {
@@ -64,7 +65,7 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-	
+
 #if ENABLE_INPUT_SYSTEM
 		private PlayerInput _playerInput;
 #endif
@@ -73,26 +74,38 @@ namespace StarterAssets
 		private GameObject _mainCamera;
 
 		private const float _threshold = 0.01f;
+		private bool mGamePause = false;
+		private Action<bool> mGamePausedFunc;
 
 		private bool IsCurrentDeviceMouse
 		{
 			get
 			{
-				#if ENABLE_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
 				return _playerInput.currentControlScheme == "KeyboardMouse";
-				#else
+#else
 				return false;
-				#endif
+#endif
 			}
 		}
 
 		private void Awake()
 		{
+			mGamePausedFunc = (bool paused) =>
+			{
+				mGamePause = paused;
+			};
+			GameEvents.OnGamePausedChanged += mGamePausedFunc;
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+		}
+
+		void Destroy()
+		{
+			GameEvents.OnGamePausedChanged -= mGamePausedFunc;
 		}
 
 		private void Start()
@@ -112,6 +125,7 @@ namespace StarterAssets
 
 		private void Update()
 		{
+			if (mGamePause) { return; }
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -119,6 +133,7 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
+			if (mGamePause) { return; }
 			CameraRotation();
 		}
 
@@ -136,7 +151,7 @@ namespace StarterAssets
 			{
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-				
+
 				_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
 				_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
 

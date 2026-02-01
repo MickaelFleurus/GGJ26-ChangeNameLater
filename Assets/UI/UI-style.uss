@@ -16,6 +16,9 @@
     background-size: 100% 100%;
     border-bottom-width: 2px;
     border-right-width: 2px;
+    position: absolute;
+    font-size: 57px;
+    -unity-text-align: upper-left;
 }
 
 .selected {
@@ -39,8 +42,6 @@
     color: rgba(245, 245, 245, 0.49);
     font-size: 30px;
 }
-
-
 
 .button {
     width: 200px;
@@ -85,4 +86,29 @@
     font-size: 35px;
     -unity-text-align: middle-center;
     margin-bottom: 10px;
+}
+
+.unity-toggle__input {
+    margin-left: 50px;
+    width: auto;
+}
+
+.unity-toggle__checkmark {
+    width: 75px;
+    height: 75px;
+}
+
+.option_font {
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 51px;
+    -unity-font-definition: url("project://database/Assets/Fonts/RomanAntique.ttf?fileID=12800000&guid=da82319c098414b33a4abd317aa3fb2e&type=3#RomanAntique");
+}
+
+
+
+.pause_selected {
+    color: rgb(255, 255, 255);
+    font-size: 52px;
+    -unity-font-definition: url("project://database/Assets/Fonts/RomanAntique.ttf?fileID=12800000&guid=da82319c098414b33a4abd317aa3fb2e&type=3#RomanAntique");
+    text-shadow: 2px 2px 0 rgb(255, 218, 0);
 }
