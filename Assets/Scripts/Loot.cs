@@ -23,6 +23,37 @@ public class Loot : MonoBehaviour, IInteractable
 
     public LootType LootType => lootType;
 
+    Renderer[] m_Renderers;
+
+    void Start()
+    {
+        m_Renderers = GetComponentsInChildren<Renderer>(true);
+        GameEvents.OnMaskEquipped += Show;
+        GameEvents.OnMaskOff += Hide;
+
+        var maskController = FindObjectOfType<MaskController>();
+        SetVisible(maskController != null && maskController.IsMaskOn);
+    }
+
+    void OnDestroy()
+    {
+        GameEvents.OnMaskEquipped -= Show;
+        GameEvents.OnMaskOff -= Hide;
+    }
+
+    void Show() => SetVisible(true);
+    void Hide() => SetVisible(false);
+
+    void SetVisible(bool visible)
+    {
+        if (m_Renderers == null) return;
+        for (int i = 0; i < m_Renderers.Length; i++)
+        {
+            if (m_Renderers[i] != null)
+                m_Renderers[i].enabled = visible;
+        }
+    }
+
     public void OnInteract()
     {
         Debug.Log("[Loot] OnInteract() called. Type=" + lootType + ", Value=" + Value + ", name=" + gameObject.name);
