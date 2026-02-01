@@ -27,17 +27,23 @@ public class Enemy3DWalkingSound : MonoBehaviour
 
         GameEvents.OnMaskEquipped += StartWalking;
         GameEvents.OnMaskOff += StopWalking;
-        //Play on start
-       // audioSource.Play();
+    }
+
+    void OnDestroy()
+    {
+        GameEvents.OnMaskEquipped -= StartWalking;
+        GameEvents.OnMaskOff -= StopWalking;
     }
 
     public void StopWalking()
     {
+        if (audioSource == null || !this) return;
         audioSource.Stop();
     }
 
     public void StartWalking()
     {
+        if (audioSource == null || !this) return;
         if (!audioSource.isPlaying)
             audioSource.Play();
     }
