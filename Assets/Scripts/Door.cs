@@ -30,9 +30,16 @@ public class Door : MonoBehaviour, IInteractable
         audioSource.volume = volume;
    
 
-        GameEvents.OnDoorUnlocked += PlayDoorUnlockedSound;
+       // GameEvents.OnDoorUnlocked += PlayDoorUnlockedSound;
     }
     #endregion
+
+    public void Update()
+    {
+        
+        if(GameEvents.CurrentMoney >= requiredMoney)
+            PlayDoorUnlockedSound();
+    }
 
     public int GetValue() => requiredMoney;
     public float GetRequiredHoldTime() => requiredHoldTime;
@@ -46,7 +53,9 @@ public class Door : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        GameEvents.InvokeDoorOpen();
-        Destroy(gameObject);
+       
+            GameEvents.InvokeDoorOpen();
+            GameEvents.InvokeGameWon();
+            Destroy(gameObject);
     }
 }
