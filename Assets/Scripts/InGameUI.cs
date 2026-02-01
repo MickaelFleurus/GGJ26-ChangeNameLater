@@ -42,6 +42,9 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
     private int? mSelectedPauseIndex = 0;
     private bool mJustUnpaused = false; // Hacky solution since we use both modern inputs and old
 
+    private float mHintTimeLeft;
+    private float mHintDuration = 10.0f;
+
     void OnEnable()
     {
         mInputs.Menu.SetCallbacks(this);
@@ -96,7 +99,13 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
 
+    }
 
+    void ShowHint(string hint)
+    {
+        mHintTimeLeft = mHintDuration;
+        mHints.visible = true;
+        mHints.text = hint;
     }
 
     void OnDestroy()
@@ -133,7 +142,7 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
-
+        ShowHint("Press M to put on the mask. You can see and collect item this way. Be careful, the mannequin moves when the mask is on...");
     }
 
     void ResetHoldState()
@@ -146,6 +155,14 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
 
     void Update()
     {
+        if (mHints.visible)
+        {
+            mHintDuration = mHintDuration - Time.deltaTime;
+            if (mHintDuration <= 0.0f)
+            {
+                mHints.visible = false;
+            }
+        }
         if (mPauseMenu.visible) return;
         // Handle pause menu showing
         if (!mJustUnpaused && Keyboard.current != null && Keyboard.current[Key.Escape].wasPressedThisFrame)

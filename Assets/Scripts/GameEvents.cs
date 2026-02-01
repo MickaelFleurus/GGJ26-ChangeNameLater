@@ -42,8 +42,12 @@ public static class GameEvents
     //Player
     public static event Action OnPlayerWalking;
     public static event Action OnPlayerNotWalking;
+    public static event Action<string> OnNewHint;
     public static void InvokePlayerWalking() => OnPlayerWalking?.Invoke();
     public static void InvokePlayerNotWalking() => OnPlayerNotWalking?.Invoke();
+    public static void InvokeNewHint(string hint) => OnNewHint?.Invoke(hint);
+
+
 
     //Environment
     public static int CurrentMoney { get; set; }
