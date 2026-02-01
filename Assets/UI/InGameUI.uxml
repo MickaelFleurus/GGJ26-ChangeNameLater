@@ -10,7 +10,7 @@
         </ui:Label>
         <ui:Label text="VALUE" name="ObjectValue" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" emoji-fallback-support="false" enable-rich-text="false" style="align-items: auto; top: auto; bottom: 52%; right: auto; left: 51%; width: 10%; background-color: rgba(255, 233, 0, 0.45); -unity-text-auto-size: none; font-size: 40px; -unity-text-align: middle-center; position: absolute;"/>
     </ui:VisualElement>
-    <ui:VisualElement name="PauseMenu" style="flex-grow: 1; width: 100%; height: 100%; position: absolute; background-color: rgba(0, 0, 0, 0.4); top: 0; left: 3px;">
+    <ui:VisualElement name="PauseMenu" style="flex-grow: 1; width: 100%; height: 100%; position: absolute; background-color: rgba(0, 0, 0, 0.67); top: 0; left: 3px;">
         <ui:Label text="Observed" selectable="false" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" emoji-fallback-support="false" enable-rich-text="false" name="GameName" class="ui_hud_hints" style="position: absolute; left: 38%; top: 1%; font-size: 135px; -unity-text-align: middle-center; color: rgb(27, 27, 27); opacity: 1; background-color: rgba(185, 153, 153, 0); text-shadow: 2px 2px 0 rgb(255, 255, 255); align-items: center;"/>
         <ui:Label text="Press Pause again to go back to the game" name="Instructions" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" double-click-selects-word="false" display-tooltip-when-elided="false" class="ui_HUD_collected option_font" style="background-color: rgba(0, 0, 0, 0); left: auto; top: 38%; position: relative; align-self: center; color: rgb(255, 255, 255);"/>
         <ui:Toggle label="Music On:" name="SoundOn" value="true" class="ui_HUD_collected option_font" style="top: 50%; align-items: stretch; align-self: center; align-content: center;"/>
@@ -18,7 +18,7 @@
         <ui:Slider label="Mouse Sensitivity: " value="42" high-value="100" name="MouseSensitivity" inverted="false" class="option_font" style="align-self: center; top: 55%; width: 956px; height: 79px;"/>
         <ui:Label text="Quit" name="Quit" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="option_font button" style="left: auto; top: 54%; white-space: nowrap; -unity-text-align: upper-center;"/>
     </ui:VisualElement>
-    <ui:VisualElement name="GameOverPanel" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); -unity-text-align: middle-center; justify-content: center; align-items: center;" picking-mode="Ignore">
+    <ui:VisualElement name="GameOverPanel" picking-mode="Ignore" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); -unity-text-align: middle-center; justify-content: center; align-items: center;">
         <ui:Label text="Game Over" style="font-size: 72px; color: rgb(255, 255, 255); -unity-text-align: middle-center;"/>
     </ui:VisualElement>
 </ui:UXML>

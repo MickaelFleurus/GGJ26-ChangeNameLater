@@ -149,8 +149,8 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         if (mPauseMenu.visible) return;
         // Handle pause menu showing
         if (!mJustUnpaused && Keyboard.current != null && Keyboard.current[Key.Escape].wasPressedThisFrame)
-        { 
-            ShowPause(); 
+        {
+            ShowPause();
             return;
         }
 
@@ -322,6 +322,10 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
 
     public void OnSelect(InputAction.CallbackContext context)
     {
+        if (context.control.device is Mouse)
+        {
+            return;
+        }
         if (!mSelectedPauseIndex.HasValue)
         {
             return;
