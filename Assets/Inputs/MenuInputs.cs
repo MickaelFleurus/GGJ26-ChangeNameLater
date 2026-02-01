@@ -206,7 +206,7 @@ public partial class @MenuInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bc1f18df-cbcd-42ee-b18e-b0823803576f"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

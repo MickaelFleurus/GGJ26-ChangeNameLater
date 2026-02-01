@@ -48,12 +48,11 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 9b58e432c3d73564598a089f2eee8292, type: 3}
   maskSound: {fileID: 8300000, guid: 149dfe4c5f6036e44b339d03a601530c, type: 3}
   breathingSound: {fileID: 8300000, guid: 2ce0eee0475204245afe6bf4719288f4, type: 3}
-  pickupSound: {fileID: 0}
   moneySound: {fileID: 8300000, guid: 23061b0bb81c9e844957fa5d0dfe5509, type: 3}
   musicClip: {fileID: 8300000, guid: b9212efab45c77047bc5578b716c35e7, type: 3}
-  mainMenuMusic: {fileID: 0}
+  mainMenuMusic: {fileID: 8300000, guid: 5d4e65238f0fe0746887bdd3d711fb6f, type: 3}
   ambienceClip: {fileID: 8300000, guid: 02425c51f6915c94b85bed864efc9f4c, type: 3}
   gameLost: {fileID: 0}
   gameWon: {fileID: 0}
   doorOpen: {fileID: 0}
-  click: {fileID: 0}
+  click: {fileID: 8300000, guid: d3c92bd5144b1b44bbb8c718b258d7c2, type: 3}
