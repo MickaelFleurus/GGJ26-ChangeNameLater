@@ -52,6 +52,7 @@ public class Add3DOneShotSound : MonoBehaviour
     public void PlaySound()
     {
         if (playOnlyOnce && hasPlayed) return;
+        audioSource.volume = volume * SoundManager.Instance.GetMasterVolume();
 
         if (audioSource != null && soundClip != null)
         {

@@ -241,4 +241,8 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
         Application.Quit();
 #endif
     }
+
+
+    public void OnLower(InputAction.CallbackContext context) { }
+    public void OnIncrease(InputAction.CallbackContext context) { }
 }

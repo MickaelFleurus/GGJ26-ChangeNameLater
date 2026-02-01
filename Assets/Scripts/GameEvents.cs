@@ -31,24 +31,30 @@ public static class GameEvents
     public static event Action OnGameWon;
     public static event Action OnInGame;
     public static event Action OnDoorUnlocked;
+    public static event Action<bool> OnGamePausedChanged;
+
     public static void InvokeGameLost() => OnGameLost?.Invoke();
     public static void InvokeGameWon() => OnGameWon?.Invoke();
     public static void InvokeInGame() => OnInGame?.Invoke();
-
+    public static void InvokeGamePaused(bool paused) => OnGamePausedChanged?.Invoke(paused);
     public static void InvokeDoorUnlocked() => OnDoorUnlocked?.Invoke();
 
     //Player
     public static event Action OnPlayerWalking;
     public static event Action OnPlayerNotWalking;
-    public static void InvokePlayerWalking() => OnPlayerWalking?.Invoke();        
-    public static void InvokePlayerNotWalking() => OnPlayerNotWalking?.Invoke();  
+    public static void InvokePlayerWalking() => OnPlayerWalking?.Invoke();
+    public static void InvokePlayerNotWalking() => OnPlayerNotWalking?.Invoke();
 
     //Environment
     public static int CurrentMoney { get; set; }
     public static event Action onLootCollected;
     public static event Action OnDoorOpen;
     public static event Action OnUIClick;
-    public static void InvokeLootCollected() => onLootCollected?.Invoke();  
-    public static void InvokeDoorOpen() => OnDoorOpen?.Invoke();            
-    public static void InvokeUIClick() => OnUIClick?.Invoke();              
+    public static void InvokeLootCollected() => onLootCollected?.Invoke();
+    public static void InvokeDoorOpen() => OnDoorOpen?.Invoke();
+    public static void InvokeUIClick() => OnUIClick?.Invoke();
+
+    // Sound
+    public static event Action OnMasterVolumeChanged;
+    public static void InvokeMasterVolumeChanged() => OnMasterVolumeChanged?.Invoke();
 }

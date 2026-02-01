@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System;
 public class FirstPersonLook : MonoBehaviour
 {
     public Transform cameraPivot;
@@ -9,6 +9,23 @@ public class FirstPersonLook : MonoBehaviour
 
     float pitch = 0f;
 
+    private bool mGamePause = false;
+    private Action<bool> mGamePausedFunc;
+
+    void Awake()
+    {
+        mGamePausedFunc = (bool paused) =>
+        {
+            mGamePause = paused;
+        };
+        GameEvents.OnGamePausedChanged += mGamePausedFunc;
+    }
+
+    void Destroy()
+    {
+        GameEvents.OnGamePausedChanged -= mGamePausedFunc;
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -17,6 +34,7 @@ public class FirstPersonLook : MonoBehaviour
 
     void Update()
     {
+        if (mGamePause) { return; }
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
