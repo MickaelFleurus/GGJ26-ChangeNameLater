@@ -196,6 +196,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9019247273199053911, guid: 7831eb1f40ebde64485c46e266673dc7, type: 3}
+      propertyPath: click
+      value: 
+      objectReference: {fileID: 8300000, guid: d3c92bd5144b1b44bbb8c718b258d7c2, type: 3}
+    - target: {fileID: -9019247273199053911, guid: 7831eb1f40ebde64485c46e266673dc7, type: 3}
+      propertyPath: mainMenuMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 5d4e65238f0fe0746887bdd3d711fb6f, type: 3}
     - target: {fileID: 2778206757592177941, guid: 7831eb1f40ebde64485c46e266673dc7, type: 3}
       propertyPath: m_Name
       value: SoundManager

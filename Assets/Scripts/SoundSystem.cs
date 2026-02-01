@@ -18,6 +18,7 @@ public class SoundManager : MonoBehaviour
 
     [Header("Music & Ambience")]
     public AudioClip musicClip;
+    public AudioClip mainMenuMusic;
     public AudioClip ambienceClip;
 
     [Header("GameStates")]
@@ -33,6 +34,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource sfxSource;
     private AudioSource walkSource;
     private AudioSource musicSource;
+    private AudioSource mainMenuSource;
     private AudioSource ambienceSource;
     private AudioSource breathingSource;
 
@@ -67,18 +69,23 @@ public class SoundManager : MonoBehaviour
         // Setup music
         musicSource.clip = musicClip;
         musicSource.loop = true;
-        musicSource.volume = 0.3f;
-        StartMusic();
+        musicSource.volume = 0.1f;
 
         // Setup ambience
         ambienceSource.clip = ambienceClip;
         ambienceSource.loop = true;
-        ambienceSource.volume = 0.2f;
+        ambienceSource.volume = 0.08f;
 
         breathingSource = gameObject.AddComponent<AudioSource>();
         breathingSource.clip = breathingSound;
         breathingSource.loop = true;
         breathingSource.volume = 0.2f;
+
+        mainMenuSource = gameObject.AddComponent<AudioSource>();
+        mainMenuSource.clip = mainMenuMusic;
+        mainMenuSource.loop = true;
+        mainMenuSource.volume = 0.1f;
+        mainMenuSource.Play();
     }
 
     void OnEnable()
@@ -98,6 +105,8 @@ public class SoundManager : MonoBehaviour
         GameEvents.onLootCollected += PlayMoneySound;
 
         GameEvents.OnInGame += StartAmbience;
+        GameEvents.OnInGame += StartMusic;
+        GameEvents.OnInGame += StopMainMenuSound;
 
         GameEvents.OnUIClick += PlayClickSound;
     }
@@ -114,6 +123,10 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnGameWon -= PlayGameWonSound;
 
         GameEvents.OnPickUpItem -= PlayPickupSound;
+
+        GameEvents.OnInGame -= StartAmbience;
+        GameEvents.OnInGame -= StartMusic;
+        GameEvents.OnInGame -= StopMainMenuSound;
 
         GameEvents.OnUIClick -= PlayClickSound;
     }
@@ -171,6 +184,11 @@ public class SoundManager : MonoBehaviour
     void StopBreathingSound()
     {
         breathingSource?.Stop();
+    }
+
+    void StopMainMenuSound()
+    {
+        mainMenuSource?.Stop();
     }
 
     #endregion
