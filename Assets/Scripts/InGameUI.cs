@@ -1,5 +1,7 @@
 using System;
+
 using StarterAssets;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -21,6 +23,7 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
     private Action<int, LootType> mOnLootCollectedFunc;
 
     private bool mCanSeeLoot = false;
+    private bool isUnlocked = false;
     private int mTotalCollected;
 
     // Hold E to pick up: required time = Value / 2 seconds
@@ -92,6 +95,8 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         GameEvents.OnMaskOff += mOnMaskOffFunc;
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
+
+
     }
 
     void OnDestroy()
@@ -121,9 +126,14 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         mHints.visible = false;
         mLootValue.visible = false;
 
+        var gameOverPanel = UIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
+        if (gameOverPanel != null)
+            gameOverPanel.visible = false;
+
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
+
     }
 
     void ResetHoldState()
@@ -136,95 +146,96 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
 
     void Update()
     {
-        if (!mPauseMenu.visible)
+        if (mPauseMenu.visible) return;
+        // Handle pause menu showing
+        if (!mJustUnpaused && Keyboard.current != null && Keyboard.current[Key.Escape].wasPressedThisFrame)
+        { ShowPause(); return; }
+
+
+        if (maskController != null && mMaskTimeSlider != null)
         {
-            // Handle pause menu showing
-            if (!mJustUnpaused && Keyboard.current != null && Keyboard.current[Key.Escape].wasPressedThisFrame)
+            mMaskTimeSlider.highValue = maskController.MaxMaskTime;
+            mMaskTimeSlider.value = maskController.MaxMaskTime - maskController.CurrentMaskTime;
+        }
+
+        bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
+
+        if (!mCanSeeLoot)
+        {
+            ResetHoldState();
+            return;
+        }
+
+        if (Camera.main == null)
+        {
+            ResetHoldState();
+            return;
+        }
+
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit hit;
+        float rayDistance = 5f;
+
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+
+            if (interactable != null)
             {
-                // If we show the Pause menu, we stop the rest of the logic
-                ShowPause();
-                return;
-            }
-            mJustUnpaused = false;
-            if (maskController != null && mMaskTimeSlider != null)
-            {
-                mMaskTimeSlider.highValue = maskController.MaxMaskTime;
-                mMaskTimeSlider.value = maskController.MaxMaskTime - maskController.CurrentMaskTime;
-            }
+                mLootValue.visible = true;
+                float requiredSeconds = interactable.GetRequiredHoldTime();
 
-            bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
-
-            if (!mCanSeeLoot)
-            {
-                ResetHoldState();
-                return;
-            }
-
-            if (Camera.main == null)
-            {
-                ResetHoldState();
-                return;
-            }
-
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            RaycastHit hit;
-            float rayDistance = 5f;
-
-            if (Physics.Raycast(ray, out hit, rayDistance))
-            {
-                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-                if (interactable != null)
+                // Door: require enough money; show "Need X money" and block hold if not
+                if (interactable is Door door)
                 {
-                    mLootValue.visible = true;
-                    float requiredSeconds = interactable.GetRequiredHoldTime();
-
-                    // Door: require enough money; show "Need X money" and block hold if not
-                    if (interactable is Door door)
+                    if (GameEvents.CurrentMoney < door.GetValue())
                     {
-                        if (GameEvents.CurrentMoney < door.GetValue())
-                        {
-                            mLootValue.text = "Need " + door.GetValue() + " money";
-                            ResetHoldState();
-                            return;
-                        }
+                        mLootValue.text = "Need " + door.GetValue() + " money";
+                        ResetHoldState();
+                        return;
+                    }
+                    else if (GameEvents.CurrentMoney >= door.GetValue() && !isUnlocked)
+                    {
+                        GameEvents.InvokeDoorUnlocked();
+                        isUnlocked = true;
+                        return;
                     }
 
-                    if (eHeld)
-                    {
-                        int targetId = hit.collider.GetInstanceID();
-                        if (mHoldTargetId != targetId)
-                        {
-                            mHoldTargetId = targetId;
-                            mHoldRequiredTime = requiredSeconds;
-                            mHoldElapsed = 0f;
-                            mHoldInteractable = interactable;
-                        }
-                        mHoldElapsed += Time.deltaTime;
-                        float remaining = Mathf.Max(0f, mHoldRequiredTime - mHoldElapsed);
-                        mLootValue.text = string.Format("{0:F1}s", remaining);
+                }
 
-                        if (mHoldElapsed >= mHoldRequiredTime && mHoldInteractable != null)
-                        {
-                            mHoldInteractable.OnInteract();
-                            ResetHoldState();
-                        }
-                    }
-                    else
+                if (eHeld)
+                {
+                    int targetId = hit.collider.GetInstanceID();
+                    if (mHoldTargetId != targetId)
                     {
-                        mLootValue.text = interactable.GetValue() + " (hold E " + requiredSeconds + "s)";
+                        mHoldTargetId = targetId;
+                        mHoldRequiredTime = requiredSeconds;
+                        mHoldElapsed = 0f;
+                        mHoldInteractable = interactable;
+                    }
+                    mHoldElapsed += Time.deltaTime;
+                    float remaining = Mathf.Max(0f, mHoldRequiredTime - mHoldElapsed);
+                    mLootValue.text = string.Format("{0:F1}s", remaining);
+
+                    if (mHoldElapsed >= mHoldRequiredTime && mHoldInteractable != null)
+                    {
+                        mHoldInteractable.OnInteract();
                         ResetHoldState();
                     }
-                    return;
                 }
+                else
+                {
+                    mLootValue.text = interactable.GetValue() + " (hold E " + requiredSeconds + "s)";
+                    ResetHoldState();
+                }
+                return;
             }
-
-            ResetHoldState();
-            if (mLootValue.visible)
-                mLootValue.visible = false;
         }
-    }
 
+        ResetHoldState();
+        if (mLootValue.visible)
+            mLootValue.visible = false;
+    }
 
 
     // Pause menu handling logic

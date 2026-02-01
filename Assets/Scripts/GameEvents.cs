@@ -30,13 +30,14 @@ public static class GameEvents
     public static event Action OnGameLost;
     public static event Action OnGameWon;
     public static event Action OnInGame;
+    public static event Action OnDoorUnlocked;
     public static event Action<bool> OnGamePausedChanged;
 
     public static void InvokeGameLost() => OnGameLost?.Invoke();
     public static void InvokeGameWon() => OnGameWon?.Invoke();
     public static void InvokeInGame() => OnInGame?.Invoke();
     public static void InvokeGamePaused(bool paused) => OnGamePausedChanged?.Invoke(paused);
-
+    public static void InvokeDoorUnlocked() => OnDoorUnlocked?.Invoke();
 
     //Player
     public static event Action OnPlayerWalking;

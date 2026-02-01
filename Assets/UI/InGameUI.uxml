@@ -18,4 +18,7 @@
         <ui:Slider label="Mouse Sensitivity: " value="42" high-value="100" name="MouseSensitivity" inverted="false" class="option_font" style="align-self: center; top: 55%; width: 956px; height: 79px;"/>
         <ui:Label text="Quit" name="Quit" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="option_font button" style="left: auto; top: 54%; white-space: nowrap; -unity-text-align: upper-center;"/>
     </ui:VisualElement>
+    <ui:VisualElement name="GameOverPanel" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7); -unity-text-align: middle-center; justify-content: center; align-items: center;" picking-mode="Ignore">
+        <ui:Label text="Game Over" style="font-size: 72px; color: rgb(255, 255, 255); -unity-text-align: middle-center;"/>
+    </ui:VisualElement>
 </ui:UXML>

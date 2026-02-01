@@ -9,12 +9,10 @@ public class SoundManager : MonoBehaviour
     [Header("Player Sounds")]
     public AudioClip walkSound;
     public AudioClip deathSound;
-    public AudioClip maskOnSound;
-    public AudioClip maskOffSound;
+    public AudioClip maskSound;
     public AudioClip breathingSound;
 
     [Header("Item Sounds")]
-    public AudioClip pickupSound;
     public AudioClip moneySound;
 
     [Header("Music & Ambience")]
@@ -108,8 +106,6 @@ public class SoundManager : MonoBehaviour
 
         GameEvents.OnGameLost += PlayDeathSound;
         GameEvents.OnGameWon += PlayGameWonSound;
-
-        GameEvents.OnPickUpItem += PlayPickupSound;
         GameEvents.onLootCollected += PlayMoneySound;
 
         GameEvents.OnInGame += StartAmbience;
@@ -130,7 +126,6 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnGameLost -= PlayDeathSound;
         GameEvents.OnGameWon -= PlayGameWonSound;
 
-        GameEvents.OnPickUpItem -= PlayPickupSound;
 
         GameEvents.OnInGame -= StartAmbience;
         GameEvents.OnInGame -= StartMusic;
@@ -140,10 +135,9 @@ public class SoundManager : MonoBehaviour
     }
 
     #region PlayOneShots
-    void PlayPickupSound() => sfxSource.PlayOneShot(pickupSound);
     void PlayMoneySound() => sfxSource.PlayOneShot(moneySound);
-    void PlayMaskOnSound() => sfxSource.PlayOneShot(maskOnSound);
-    void PlayMaskOffSound() => sfxSource.PlayOneShot(maskOffSound);
+    void PlayMaskOnSound() => sfxSource.PlayOneShot(maskSound);
+    void PlayMaskOffSound() => sfxSource.PlayOneShot(maskSound);
     void PlayGameWonSound() => sfxSource.PlayOneShot(doorOpen);
     void PlayDeathSound() => sfxSource.PlayOneShot(deathSound);
     void PlayClickSound() => sfxSource.PlayOneShot(click);
@@ -215,6 +209,7 @@ public class SoundManager : MonoBehaviour
     {
         sfxSource.volume = Mathf.Clamp01(volume);
         walkSource.volume = Mathf.Clamp01(volume);
+
     }
 
     public void SetMasterVolume(float volume)
