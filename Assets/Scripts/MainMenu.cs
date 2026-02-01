@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
+
 
 public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
 {
@@ -236,7 +236,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
     private void CloseGame()
     {
 #if UNITY_EDITOR
-    UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
