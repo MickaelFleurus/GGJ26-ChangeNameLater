@@ -98,8 +98,6 @@ public class SoundManager : MonoBehaviour
 
         GameEvents.OnGameLost += PlayDeathSound;
         GameEvents.OnGameWon += PlayGameWonSound;
-
-        GameEvents.OnPickUpItem += PlayPickupSound;
         GameEvents.onLootCollected += PlayMoneySound;
 
         GameEvents.OnInGame += StartAmbience;
@@ -120,7 +118,6 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnGameLost -= PlayDeathSound;
         GameEvents.OnGameWon -= PlayGameWonSound;
 
-        GameEvents.OnPickUpItem -= PlayPickupSound;
 
         GameEvents.OnInGame -= StartAmbience;
         GameEvents.OnInGame -= StartMusic;
