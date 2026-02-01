@@ -46,21 +46,16 @@ public class PlayerDeathOnContact : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"[PlayerDeathOnContact] OnTriggerEnter: other={other?.gameObject?.name ?? "null"} (layer={other?.gameObject?.layer})");
-
         if (s_hasTriggered)
         {
-            Debug.Log("[PlayerDeathOnContact] Skip: already triggered this game.");
             return;
         }
         if (m_maskController == null)
         {
-            Debug.Log("[PlayerDeathOnContact] Skip: MaskController not found.");
             return;
         }
         if (!m_maskController.IsMaskOn)
         {
-            Debug.Log("[PlayerDeathOnContact] Skip: mask is OFF.");
             return;
         }
         if (!IsMannequin(other.gameObject))
@@ -68,7 +63,6 @@ public class PlayerDeathOnContact : MonoBehaviour
             var go = other.gameObject;
             bool tagMatch = !string.IsNullOrEmpty(mannequinTag) && go.CompareTag(mannequinTag);
             bool hasAI = go.GetComponent<IAstarAI>() != null;
-            Debug.Log($"[PlayerDeathOnContact] Skip: not a mannequin. other.tag=\"{go.tag}\", mannequinTag=\"{mannequinTag}\", tagMatch={tagMatch}, hasIAstarAI={hasAI}");
             return;
         }
 
@@ -77,7 +71,6 @@ public class PlayerDeathOnContact : MonoBehaviour
 
     void TriggerDeath(string source)
     {
-        Debug.Log($"[PlayerDeathOnContact] Mannequin contact while mask ON ({source}) -> InvokeGameLost()");
         s_hasTriggered = true;
         GameEvents.InvokeGameLost();
     }

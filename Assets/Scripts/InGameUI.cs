@@ -177,11 +177,11 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
 
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
-        float rayDistance = 5f;
+        float rayDistance = 6f;
 
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            IInteractable interactable = hit.collider.GetComponentInChildren<IInteractable>();
 
             if (interactable != null)
             {
