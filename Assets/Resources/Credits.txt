@@ -6,7 +6,7 @@ A horror game made during the Global Game Jam 2026
 Sebastian Andersson -  3D Models/Textures
 Thanisha Baskaran - Audio/Game Programmer
 Mickaël Fleurus - UI/Game Programmer
-Janina Carvajal Ibacache - Audio Programmer 
+Janina Carvajal Ibacache - Audio/Game Programmer, Level Design  
 Yuhui Gan - Narrative, Level Design, Programmer
 Yuto Manri - Game design, Programmer
 

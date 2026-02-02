@@ -21,7 +21,7 @@ public class MaskController : MonoBehaviour
     public float maxMaskOffTime = 100f;
 
     //then heartbeat sound starts
-    [SerializeField] float heartbeatStartThreshold = 15f;  
+    [SerializeField] float heartbeatStartThreshold = 15f;
 
     float mCurrentMaskTime;
     float mAccumulator;
@@ -89,15 +89,18 @@ public class MaskController : MonoBehaviour
                 mCurrentMaskTime = Mathf.Max(0f, mCurrentMaskTime - 1f);
                 if (mCurrentMaskTime <= 0f && !mHasTriggeredGameOver)
                 {
-                    mHasTriggeredGameOver = true;
-                    GameEvents.InvokeMaskOff();
                     SoundManager.Instance.StopHeartbeat();
+                    GameEvents.InvokeMaskOff();
                     GameEvents.InvokeGameLost();
+                    mHasTriggeredGameOver = true;
                 }
             }
         }
 
-        UpdateHeartbeat();
+        if (!mHasTriggeredGameOver)
+        {
+            UpdateHeartbeat();
+        }
     }
 
     void UpdateHeartbeat()

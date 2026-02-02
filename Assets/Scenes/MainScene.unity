@@ -4588,9 +4588,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Add3DOneShotSound
   soundClip: {fileID: 8300000, guid: 570b0ebee1e60bf45b6ab681035647d5, type: 3}
-  minDistance: 1.68
-  maxDistance: 11.1
-  volume: 0.205
+  minDistance: 1.27
+  maxDistance: 9.8
+  volume: 0.432
   playOnTriggerEnter: 0
   playOnlyOnce: 1
 --- !u!4 &200190882 stripped
@@ -13784,7 +13784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.0846763
+      value: 2.243
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13792,7 +13792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.9114132
+      value: -3.825
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -30945,7 +30945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Add3DOneShotSound
   soundClip: {fileID: 8300000, guid: 570b0ebee1e60bf45b6ab681035647d5, type: 3}
   minDistance: 1.61
-  maxDistance: 10.1
+  maxDistance: 7.4
   volume: 0.545
   playOnTriggerEnter: 0
   playOnlyOnce: 1
@@ -33773,9 +33773,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Add3DSoundLooping
   soundClip: {fileID: 8300000, guid: b05ba5e0f8a1e7a41acc56971d622b8b, type: 3}
-  minDistance: 1
-  maxDistance: 3
-  volume: 0.6
+  minDistance: 0
+  maxDistance: 1
+  volume: 0.15
 --- !u!1 &1650416281 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 17df354aeff6ef549952cd98cf16c6fc, type: 3}
@@ -35685,8 +35685,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Add3DSound
   soundClip: {fileID: 8300000, guid: a8eb30c5953585045986f5caf498ee36, type: 3}
   minDistance: 1
-  maxDistance: 4
-  volume: 0.3
+  maxDistance: 2
+  volume: 0.2
 --- !u!4 &1720566876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4588e5f29c112d64a83b9fde3c690076, type: 3}
@@ -35729,7 +35729,7 @@ MonoBehaviour:
   soundClip: {fileID: 8300000, guid: 236648d64c690fb489997fc088fa9686, type: 3}
   minDistance: 1.27
   maxDistance: 15
-  volume: 0.5
+  volume: 0.348
   playOnTriggerEnter: 0
   playOnlyOnce: 1
 --- !u!1001 &1724183531

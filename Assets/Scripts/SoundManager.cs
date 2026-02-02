@@ -128,9 +128,9 @@ public class SoundManager
         if (heartbeatSource == null)
             return;
 
-        heartbeatSource.volume = Mathf.Lerp(0.0f, 0.5f, intensity);
+        heartbeatSource.volume = Mathf.Lerp(0.0f, 0.8f, intensity);
 
-        heartbeatSource.pitch = Mathf.Lerp(1.0f, 1.5f, intensity);
+        heartbeatSource.pitch = Mathf.Lerp(1.0f, 1.8f, intensity);
 
         if (intensity > 0.05f && !heartbeatSource.isPlaying)
         {
@@ -208,7 +208,7 @@ public class SoundManager
 
     public void StopHeartbeat()
     {
-        heartbeatSource?.Stop();
+        heartbeatSource.Stop();
     }
     #endregion
 
