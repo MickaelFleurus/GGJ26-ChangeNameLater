@@ -35685,7 +35685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Add3DSound
   soundClip: {fileID: 8300000, guid: a8eb30c5953585045986f5caf498ee36, type: 3}
   minDistance: 1
-  maxDistance: 5
+  maxDistance: 4
   volume: 0.3
 --- !u!4 &1720566876 stripped
 Transform:
@@ -41201,7 +41201,7 @@ MonoBehaviour:
   soundClip: {fileID: 8300000, guid: f9dec0fa7dbfaca4e9693bcba2481829, type: 3}
   minDistance: 1
   maxDistance: 2
-  volume: 0.3
+  volume: 0.1
 --- !u!64 &1931342601
 MeshCollider:
   m_ObjectHideFlags: 0

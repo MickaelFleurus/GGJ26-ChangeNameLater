@@ -20,6 +20,9 @@ public class MaskController : MonoBehaviour
     [Tooltip("Max seconds when mask is off. Refills when mask is on. Decreases 1/s when off, increases 1/s when on.")]
     public float maxMaskOffTime = 100f;
 
+    //then heartbeat sound starts
+    [SerializeField] float heartbeatStartThreshold = 15f;  
+
     float mCurrentMaskTime;
     float mAccumulator;
     bool mHasTriggeredGameOver;
@@ -88,10 +91,28 @@ public class MaskController : MonoBehaviour
                 {
                     mHasTriggeredGameOver = true;
                     GameEvents.InvokeMaskOff();
+                    SoundManager.Instance.StopHeartbeat();
                     GameEvents.InvokeGameLost();
                 }
             }
         }
+
+        UpdateHeartbeat();
+    }
+
+    void UpdateHeartbeat()
+    {
+        if (SoundManager.Instance == null)
+            return;
+
+        float intensity = 0.0f;
+
+        if (mCurrentMaskTime <= heartbeatStartThreshold)
+        {
+            intensity = 1.0f - (mCurrentMaskTime / heartbeatStartThreshold);
+        }
+
+        SoundManager.Instance.SetHeartbeatIntensity(intensity);
     }
 
     void SetMannequinMovement(bool canMove)

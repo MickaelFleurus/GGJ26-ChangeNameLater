@@ -15,6 +15,7 @@ public class SoundManager
         }
     }
 
+    #region MemberVariables&DefaultVol
     private SoundConfig soundConfig;
     private GameObject audioGameObject;
 
@@ -24,6 +25,7 @@ public class SoundManager
     private AudioSource mainMenuSource;
     private AudioSource ambienceSource;
     private AudioSource breathingSource;
+    private AudioSource heartbeatSource;
 
     private float masterVolume = 1.0f;
     private float defaultSfxVolume = 0.5f;
@@ -31,6 +33,8 @@ public class SoundManager
     private float defaultAmbienceSourceVolume = 0.1f;
     private float defaultBreathingSourceVolume = 0.2f;
     private float defaultMainMenuVolume = 0.1f;
+    private float defaultHeartbeatVolume = 0.0f;
+    #endregion
 
     private SoundManager()
     {
@@ -40,7 +44,7 @@ public class SoundManager
     public void Initialize(SoundConfig config = null)
     {
         if (soundConfig != null)
-            return; // Already initialized
+            return; 
 
         // Load default config if none provided
         if (config == null)
@@ -54,7 +58,7 @@ public class SoundManager
         audioGameObject = new GameObject("SoundManager_AudioSources");
         Object.DontDestroyOnLoad(audioGameObject);
 
-        // Setup audio sources
+        #region Set up Data
         sfxSource = audioGameObject.AddComponent<AudioSource>();
         sfxSource.spatialBlend = 0f;
         sfxSource.volume = defaultSfxVolume;
@@ -87,7 +91,15 @@ public class SoundManager
         mainMenuSource.volume = defaultMainMenuVolume;
         mainMenuSource.Play();
 
-        // Subscribe to events
+        heartbeatSource = audioGameObject.AddComponent<AudioSource>();
+        heartbeatSource.clip = soundConfig.heartbeatSound;
+        heartbeatSource.loop = true;
+        heartbeatSource.spatialBlend = 0f;
+        heartbeatSource.volume = defaultHeartbeatVolume;  
+        heartbeatSource.pitch = 1f;
+        #endregion
+
+        #region Subscribe to events
         GameEvents.OnPlayerWalking += StartWalkSound;
         GameEvents.OnPlayerNotWalking += StopWalkSound;
 
@@ -106,6 +118,28 @@ public class SoundManager
         GameEvents.OnInGame += StopMainMenuSound;
 
         GameEvents.OnUIClick += PlayClickSound;
+        #endregion
+    }
+
+    public void SetHeartbeatIntensity(float intensity)
+    {
+        intensity = Mathf.Clamp01(intensity); //This keeps it between 0 - 1 ,very good
+
+        if (heartbeatSource == null)
+            return;
+
+        heartbeatSource.volume = Mathf.Lerp(0.0f, 0.5f, intensity);
+
+        heartbeatSource.pitch = Mathf.Lerp(1.0f, 1.5f, intensity);
+
+        if (intensity > 0.05f && !heartbeatSource.isPlaying)
+        {
+            heartbeatSource.Play();
+        }
+        else if (intensity <= 0.05f && heartbeatSource.isPlaying)
+        {
+            heartbeatSource.Stop();
+        }
     }
 
     #region PlayOneShots
@@ -140,24 +174,24 @@ public class SoundManager
             ambienceSource.Play();
     }
 
-    void StartWalkSound()
+    public void StartWalkSound()
     {
         if (!walkSource.isPlaying)
             walkSource.Play();
     }
 
-    void StopWalkSound()
+    public void StopWalkSound()
     {
         walkSource.Stop();
     }
 
-    void PlayBreathingSound()
+    public void PlayBreathingSound()
     {
         if (!breathingSource.isPlaying)
             breathingSource.Play();
     }
 
-    void StopBreathingSound()
+    public void StopBreathingSound()
     {
         breathingSource?.Stop();
     }
@@ -171,8 +205,14 @@ public class SoundManager
     {
         mainMenuSource?.Stop();
     }
+
+    public void StopHeartbeat()
+    {
+        heartbeatSource?.Stop();
+    }
     #endregion
 
+    #region Volume
     public void SetMusicVolume(float volume)
     {
         musicSource.volume = Mathf.Clamp01(volume);
@@ -210,5 +250,6 @@ public class SoundManager
     {
         return masterVolume >= 1.0f;
     }
+    #endregion
 }
 

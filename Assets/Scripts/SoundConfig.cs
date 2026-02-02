@@ -8,6 +8,7 @@ public class SoundConfig : ScriptableObject
     public AudioClip deathSound;
     public AudioClip maskSound;
     public AudioClip breathingSound;
+    public AudioClip heartbeatSound;
 
     [Header("Item Sounds")]
     public AudioClip moneySound;
