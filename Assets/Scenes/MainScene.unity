@@ -2768,11 +2768,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad20f89cc263035419d51680551fcfb0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0448279
+      value: -0.9921472
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad20f89cc263035419d51680551fcfb0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.9090996
+      value: -5.8241014
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ad20f89cc263035419d51680551fcfb0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -33549,7 +33549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ab87458f4318a4eb26b92fee65add1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  requiredMoney: 1
+  requiredMoney: 25
   requiredHoldTime: 2
   soundClip: {fileID: 8300000, guid: a99311b1fc406444a9ac43966f4d2252, type: 3}
   minDistance: 3
@@ -39109,6 +39109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameOverController
   delayBeforeGameOverScreen: 0
   delayBeforeMainMenu: 3
+  delayBeforeEndScreen: 0
   screenShakeDuration: 1
   screenShakeIntensity: 1
 --- !u!1001 &1993650921
