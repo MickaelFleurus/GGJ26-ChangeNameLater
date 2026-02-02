@@ -2007,6 +2007,7 @@ Transform:
   - {fileID: 959339407}
   - {fileID: 1089480269}
   - {fileID: 1615801930}
+  - {fileID: 2142410918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &97635761
@@ -35642,6 +35643,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4588e5f29c112d64a83b9fde3c690076, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1720566879}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4588e5f29c112d64a83b9fde3c690076, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1720566882}
   m_SourcePrefab: {fileID: 100100000, guid: 4588e5f29c112d64a83b9fde3c690076, type: 3}
 --- !u!1 &1720566872 stripped
 GameObject:
@@ -35691,6 +35695,24 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6050281835718350979, guid: 4588e5f29c112d64a83b9fde3c690076, type: 3}
+--- !u!114 &1720566882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720566872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830631b070d44e644b01a92e8c68a9a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Add3DOneShotSound
+  soundClip: {fileID: 8300000, guid: 236648d64c690fb489997fc088fa9686, type: 3}
+  minDistance: 1.27
+  maxDistance: 15
+  volume: 0.5
+  playOnTriggerEnter: 0
+  playOnlyOnce: 1
 --- !u!1001 &1724183531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44972,6 +44994,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c077ed1ad3b4ee4489ca3f312d6cd797, type: 3}
+--- !u!1 &2142410917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142410918}
+  - component: {fileID: 2142410920}
+  - component: {fileID: 2142410919}
+  m_Layer: 0
+  m_Name: ClockTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2142410918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142410917}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.09, y: -0.49399996, z: 9.27}
+  m_LocalScale: {x: 1.3056, y: 1, z: 1.2820976}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 97515231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2142410919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142410917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f44c632017ccbd4699da0f267aba24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundTrigger
+  soundToPlay: {fileID: 1720566882}
+  triggerOnce: 1
+--- !u!65 &2142410920
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142410917}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &2146662412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6df8f35e9e243c4438b28d4af2610d98, type: 3}
