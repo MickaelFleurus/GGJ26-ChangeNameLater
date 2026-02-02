@@ -142,7 +142,7 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
-        ShowHint("Press M to put on the mask. You can see and collect item this way. Be careful, the mannequin moves when the mask is on...");
+        ShowHint("Press F to put on the mask. You can see and collect item this way. Be careful, the mannequin moves when the mask is on...");
     }
 
     void ResetHoldState()
