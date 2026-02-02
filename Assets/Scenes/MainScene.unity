@@ -13837,6 +13837,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1645203766}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1645203767}
   m_SourcePrefab: {fileID: 100100000, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
 --- !u!4 &666466827 stripped
 Transform:
@@ -33757,6 +33760,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1379150011851892077, guid: 0b54683d5cb00284babb75d1f75c532b, type: 3}
+--- !u!114 &1645203767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645203763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa661e793bfb7544197b8e07e19a7f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Add3DSoundLooping
+  soundClip: {fileID: 8300000, guid: b05ba5e0f8a1e7a41acc56971d622b8b, type: 3}
+  minDistance: 1
+  maxDistance: 2
+  volume: 0.3
 --- !u!1 &1650416281 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 17df354aeff6ef549952cd98cf16c6fc, type: 3}
