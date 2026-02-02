@@ -82,6 +82,9 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         mOnMaskOffFunc = () =>
         {
             mCanSeeLoot = false;
+            if (mLootValue != null)
+                mLootValue.visible = false;
+            ResetHoldState();
         };
         mOnMaskOnFunc = () =>
         {
