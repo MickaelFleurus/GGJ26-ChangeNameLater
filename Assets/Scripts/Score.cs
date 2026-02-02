@@ -1,37 +1,45 @@
 using UnityEngine;
 using System;
 
-public class Score : MonoBehaviour
+public class Score
 {
-
     private static Score instance;
-    public static Score Instance => instance;
-
+    public static Score Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new Score();
+            }
+            return instance;
+        }
+    }
 
     private float mStartTime;
     private float mEndTime;
-
     private int mScore;
-    void Awake()
+
+    private Score()
     {
-        instance = this;
+        // Private constructor to prevent instantiation
         GameEvents.OnInGame += StartGame;
         GameEvents.OnGameWon += EndGame;
         GameEvents.OnLootCollectedWithData += IncreaseScore;
     }
 
-    void StartGame()
+    private void StartGame()
     {
         mScore = 0;
         mStartTime = Time.time;
     }
 
-    void EndGame()
+    private void EndGame()
     {
         mEndTime = Time.time;
     }
 
-    void IncreaseScore(int value, LootType lootType)
+    private void IncreaseScore(int value, LootType lootType)
     {
         mScore += value;
     }

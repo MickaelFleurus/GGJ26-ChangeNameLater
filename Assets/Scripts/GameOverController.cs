@@ -74,12 +74,10 @@ public class GameOverController : MonoBehaviour
         UnityEngine.Cursor.visible = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
 
-        var sm = FindObjectOfType<SoundManager>();
-        if (sm != null)
-        {
-            sm.StopMusic();
-            sm.StopAmbience();
-        }
+
+        SoundManager.Instance.StopMusic();
+        SoundManager.Instance.StopAmbience();
+
 
         m_shakeTimeLeft = screenShakeDuration;
         m_shakeIntensity = screenShakeIntensity;

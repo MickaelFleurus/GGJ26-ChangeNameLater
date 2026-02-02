@@ -1,34 +1,22 @@
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager
 {
-    // Add this static reference
     private static SoundManager instance;
-    public static SoundManager Instance => instance;
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new SoundManager();
+            }
+            return instance;
+        }
+    }
 
-    [Header("Player Sounds")]
-    public AudioClip walkSound;
-    public AudioClip deathSound;
-    public AudioClip maskSound;
-    public AudioClip breathingSound;
-
-    [Header("Item Sounds")]
-    public AudioClip moneySound;
-
-    [Header("Music & Ambience")]
-    public AudioClip musicClip;
-    public AudioClip mainMenuMusic;
-    public AudioClip ambienceClip;
-
-    [Header("GameStates")]
-    public AudioClip gameLost;
-    public AudioClip gameWon;
-
-    [Header("Environment")]
-    public AudioClip doorOpen;
-
-    [Header("UI")]
-    public AudioClip click;
+    private SoundConfig soundConfig;
+    private GameObject audioGameObject;
 
     private AudioSource sfxSource;
     private AudioSource walkSource;
@@ -44,58 +32,62 @@ public class SoundManager : MonoBehaviour
     private float defaultBreathingSourceVolume = 0.2f;
     private float defaultMainMenuVolume = 0.1f;
 
-    void Awake()
+    private SoundManager()
     {
-        // Singleton 
-        if (instance != null && instance != this)
+        Initialize();
+    }
+
+    public void Initialize(SoundConfig config = null)
+    {
+        if (soundConfig != null)
+            return; // Already initialized
+
+        // Load default config if none provided
+        if (config == null)
         {
-            Destroy(gameObject);
-            return;
+            config = Resources.Load<SoundConfig>("SoundConfig");
         }
 
-        instance = this;
-        DontDestroyOnLoad(gameObject); //survive all scnenes
+        soundConfig = config;
 
+        // Create audio container GameObject
+        audioGameObject = new GameObject("SoundManager_AudioSources");
+        Object.DontDestroyOnLoad(audioGameObject);
 
-        sfxSource = gameObject.AddComponent<AudioSource>();
+        // Setup audio sources
+        sfxSource = audioGameObject.AddComponent<AudioSource>();
         sfxSource.spatialBlend = 0f;
         sfxSource.volume = defaultSfxVolume;
 
-        musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource = audioGameObject.AddComponent<AudioSource>();
         musicSource.spatialBlend = 0f;
-
-        ambienceSource = gameObject.AddComponent<AudioSource>();
-        ambienceSource.spatialBlend = 0f;
-
-        walkSource = gameObject.AddComponent<AudioSource>();
-        walkSource.clip = walkSound;
-        walkSource.loop = true;
-        walkSource.spatialBlend = 0f;
-
-        // Setup music
-        musicSource.clip = musicClip;
+        musicSource.clip = soundConfig.musicClip;
         musicSource.loop = true;
         musicSource.volume = defaultMusicVolume;
 
-        // Setup ambience
-        ambienceSource.clip = ambienceClip;
+        ambienceSource = audioGameObject.AddComponent<AudioSource>();
+        ambienceSource.spatialBlend = 0f;
+        ambienceSource.clip = soundConfig.ambienceClip;
         ambienceSource.loop = true;
         ambienceSource.volume = defaultAmbienceSourceVolume;
 
-        breathingSource = gameObject.AddComponent<AudioSource>();
-        breathingSource.clip = breathingSound;
+        walkSource = audioGameObject.AddComponent<AudioSource>();
+        walkSource.clip = soundConfig.walkSound;
+        walkSource.loop = true;
+        walkSource.spatialBlend = 0f;
+
+        breathingSource = audioGameObject.AddComponent<AudioSource>();
+        breathingSource.clip = soundConfig.breathingSound;
         breathingSource.loop = true;
         breathingSource.volume = defaultBreathingSourceVolume;
 
-        mainMenuSource = gameObject.AddComponent<AudioSource>();
-        mainMenuSource.clip = mainMenuMusic;
+        mainMenuSource = audioGameObject.AddComponent<AudioSource>();
+        mainMenuSource.clip = soundConfig.mainMenuMusic;
         mainMenuSource.loop = true;
         mainMenuSource.volume = defaultMainMenuVolume;
         mainMenuSource.Play();
-    }
 
-    void OnEnable()
-    {
+        // Subscribe to events
         GameEvents.OnPlayerWalking += StartWalkSound;
         GameEvents.OnPlayerNotWalking += StopWalkSound;
 
@@ -116,32 +108,13 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnUIClick += PlayClickSound;
     }
 
-    void OnDisable()
-    {
-        GameEvents.OnPlayerWalking -= StartWalkSound;
-        GameEvents.OnPlayerNotWalking -= StopWalkSound;
-
-        GameEvents.OnMaskEquipped -= PlayMaskOnSound;
-        GameEvents.OnMaskOff -= PlayMaskOffSound;
-
-        GameEvents.OnGameLost -= PlayDeathSound;
-        GameEvents.OnGameWon -= PlayGameWonSound;
-
-
-        GameEvents.OnInGame -= StartAmbience;
-        GameEvents.OnInGame -= StartMusic;
-        GameEvents.OnInGame -= StopMainMenuSound;
-
-        GameEvents.OnUIClick -= PlayClickSound;
-    }
-
     #region PlayOneShots
-    void PlayMoneySound() => sfxSource.PlayOneShot(moneySound);
-    void PlayMaskOnSound() => sfxSource.PlayOneShot(maskSound);
-    void PlayMaskOffSound() => sfxSource.PlayOneShot(maskSound);
-    void PlayGameWonSound() => sfxSource.PlayOneShot(doorOpen);
-    void PlayDeathSound() => sfxSource.PlayOneShot(deathSound);
-    void PlayClickSound() => sfxSource.PlayOneShot(click);
+    void PlayMoneySound() => sfxSource.PlayOneShot(soundConfig.moneySound);
+    void PlayMaskOnSound() => sfxSource.PlayOneShot(soundConfig.maskSound);
+    void PlayMaskOffSound() => sfxSource.PlayOneShot(soundConfig.maskSound);
+    void PlayGameWonSound() => sfxSource.PlayOneShot(soundConfig.doorOpen);
+    void PlayDeathSound() => sfxSource.PlayOneShot(soundConfig.deathSound);
+    void PlayClickSound() => sfxSource.PlayOneShot(soundConfig.click);
     #endregion
 
     #region start&stop functions for looping sounds
@@ -189,11 +162,15 @@ public class SoundManager : MonoBehaviour
         breathingSource?.Stop();
     }
 
+    public void StartMainMenuMusic()
+    {
+        mainMenuSource?.Play();
+    }
+
     void StopMainMenuSound()
     {
         mainMenuSource?.Stop();
     }
-
     #endregion
 
     public void SetMusicVolume(float volume)
@@ -210,7 +187,6 @@ public class SoundManager : MonoBehaviour
     {
         sfxSource.volume = Mathf.Clamp01(volume);
         walkSource.volume = Mathf.Clamp01(volume);
-
     }
 
     public void SetMasterVolume(float volume)

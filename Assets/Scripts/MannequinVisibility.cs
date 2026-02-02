@@ -6,8 +6,6 @@ public class MannequinVisibility : MonoBehaviour
     private Renderer mRenderer;
     [SerializeField] private AIPath aiPath;
 
-
-
     void Start()
     {
         mRenderer = GetComponent<Renderer>();

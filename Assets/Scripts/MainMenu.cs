@@ -93,6 +93,7 @@ public class MainMenu : MonoBehaviour, MenuInputs.IMenuActions
     void Start()
     {
         ResolveActive();
+        SoundManager.Instance.StartMainMenuMusic();
     }
 
     void Update()

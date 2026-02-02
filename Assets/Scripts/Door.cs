@@ -24,21 +24,20 @@ public class Door : MonoBehaviour, IInteractable
         // Door 3d sound
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = soundClip;
-        audioSource.loop = false;              
+        audioSource.loop = false;
         audioSource.spatialBlend = 1f;         // Full 3D, importanto
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
         audioSource.volume = volume;
-   
 
-       // GameEvents.OnDoorUnlocked += PlayDoorUnlockedSound;
+
+        // GameEvents.OnDoorUnlocked += PlayDoorUnlockedSound;
     }
     #endregion
 
     public void Update()
     {
-        
-        if(Score.Instance.GetScoreFloat() >= requiredMoney && !isUnlocked)
+        if (Score.Instance.GetScoreFloat() >= requiredMoney && !isUnlocked)
             PlayDoorUnlockedSound();
     }
 
@@ -55,7 +54,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-       if(Score.Instance.GetScoreFloat() >= requiredMoney)
+        if (Score.Instance.GetScoreFloat() >= requiredMoney)
         {
             GameEvents.InvokeDoorOpen();
             GameEvents.InvokeGameWon();

@@ -446,7 +446,6 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         SoundManager.Instance.SetMasterVolume(evt.newValue);
 
         mMusicOnToggle.value = evt.newValue > 0.0f;
-
     }
 
     private void ChangeMouseSensitivity(ChangeEvent<float> evt)
