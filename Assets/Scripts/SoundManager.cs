@@ -27,8 +27,8 @@ public class SoundManager
 
     private float masterVolume = 1.0f;
     private float defaultSfxVolume = 0.5f;
-    private float defaultMusicVolume = 0.1f;
-    private float defaultAmbienceSourceVolume = 0.08f;
+    private float defaultMusicVolume = 0.2f;
+    private float defaultAmbienceSourceVolume = 0.1f;
     private float defaultBreathingSourceVolume = 0.2f;
     private float defaultMainMenuVolume = 0.1f;
 

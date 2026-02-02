@@ -87,6 +87,7 @@ public class MaskController : MonoBehaviour
                 if (mCurrentMaskTime <= 0f && !mHasTriggeredGameOver)
                 {
                     mHasTriggeredGameOver = true;
+                    GameEvents.InvokeMaskOff();
                     GameEvents.InvokeGameLost();
                 }
             }
