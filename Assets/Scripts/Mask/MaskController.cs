@@ -44,7 +44,7 @@ public class MaskController : MonoBehaviour
         GameEvents.OnGamePausedChanged += mGamePausedFunc;
     }
 
-    void Destroy()
+    void OnDestroy()
     {
         GameEvents.OnGamePausedChanged -= mGamePausedFunc;
     }

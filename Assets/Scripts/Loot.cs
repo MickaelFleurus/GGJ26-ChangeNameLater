@@ -32,14 +32,18 @@ public class Loot : MonoBehaviour, IInteractable
         GameEvents.OnMaskOff += Hide;
     }
 
+    void OnDestroy()
+    {
+        GameEvents.OnMaskEquipped -= Show;
+        GameEvents.OnMaskOff -= Hide;
+    }
+
     public void OnInteract()
     {
         GameEvents.InvokeLootCollected(Value, lootType);  //this can be for telling player loot has been picked and what item
         GameEvents.InvokeLootCollected();//this one is for sound
         GameEvents.InvokePickUpItem();
         Destroy(gameObject);
-        GameEvents.OnMaskEquipped -= Show;
-        GameEvents.OnMaskOff -= Hide;
     }
 
     public int GetValue() => Value;
@@ -47,11 +51,13 @@ public class Loot : MonoBehaviour, IInteractable
 
     public void Show()
     {
+        if (mRenderer == null) return;
         mRenderer.enabled = true;
     }
 
     public void Hide()
     {
+        if (mRenderer == null) return;
         mRenderer.enabled = false;
     }
 }
