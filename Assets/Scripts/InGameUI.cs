@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
+public class InGameUI : MonoBehaviour
 {
     [SerializeField] public UIDocument UIDocument;
 
@@ -35,48 +35,14 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
     // Pause menu
     private VisualElement mPauseMenu;
     private VisualElement[] mPauseButtons;
-    private Toggle mMusicOnToggle;
-    private Slider mMasterVolumeSlider;
-    private Slider mMouseSensitivitySlider;
-    private MenuInputs mInputs;
-    private int? mSelectedPauseIndex = 0;
     private bool mJustUnpaused = false; // Hacky solution since we use both modern inputs and old
 
     private float mHintTimeLeft;
     private float mHintDuration = 10.0f;
 
-    void OnEnable()
-    {
-        mInputs.Menu.SetCallbacks(this);
-    }
-
-    void OnDisable()
-    {
-        mInputs.Menu.Disable();
-    }
-
     void Awake()
     {
         mPauseMenu = UIDocument.rootVisualElement.Q<VisualElement>("PauseMenu");
-        mInputs = new MenuInputs();
-        mPauseButtons = new VisualElement[4];
-        mPauseButtons[0] = mPauseMenu.Q<VisualElement>("SoundOn");
-        mMusicOnToggle = mPauseMenu.Q<Toggle>("SoundOn");
-        mPauseButtons[1] = mPauseMenu.Q<VisualElement>("SoundVolume");
-        mMasterVolumeSlider = mPauseMenu.Q<Slider>("SoundVolume");
-        mPauseButtons[2] = mPauseMenu.Q<VisualElement>("MouseSensitivity");
-        mMouseSensitivitySlider = mPauseMenu.Q<Slider>("MouseSensitivity");
-        mPauseButtons[3] = mPauseMenu.Q<VisualElement>("Quit");
-        mPauseMenu.visible = false;
-        mMasterVolumeSlider.lowValue = 0.0f;
-        mMasterVolumeSlider.highValue = 1.0f;
-        mMasterVolumeSlider.value = 1.0f;
-        mMasterVolumeSlider.RegisterValueChangedCallback(ChangeMasterVolume);
-
-        mMouseSensitivitySlider.lowValue = 1.0f;
-        mMouseSensitivitySlider.highValue = 50.0f;
-        mMouseSensitivitySlider.value = controller.RotationSpeed;
-        mMouseSensitivitySlider.RegisterValueChangedCallback(ChangeMouseSensitivity);
 
 
         mOnMaskOffFunc = () =>
@@ -113,7 +79,6 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
         GameEvents.OnMaskOff -= mOnMaskOffFunc;
         GameEvents.OnMaskEquipped -= mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData -= mOnLootCollectedFunc;
-        mInputs.Dispose();
     }
 
     void Start()
@@ -260,175 +225,11 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
 
     // Pause menu handling logic
 
-    private void ResolveActive()
-    {
-        if (!mSelectedPauseIndex.HasValue)
-        {
-            foreach (VisualElement btn in mPauseButtons)
-            {
-                btn.AddToClassList("unselected");
-                btn.RemoveFromClassList("selected");
-                btn.RemoveFromClassList("pressed");
-            }
-        }
-
-        for (int i = 0; i < mPauseButtons.Length; i++)
-        {
-            if (i == mSelectedPauseIndex)
-            {
-                if (i == 3) // Quit button special case
-                {
-
-                    mPauseButtons[i].AddToClassList("selected");
-                    mPauseButtons[i].RemoveFromClassList("unselected");
-                }
-                else
-                {
-                    mPauseButtons[i].AddToClassList("pause_selected");
-                }
-            }
-            else
-            {
-                if (i == 3) // Quit button special case
-                {
-                    mPauseButtons[i].RemoveFromClassList("selected");
-                    mPauseButtons[i].AddToClassList("unselected");
-                }
-                else
-                {
-                    mPauseButtons[i].RemoveFromClassList("pause_selected");
-                }
-            }
-
-        }
-    }
-
-
-
-    public void OnUp(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        if (!mSelectedPauseIndex.HasValue) { mSelectedPauseIndex = 0; }
-        else
-        {
-            mSelectedPauseIndex--;
-            if (mSelectedPauseIndex < 0)
-            {
-                mSelectedPauseIndex = mPauseButtons.Length - 1;
-            }
-        }
-        ResolveActive();
-    }
-
-    public void OnDown(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        if (!mSelectedPauseIndex.HasValue) { mSelectedPauseIndex = 0; }
-        else
-        {
-            mSelectedPauseIndex++;
-            if (mSelectedPauseIndex >= mPauseButtons.Length)
-            {
-                mSelectedPauseIndex = 0;
-            }
-        }
-        ResolveActive();
-    }
-
-    public void OnSelect(InputAction.CallbackContext context)
-    {
-        if (context.control.device is Mouse)
-        {
-            return;
-        }
-        if (!mSelectedPauseIndex.HasValue)
-        {
-            return;
-        }
-
-        switch (mSelectedPauseIndex)
-        {
-            case 0:
-
-                mMusicOnToggle.value = !mMusicOnToggle.value;
-                if (!mMusicOnToggle.value)
-                {
-                    mMasterVolumeSlider.value = 0.0f;
-                }
-                else
-                {
-                    mMasterVolumeSlider.value = 0.5f;
-                }
-                break;
-            case 3: // Quit
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-                break;
-        }
-    }
-
-    public void OnBack(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-        if (mPauseMenu.visible)
-        {
-            HidePause();
-        }
-        else
-        {
-            ShowPause();
-        }
-    }
-
-    public void OnLower(InputAction.CallbackContext context)
-    {
-        if (!mSelectedPauseIndex.HasValue) return;
-        if (context.ReadValue<float>() > 0)
-        {
-            switch (mSelectedPauseIndex)
-            {
-                case 1: // Volume
-                    mMasterVolumeSlider.value = mMasterVolumeSlider.value - 0.1f;
-                    break;
-                case 2: // Mouse sensitivity
-                    mMouseSensitivitySlider.value = mMouseSensitivitySlider.value - 1f;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    }
-    public void OnIncrease(InputAction.CallbackContext context)
-    {
-        if (!mSelectedPauseIndex.HasValue) return;
-
-        if (context.ReadValue<float>() > 0)
-        {
-            switch (mSelectedPauseIndex)
-            {
-                case 1: // Volume
-                    mMasterVolumeSlider.value = mMasterVolumeSlider.value + 0.1f;
-                    break;
-                case 2: // Mouse sensitivity
-                    mMouseSensitivitySlider.value = mMouseSensitivitySlider.value + 1f;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
     private void ShowPause()
     {
         Time.timeScale = 0f;
         mPauseMenu.visible = true;
-        mInputs.Enable();
         GameEvents.InvokeGamePaused(true);
     }
 
@@ -436,21 +237,7 @@ public class InGameUI : MonoBehaviour, MenuInputs.IMenuActions
     {
         Time.timeScale = 1f;
         mPauseMenu.visible = false;
-        mInputs.Disable();
         GameEvents.InvokeGamePaused(false);
         mJustUnpaused = true;
     }
-
-    private void ChangeMasterVolume(ChangeEvent<float> evt)
-    {
-        SoundManager.Instance.SetMasterVolume(evt.newValue);
-
-        mMusicOnToggle.value = evt.newValue > 0.0f;
-    }
-
-    private void ChangeMouseSensitivity(ChangeEvent<float> evt)
-    {
-        controller.RotationSpeed = evt.newValue;
-    }
-
 }
