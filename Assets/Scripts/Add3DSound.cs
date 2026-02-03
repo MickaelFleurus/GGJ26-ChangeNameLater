@@ -20,13 +20,13 @@ public class Add3DSound : MonoBehaviour
         audioSource.spatialBlend = 1f;         // Full 3D, importanto
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
-        audioSource.volume = volume;
+        audioSource.volume = GameSettings.Instance.MasterVolume;
         audioSource.playOnAwake = true;
 
         //Play on start
         audioSource.Play();
 
-        GameEvents.OnMasterVolumeChanged += ChangeVolume;
+        GameSettings.OnMasterVolumeChanged += ChangeVolume;
     }
 
     public void StopClock()
@@ -38,14 +38,14 @@ public class Add3DSound : MonoBehaviour
     {
         if (!audioSource.isPlaying)
         {
-            audioSource.volume = volume * SoundManager.Instance.GetMasterVolume();
+            audioSource.volume = volume * GameSettings.Instance.MasterVolume;
             audioSource.Play();
         }
     }
 
     public void ChangeVolume()
     {
-        audioSource.volume = volume * SoundManager.Instance.GetMasterVolume();
+        audioSource.volume = volume * GameSettings.Instance.MasterVolume;
     }
 
 

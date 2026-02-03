@@ -49,6 +49,8 @@ public class SoundManager
         }
 
         soundConfig = config;
+        masterVolume = GameSettings.Instance.MasterVolume;
+        GameSettings.OnMasterVolumeChanged += OnMasterVolumeChanged;
 
         // Create audio container GameObject
         audioGameObject = new GameObject("SoundManager_AudioSources");
@@ -57,19 +59,19 @@ public class SoundManager
         // Setup audio sources
         sfxSource = audioGameObject.AddComponent<AudioSource>();
         sfxSource.spatialBlend = 0f;
-        sfxSource.volume = defaultSfxVolume;
+        sfxSource.volume = defaultSfxVolume * masterVolume;
 
         musicSource = audioGameObject.AddComponent<AudioSource>();
         musicSource.spatialBlend = 0f;
         musicSource.clip = soundConfig.musicClip;
         musicSource.loop = true;
-        musicSource.volume = defaultMusicVolume;
+        musicSource.volume = defaultMusicVolume * masterVolume;
 
         ambienceSource = audioGameObject.AddComponent<AudioSource>();
         ambienceSource.spatialBlend = 0f;
         ambienceSource.clip = soundConfig.ambienceClip;
         ambienceSource.loop = true;
-        ambienceSource.volume = defaultAmbienceSourceVolume;
+        ambienceSource.volume = defaultAmbienceSourceVolume * masterVolume;
 
         walkSource = audioGameObject.AddComponent<AudioSource>();
         walkSource.clip = soundConfig.walkSound;
@@ -79,12 +81,12 @@ public class SoundManager
         breathingSource = audioGameObject.AddComponent<AudioSource>();
         breathingSource.clip = soundConfig.breathingSound;
         breathingSource.loop = true;
-        breathingSource.volume = defaultBreathingSourceVolume;
+        breathingSource.volume = defaultBreathingSourceVolume * masterVolume;
 
         mainMenuSource = audioGameObject.AddComponent<AudioSource>();
         mainMenuSource.clip = soundConfig.mainMenuMusic;
         mainMenuSource.loop = true;
-        mainMenuSource.volume = defaultMainMenuVolume;
+        mainMenuSource.volume = defaultMainMenuVolume * masterVolume;
         mainMenuSource.Play();
 
         // Subscribe to events
@@ -189,10 +191,9 @@ public class SoundManager
         walkSource.volume = Mathf.Clamp01(volume);
     }
 
-    public void SetMasterVolume(float volume)
+    public void OnMasterVolumeChanged()
     {
-        masterVolume = volume;
-        GameEvents.InvokeMasterVolumeChanged();
+        float masterVolume = GameSettings.Instance.MasterVolume;
 
         musicSource.volume = masterVolume * defaultMusicVolume;
         sfxSource.volume = masterVolume * defaultSfxVolume;
@@ -201,14 +202,5 @@ public class SoundManager
         mainMenuSource.volume = masterVolume * defaultMainMenuVolume;
     }
 
-    public float GetMasterVolume()
-    {
-        return masterVolume;
-    }
-
-    public bool IsSoundOn()
-    {
-        return masterVolume >= 1.0f;
-    }
 }
 

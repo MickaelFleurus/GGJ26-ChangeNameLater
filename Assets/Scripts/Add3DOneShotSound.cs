@@ -34,7 +34,7 @@ public class Add3DOneShotSound : MonoBehaviour
         audioSource.spatialBlend = 1f;         // Full 3D
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
-        audioSource.volume = volume;
+        audioSource.volume = volume * GameSettings.Instance.MasterVolume;
         audioSource.playOnAwake = false;
     }
 
@@ -52,7 +52,7 @@ public class Add3DOneShotSound : MonoBehaviour
     public void PlaySound()
     {
         if (playOnlyOnce && hasPlayed) return;
-        audioSource.volume = volume * SoundManager.Instance.GetMasterVolume();
+        audioSource.volume = volume * GameSettings.Instance.MasterVolume;
 
         if (audioSource != null && soundClip != null)
         {

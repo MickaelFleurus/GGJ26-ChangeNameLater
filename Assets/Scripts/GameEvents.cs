@@ -58,7 +58,4 @@ public static class GameEvents
     public static void InvokeDoorOpen() => OnDoorOpen?.Invoke();
     public static void InvokeUIClick() => OnUIClick?.Invoke();
 
-    // Sound
-    public static event Action OnMasterVolumeChanged;
-    public static void InvokeMasterVolumeChanged() => OnMasterVolumeChanged?.Invoke();
 }

@@ -21,72 +21,19 @@
     -unity-text-align: upper-left;
 }
 
-.selected {
-    background-image: url("project://database/Assets/UI/dirty3.jpg?fileID=2800000&guid=9b7708f77de144d3d9cc561c29a40926&type=3#dirty3");
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0.6);
-    background-color: rgba(255, 255, 255, 0);
-    text-shadow: 2px 2px 0 rgb(0, 0, 0);
-    font-size: 30px;
-    color: rgb(255, 255, 255);
-}
 
-.pressed {
-    background-image: url("project://database/Assets/UI/dirty3.jpg?fileID=2800000&guid=9b7708f77de144d3d9cc561c29a40926&type=3#dirty3");
-    -unity-background-image-tint-color: rgb(132, 132, 132);
-    text-shadow: 2px 2px 0 rgba(111, 106, 16, 0.43);
-    font-size: 30px;
-}
 
-.unselected {
-    background-color: rgba(0, 0, 0, 0);
-    color: rgba(245, 245, 245, 0.49);
-    font-size: 30px;
-}
 
-.button {
-    width: 200px;
-    height: 70px;
-    -unity-text-align: middle-center;
-    position: relative;
-    left: 0%;
-    align-self: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-top-left-radius: 33px;
-    border-top-right-radius: 33px;
-    border-bottom-right-radius: 33px;
-    border-bottom-left-radius: 33px;
-    border-top-width: 13px;
-    border-right-width: 13px;
-    border-bottom-width: 13px;
-    border-left-width: 13px;
-    -unity-font-definition: url("project://database/Assets/Fonts/RomanAntique.ttf?fileID=12800000&guid=da82319c098414b33a4abd317aa3fb2e&type=3#RomanAntique");
-    font-size: 39px;
-}
 
-.credit_text {
-    -unity-font-definition: url("project://database/Assets/Fonts/RomanAntique.ttf?fileID=12800000&guid=da82319c098414b33a4abd317aa3fb2e&type=3#RomanAntique");
-    color: rgb(255, 255, 255);
-    font-size: 30px;
-    margin-bottom: 10px;
-}
 
-.credit_title {
-    -unity-font-definition: url("project://database/Assets/Fonts/Essays1743.ttf?fileID=12800000&guid=c6718651f693a4b3581d0ec264576db5&type=3#Essays1743");
-    font-size: 45px;
-    -unity-text-align: middle-center;
-    color: rgb(255, 255, 255);
-    text-shadow: 2px 2px 0 rgb(0, 0, 0);
-    margin-bottom: 25px;
-}
 
-.credit_section {
-    color: rgb(218, 240, 255);
-    -unity-font-definition: url("project://database/Assets/Fonts/RomanAntique.ttf?fileID=12800000&guid=da82319c098414b33a4abd317aa3fb2e&type=3#RomanAntique");
-    font-size: 35px;
-    -unity-text-align: middle-center;
-    margin-bottom: 10px;
-}
+
+
+
+
+
+
+
 
 .unity-toggle__input {
     margin-left: 50px;
@@ -106,9 +53,4 @@
 
 
 
-.pause_selected {
-    color: rgb(255, 255, 255);
-    font-size: 52px;
-    -unity-font-definition: url("project://database/Assets/Fonts/RomanAntique.ttf?fileID=12800000&guid=da82319c098414b33a4abd317aa3fb2e&type=3#RomanAntique");
-    text-shadow: 2px 2px 0 rgb(255, 218, 0);
-}
+
