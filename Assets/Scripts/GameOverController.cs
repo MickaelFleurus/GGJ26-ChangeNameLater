@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 /// <summary>
 /// Listens to OnGameLost: stops BGM/ambience, screen shake, then shows Game Over UI and loads MainMenu after configurable delays.
-/// Listens to OnGameWon: after a delay, loads EndScreen (e.g. when the last door is opened).
+/// Listens to OnGameWon: after a delay, loads EndScreen ( when the last door is opened).
 /// </summary>
 public class GameOverController : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class GameOverController : MonoBehaviour
 
     [Header("Screen Shake")]
     [SerializeField] float screenShakeDuration = 1f;
-    [SerializeField] float screenShakeIntensity = 0.15f;
+    [SerializeField] float screenShakeIntensity = 0.5f;
 
     bool m_handling;
     bool m_handlingWon;
@@ -27,6 +27,10 @@ public class GameOverController : MonoBehaviour
     float m_shakeIntensity;
     float m_shakeDuration;
     float m_shakeSeed;
+
+    //  ADD THESE to save original position, so we dont add to the positon
+    private Vector3 m_originalShakePosition;
+    private Transform m_currentShakeTarget;
 
     void Start()
     {
@@ -48,14 +52,31 @@ public class GameOverController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (m_shakeTimeLeft <= 0f) return;
+        if (m_shakeTimeLeft <= 0f)
+        {
+            // Reset to original position when shake ends
+            if (m_currentShakeTarget != null)
+            {
+                m_currentShakeTarget.localPosition = m_originalShakePosition;
+                m_currentShakeTarget = null;
+            }
+            return;
+        }
+
         Transform shakeTarget = GetShakeTarget();
         if (shakeTarget == null) return;
 
+        // Calculate shake intensity, fade with time
         float t = m_shakeTimeLeft / m_shakeDuration;
-        float x = (Mathf.PerlinNoise(m_shakeSeed, Time.realtimeSinceStartup * 30f) - 0.5f) * 2f * m_shakeIntensity * t;
-        float y = (Mathf.PerlinNoise(m_shakeSeed + 1f, Time.realtimeSinceStartup * 30f) - 0.5f) * 2f * m_shakeIntensity * t;
-        shakeTarget.localPosition += new Vector3(x, y, 0f);
+
+        // Generate shake offsets 
+        float x = (Mathf.PerlinNoise(m_shakeSeed, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t;
+        float y = (Mathf.PerlinNoise(m_shakeSeed + 1f, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t * 0.3f; 
+        float z = (Mathf.PerlinNoise(m_shakeSeed + 2f, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t * 0.5f; 
+
+        // Apply shake RELATIVE to original position (not accumulated)!!!!!!!!!!!!!!!!!!!!!!!
+        shakeTarget.localPosition = m_originalShakePosition + new Vector3(x, y, z);
+
         m_shakeTimeLeft -= Time.deltaTime;
     }
 
@@ -93,18 +114,25 @@ public class GameOverController : MonoBehaviour
         UnityEngine.Cursor.visible = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopMusic();
+            SoundManager.Instance.StopAmbience();
+        }
 
-        SoundManager.Instance.StopMusic();
-        SoundManager.Instance.StopAmbience();
-
+        // start here, Save original position
+        m_currentShakeTarget = GetShakeTarget();
+        if (m_currentShakeTarget != null)
+        {
+            m_originalShakePosition = m_currentShakeTarget.localPosition;
+        }
 
         m_shakeTimeLeft = screenShakeDuration;
         m_shakeIntensity = screenShakeIntensity;
         m_shakeDuration = screenShakeDuration;
-        m_shakeSeed = Random.Range(0f, 100f);
+        m_shakeSeed = Random.Range(0f, 10f);
 
         yield return new WaitForSecondsRealtime(screenShakeDuration);
-
         yield return new WaitForSecondsRealtime(delayBeforeGameOverScreen);
 
         var inGameUI = FindObjectOfType<InGameUI>();
@@ -116,7 +144,6 @@ public class GameOverController : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(delayBeforeMainMenu);
-
         SceneManager.LoadScene("MainMenu");
     }
 }
