@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 /// <summary>
 /// Listens to OnGameLost: stops BGM/ambience, screen shake, then shows Game Over UI and loads MainMenu after configurable delays.
+/// Listens to OnGameWon: after a delay, loads EndScreen (e.g. when the last door is opened).
 /// </summary>
 public class GameOverController : MonoBehaviour
 {
@@ -13,12 +14,15 @@ public class GameOverController : MonoBehaviour
     [SerializeField] float delayBeforeGameOverScreen = 2f;
     [Tooltip("Time the Game Over screen is shown before loading the main menu.")]
     [SerializeField] float delayBeforeMainMenu = 3f;
+    [Tooltip("Time after game won (e.g. door opened) before loading the end screen.")]
+    [SerializeField] float delayBeforeEndScreen = 1.5f;
 
     [Header("Screen Shake")]
     [SerializeField] float screenShakeDuration = 1f;
     [SerializeField] float screenShakeIntensity = 0.15f;
 
     bool m_handling;
+    bool m_handlingWon;
     float m_shakeTimeLeft;
     float m_shakeIntensity;
     float m_shakeDuration;
@@ -33,11 +37,13 @@ public class GameOverController : MonoBehaviour
     void OnEnable()
     {
         GameEvents.OnGameLost += HandleGameLost;
+        GameEvents.OnGameWon += HandleGameWon;
     }
 
     void OnDisable()
     {
         GameEvents.OnGameLost -= HandleGameLost;
+        GameEvents.OnGameWon -= HandleGameWon;
     }
 
     void LateUpdate()
@@ -64,9 +70,22 @@ public class GameOverController : MonoBehaviour
 
     void HandleGameLost()
     {
-        if (m_handling) return;
+        if (m_handling || m_handlingWon) return;
         m_handling = true;
         StartCoroutine(DeathSequence());
+    }
+
+    void HandleGameWon()
+    {
+        if (m_handlingWon || m_handling) return;
+        m_handlingWon = true;
+        StartCoroutine(WonSequence());
+    }
+
+    IEnumerator WonSequence()
+    {
+        yield return new WaitForSecondsRealtime(delayBeforeEndScreen);
+        SceneManager.LoadScene("EndScreen");
     }
 
     IEnumerator DeathSequence()

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class Add3DSound : MonoBehaviour
+public class Add3DSoundLooping: MonoBehaviour
 {
     [Header("3D Sound")]
     public AudioClip soundClip;
