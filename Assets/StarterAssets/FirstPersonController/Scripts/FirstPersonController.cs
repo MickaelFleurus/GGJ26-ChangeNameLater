@@ -91,6 +91,7 @@ namespace StarterAssets
 
 		private void Awake()
 		{
+
 			mGamePausedFunc = (bool paused) =>
 			{
 				mGamePause = paused;
@@ -151,9 +152,9 @@ namespace StarterAssets
 			{
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-				_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
-				_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
+				float rotationPoundered = RotationSpeed * GameSettings.Instance.MouseSensitivity;
+				_cinemachineTargetPitch += _input.look.y * rotationPoundered * deltaTimeMultiplier;
+				_rotationVelocity = _input.look.x * rotationPoundered * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);

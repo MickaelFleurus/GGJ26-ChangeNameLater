@@ -21,8 +21,10 @@ public class GameSettings : ScriptableObject
 
 
     // Events
-    public static event Action OnMasterVolumeChanged;
-    public static event Action OnMouseSentivityChanged;
+    public static event Action<float> OnMasterVolumeChanged;
+    public static event Action<float> OnMouseSentivityChanged;
+    public static void InvokeMasterVolumeChanged(float volume) => OnMasterVolumeChanged?.Invoke(volume);
+    public static void InvokeMouseSentivityChanged(float sensitivity) => OnMouseSentivityChanged?.Invoke(sensitivity);
 
     [Header("Display Settings")]
     public bool mFullScreen = true;
@@ -40,7 +42,7 @@ public class GameSettings : ScriptableObject
             if (mMasterVolume != value)
             {
                 mMasterVolume = Mathf.Clamp(value, 0f, 100f);
-                OnMasterVolumeChanged?.Invoke();
+                OnMasterVolumeChanged?.Invoke(mMasterVolume);
                 Save();
             }
         }
@@ -59,7 +61,7 @@ public class GameSettings : ScriptableObject
             if (mMouseSensitivity != value)
             {
                 mMouseSensitivity = Mathf.Clamp(value, 0f, 100f);
-                OnMouseSentivityChanged?.Invoke();
+                OnMouseSentivityChanged?.Invoke(mMouseSensitivity);
                 Save();
             }
         }

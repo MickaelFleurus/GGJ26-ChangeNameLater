@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class Add3DSoundLooping: MonoBehaviour
+public class Add3DSoundLooping : MonoBehaviour
 {
     [Header("3D Sound")]
     public AudioClip soundClip;
@@ -43,9 +43,9 @@ public class Add3DSoundLooping: MonoBehaviour
         }
     }
 
-    public void ChangeVolume()
+    public void ChangeVolume(float masterVolume)
     {
-        audioSource.volume = volume * GameSettings.Instance.MasterVolume;
+        audioSource.volume = volume * masterVolume * masterVolume;
     }
 
 

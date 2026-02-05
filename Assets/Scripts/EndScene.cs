@@ -4,38 +4,44 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
-
-public class EndScene : MonoBehaviour, MenuInputs.IMenuActions
+public class EndScene : MonoBehaviour
 {
     [SerializeField] public UIDocument UIDocument;
-    private MenuInputs mInputs;
+
+    private Button mContinueButton;
+    private Button mQuitButton;
+
     void Start()
     {
-        mInputs = new MenuInputs();
-        mInputs.Menu.SetCallbacks(this);
-        mInputs.Enable();
-
-        Label score = UIDocument.rootVisualElement.Q<VisualElement>("Content").Q<Label>("Amount");
+        Label score = UIDocument.rootVisualElement.Q<Label>("Amount");
         score.text = score.text.Replace("{}", Score.Instance.GetScore());
-        Label time = UIDocument.rootVisualElement.Q<VisualElement>("Content").Q<Label>("Time");
+        Label time = UIDocument.rootVisualElement.Q<Label>("Time");
         time.text = time.text.Replace("{}", Score.Instance.GetDurationAsString());
+
+        mContinueButton = UIDocument.rootVisualElement.Q<Button>("Restart");
+        mQuitButton = UIDocument.rootVisualElement.Q<Button>("Exit");
+
+        mContinueButton.clicked += OnContinue;
+        mQuitButton.clicked += OnExit;
+
+        UIDocument.rootVisualElement.RegisterCallback<NavigationMoveEvent>(OnMove);
+
+        mContinueButton.schedule.Execute(() =>
+       {
+           mContinueButton.Focus();
+       });
     }
-    void OnDestroy()
+
+    void OnContinue()
     {
-        mInputs.Disable();
-
-        mInputs.Dispose();
-    }
-
-
-    void MenuInputs.IMenuActions.OnSelect(InputAction.CallbackContext context)
-    {
+        Debug.Log("Restart");
         SceneManager.LoadScene("MainScene");
         GameEvents.InvokeInGame();
     }
 
-    void MenuInputs.IMenuActions.OnBack(InputAction.CallbackContext context)
+    void OnExit()
     {
+        Debug.Log("Quit");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -43,8 +49,22 @@ public class EndScene : MonoBehaviour, MenuInputs.IMenuActions
 #endif
     }
 
-    void MenuInputs.IMenuActions.OnMove(InputAction.CallbackContext context)
+    void OnMove(NavigationMoveEvent evt)
     {
-        throw new System.NotImplementedException();
+        if (UIDocument.rootVisualElement.focusController.focusedElement == mContinueButton)
+        {
+            mQuitButton.schedule.Execute(() =>
+            {
+                mQuitButton.Focus();
+            });
+        }
+        else
+        {
+            mContinueButton.schedule.Execute(() =>
+            {
+                mContinueButton.Focus();
+            });
+        }
     }
+
 }

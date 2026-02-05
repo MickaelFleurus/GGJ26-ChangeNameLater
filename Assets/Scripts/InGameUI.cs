@@ -266,10 +266,15 @@ public class InGameUI : MonoBehaviour, INavigation
         // Detect key press (transition from not pressed to pressed)
         if (escapeCurrentlyPressed && !mEscapePressed)
         {
-            if (mPauseMenu.style.display == DisplayStyle.Flex)
-                HidePause();
-            else
+            if (mPauseMenu.style.display != DisplayStyle.Flex)
                 ShowPause();
+            else if (mOptionPanel.HasFocus)
+            {
+                mOptionPanel.Hide();
+                HideOptions();
+            }
+            else
+                HidePause();
         }
 
         mEscapePressed = escapeCurrentlyPressed;

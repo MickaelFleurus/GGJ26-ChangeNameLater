@@ -32,7 +32,7 @@ public class OptionsPanel : INavigation
 
         mFullScreen.RegisterValueChangedCallback(_ => CheckSomethingChanged());
         mMouseSensitivity.RegisterValueChangedCallback(_ => CheckSomethingChanged());
-        mMasterVolume.RegisterValueChangedCallback(_ => CheckSomethingChanged());
+        mMasterVolume.RegisterValueChangedCallback(OnMasterVolumeChanged);
 
         mApplyButton.clicked += ApplyOptions;
         mBackButton.clicked += Hide;
@@ -59,6 +59,7 @@ public class OptionsPanel : INavigation
 
     public void Hide()
     {
+        GameSettings.InvokeMasterVolumeChanged(GameSettings.Instance.MasterVolume);
         mHasFocus = false;
         CanCloseOptions?.Invoke();
     }
@@ -86,6 +87,12 @@ public class OptionsPanel : INavigation
             mHasChanges = false;
         }
         UpdateApplyButtonState();
+    }
+
+    private void OnMasterVolumeChanged(ChangeEvent<float> volume)
+    {
+        GameSettings.InvokeMasterVolumeChanged(volume.newValue);
+        CheckSomethingChanged();
     }
 
     private void UpdateApplyButtonState()

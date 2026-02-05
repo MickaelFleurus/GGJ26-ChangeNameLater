@@ -1920,7 +1920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8575682186974579702, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: RotationSpeed
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8973927429779628209, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: m_LocalPosition.y

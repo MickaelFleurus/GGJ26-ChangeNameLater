@@ -2,13 +2,13 @@
     <Style src="project://database/Assets/UI/style.uss?fileID=7433441132597879392&amp;guid=e0d226c8899d6421a968678f25768713&amp;type=3#style"/>
     <ui:VisualElement name="Options" class="title_screen_panel" style="justify-content: space-evenly; visibility: visible; display: flex;">
         <ui:GroupBox name="AudioOptions" text="Audio" enabled="true" class="item_text_style">
-            <ui:Slider label="Master volume:" value="100" high-value="100" name="MasterVolume" tabindex="-1" class="option_item item_text_style" style="-unity-text-align: upper-left;"/>
+            <ui:Slider label="Master volume:" value="1" high-value="1" name="MasterVolume" tabindex="-1" fill="true" class="option_item item_text_style" style="-unity-text-align: upper-left;"/>
         </ui:GroupBox>
         <ui:GroupBox name="GraphicOption" text="Graphic&#10;" enabled="true">
             <ui:Toggle label="Full Screen:" name="FullScreen" value="true" tabindex="-1" class="item_text_style option_item" style="-unity-text-align: upper-left;"/>
         </ui:GroupBox>
         <ui:GroupBox name="ControlsOption" text="Controls" enabled="true" class="item_text_style">
-            <ui:Slider label="Mouse sensitivity:" value="100" high-value="100" name="MouseSensitivity" tabindex="-1" class="option_item item_text_style" style="-unity-text-align: upper-left;"/>
+            <ui:Slider label="Mouse sensitivity:" value="100" high-value="1" name="MouseSensitivity" tabindex="-1" fill="true" class="option_item item_text_style" style="-unity-text-align: upper-left;"/>
         </ui:GroupBox>
     </ui:VisualElement>
 </ui:UXML>

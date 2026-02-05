@@ -230,10 +230,9 @@ public class SoundManager
         walkSource.volume = Mathf.Clamp01(volume);
     }
 
-    public void OnMasterVolumeChanged()
+    public void OnMasterVolumeChanged(float masterVolume)
     {
-        float masterVolume = GameSettings.Instance.MasterVolume;
-
+        masterVolume = masterVolume * masterVolume;
         musicSource.volume = masterVolume * defaultMusicVolume;
         sfxSource.volume = masterVolume * defaultSfxVolume;
         walkSource.volume = masterVolume * defaultSfxVolume;
