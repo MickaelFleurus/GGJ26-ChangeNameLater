@@ -1,6 +1,24 @@
 :root {
 }
 
+.ui_hud_hints {
+    -unity-font-definition: url("project://database/Assets/Fonts/Essays1743.ttf?fileID=12800000&guid=c6718651f693a4b3581d0ec264576db5&type=3#Essays1743");
+    opacity: 0.07;
+    font-size: 29px;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(185, 153, 153, 0.38);
+}
+
+.ui_HUD_collected {
+    background-color: rgba(0, 0, 0, 0.27);
+    background-size: 100% 100%;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    position: absolute;
+    font-size: 57px;
+    -unity-text-align: upper-left;
+}
+
 .hidden {
     display: none;
 }
@@ -45,7 +63,7 @@
     border-bottom-right-radius: 9px;
     border-bottom-left-radius: 9px;
     transform-origin: center;
-    translate: 27% 0;
+    translate: 0% 0;
     scale: 1 1;
 }
 
@@ -55,6 +73,8 @@
 }
 
 .unity-button:disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .title_screen_button {
@@ -212,8 +232,3 @@
     background-size: 30% 100%;
 }
 
-.unity-button:disabled:hover {
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0);
-    color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0);
-}

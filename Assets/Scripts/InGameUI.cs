@@ -5,10 +5,11 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
-public class InGameUI : MonoBehaviour
+public class InGameUI : MonoBehaviour, INavigation
 {
-    [SerializeField] public UIDocument UIDocument;
+    [SerializeField] public UIDocument inGameUIDocument;
 
     [SerializeField] public FirstPersonController controller;
     [SerializeField] MaskController maskController;
@@ -34,24 +35,50 @@ public class InGameUI : MonoBehaviour
 
     // Pause menu
     private VisualElement mPauseMenu;
-    private VisualElement[] mPauseButtons;
-    private bool mJustUnpaused = false; // Hacky solution since we use both modern inputs and old
+    private VisualElement mPauseButtons;
+    private VisualElement mOptionsPanelVisual;
+    private OptionsPanel mOptionPanel;
+    private bool mEscapePressed = false;
+    private Button mContinueButton;
+    private Button mQuitButton;
+    private Button mOptionsButton;
+    private Button mBackOptionsButton;
 
     private float mHintTimeLeft;
     private float mHintDuration = 10.0f;
+    public List<List<VisualElement>> Navigation { get; set; }
 
     void Awake()
     {
-        mPauseMenu = UIDocument.rootVisualElement.Q<VisualElement>("PauseMenu");
+        mPauseButtons = inGameUIDocument.rootVisualElement.Q<VisualElement>("PauseButtons");
+        mPauseMenu = inGameUIDocument.rootVisualElement.Q<VisualElement>("PauseMenu");
+        mContinueButton = inGameUIDocument.rootVisualElement.Q<Button>("ContinueButton");
+        mQuitButton = inGameUIDocument.rootVisualElement.Q<Button>("QuitButton");
+        mOptionsButton = inGameUIDocument.rootVisualElement.Q<Button>("OptionsButton");
+        mBackOptionsButton = inGameUIDocument.rootVisualElement.Q<Button>("BackOptions");
+        mOptionsPanelVisual = inGameUIDocument.rootVisualElement.Q<VisualElement>("OptionsPanel");
 
+        mOptionPanel = new OptionsPanel(mOptionsPanelVisual, inGameUIDocument.rootVisualElement.Q<Button>("Apply"), mBackOptionsButton);
+        mOptionPanel.CanCloseOptions += HideOptions;
+
+        mContinueButton.clicked += HidePause;
+        mQuitButton.clicked += CloseGame;
+        mOptionsButton.clicked += ShowOptions;
+
+        Navigation = new List<List<VisualElement>>
+        {
+            new List<VisualElement> {mQuitButton},
+            new List<VisualElement> {mOptionsButton},
+            new List<VisualElement> {mContinueButton}
+        };
 
         mOnMaskOffFunc = () =>
-        {
-            mCanSeeLoot = false;
-            if (mLootValue != null)
-                mLootValue.visible = false;
-            ResetHoldState();
-        };
+            {
+                mCanSeeLoot = false;
+                if (mLootValue != null)
+                    mLootValue.visible = false;
+                ResetHoldState();
+            };
         mOnMaskOnFunc = () =>
         {
             mCanSeeLoot = true;
@@ -67,7 +94,6 @@ public class InGameUI : MonoBehaviour
         GameEvents.OnMaskOff += mOnMaskOffFunc;
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
-
     }
 
     void ShowHint(string hint)
@@ -89,10 +115,12 @@ public class InGameUI : MonoBehaviour
         if (maskController == null)
             maskController = FindObjectOfType<MaskController>();
 
-        mHints = UIDocument.rootVisualElement.Q<Label>("Hints");
-        mAmountCollected = UIDocument.rootVisualElement.Q<VisualElement>("Collected").Q<Label>("Amount");
-        mLootValue = UIDocument.rootVisualElement.Q<Label>("ObjectValue");
-        mMaskTimeSlider = UIDocument.rootVisualElement.Q<Slider>("MaskTimeSlider");
+        inGameUIDocument.rootVisualElement.RegisterCallback<NavigationMoveEvent>(OnMove);
+
+        mHints = inGameUIDocument.rootVisualElement.Q<Label>("Hints");
+        mAmountCollected = inGameUIDocument.rootVisualElement.Q<VisualElement>("Collected").Q<Label>("Amount");
+        mLootValue = inGameUIDocument.rootVisualElement.Q<Label>("ObjectValue");
+        mMaskTimeSlider = inGameUIDocument.rootVisualElement.Q<Slider>("MaskTimeSlider");
 
         if (mMaskTimeSlider != null && maskController != null)
         {
@@ -103,14 +131,20 @@ public class InGameUI : MonoBehaviour
         mHints.visible = false;
         mLootValue.visible = false;
 
-        var gameOverPanel = UIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
-        if (gameOverPanel != null)
-            gameOverPanel.visible = false;
+        var gameOverPanel = inGameUIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
+        gameOverPanel.style.display = DisplayStyle.None;
 
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
         ShowHint("Press F to put on the mask. You can see and collect item this way. Be careful, the mannequin moves when the mask is on...");
+    }
+
+    private void ShowOptions()
+    {
+        mPauseButtons.style.display = DisplayStyle.None;
+        mOptionsPanelVisual.style.display = DisplayStyle.Flex;
+        mOptionPanel.OnShow();
     }
 
     void ResetHoldState()
@@ -125,21 +159,18 @@ public class InGameUI : MonoBehaviour
     {
         if (mHints.visible)
         {
-            mHintDuration = mHintDuration - Time.deltaTime;
-            if (mHintDuration <= 0.0f)
+            mHintTimeLeft = mHintTimeLeft - Time.unscaledDeltaTime;
+            if (mHintTimeLeft <= 0.0f)
             {
                 mHints.visible = false;
             }
         }
-        if (mPauseMenu.visible) return;
-        // Handle pause menu showing
-        if (!mJustUnpaused && Keyboard.current != null && Keyboard.current[Key.Escape].wasPressedThisFrame)
-        {
-            ShowPause();
-            return;
-        }
 
-        mJustUnpaused = false;
+        // Handle pause menu input (works even when paused)
+        HandlePauseInput();
+
+        if (mPauseMenu.visible) return;
+
         if (maskController != null && mMaskTimeSlider != null)
         {
             mMaskTimeSlider.highValue = maskController.MaxMaskTime;
@@ -188,7 +219,6 @@ public class InGameUI : MonoBehaviour
                         isUnlocked = true;
                         return;
                     }
-
                 }
 
                 if (eHeld)
@@ -226,21 +256,101 @@ public class InGameUI : MonoBehaviour
     }
 
 
-    // Pause menu handling logic
+    private void HandlePauseInput()
+    {
+        if (Keyboard.current == null)
+            return;
 
+        bool escapeCurrentlyPressed = Keyboard.current[Key.Escape].isPressed;
+
+        // Detect key press (transition from not pressed to pressed)
+        if (escapeCurrentlyPressed && !mEscapePressed)
+        {
+            if (mPauseMenu.style.display == DisplayStyle.Flex)
+                HidePause();
+            else
+                ShowPause();
+        }
+
+        mEscapePressed = escapeCurrentlyPressed;
+    }
 
     private void ShowPause()
     {
-        Time.timeScale = 0f;
-        mPauseMenu.visible = true;
+        mPauseMenu.style.display = DisplayStyle.Flex;
+        mContinueButton.focusable = true;
         GameEvents.InvokeGamePaused(true);
+        Time.timeScale = 0f;
+
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.visible = true;
+        mContinueButton.schedule.Execute(() =>
+        {
+            mContinueButton.Focus();
+        });
     }
 
     private void HidePause()
     {
-        Time.timeScale = 1f;
-        mPauseMenu.visible = false;
+        mPauseMenu.style.display = DisplayStyle.None;
         GameEvents.InvokeGamePaused(false);
-        mJustUnpaused = true;
+        Time.timeScale = 1f;
+
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
+
+        mEscapePressed = false;
+    }
+
+    private void CloseGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    void HideOptions()
+    {
+        mPauseButtons.style.display = DisplayStyle.Flex;
+        mOptionsPanelVisual.style.display = DisplayStyle.None;
+        mContinueButton.schedule.Execute(() =>
+        {
+            mContinueButton.Focus();
+        });
+    }
+
+    void OnMove(NavigationMoveEvent evt)
+    {
+        Debug.Log("moving");
+        if (mOptionPanel.HasFocus)
+        {
+            mOptionPanel.MoveFocus(evt);
+        }
+        else
+        {
+            MoveFocus(evt);
+        }
+    }
+
+    public (int row, int col, bool found) GetFocusedElementPosition()
+    {
+        return NavigationExtensions.GetFocusedElementPosition(this);
+    }
+
+    public void SetFocusAt(VisualElement element)
+    {
+        NavigationExtensions.SetFocusAt(element);
+    }
+
+    public void SetFocusAt(int row, int col)
+    {
+        NavigationExtensions.SetFocusAt(this, row, col);
+    }
+
+    public void MoveFocus(NavigationMoveEvent evt)
+    {
+        NavigationExtensions.MoveFocus(this, evt);
     }
 }

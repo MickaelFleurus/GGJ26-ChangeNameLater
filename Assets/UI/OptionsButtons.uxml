@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/style.uss?fileID=7433441132597879392&amp;guid=e0d226c8899d6421a968678f25768713&amp;type=3#style"/>
+    <ui:VisualElement name="OptionsButtons" enabled="true" class="title_screen_buttons_parent" style="visibility: visible; display: flex;">
+        <ui:Button text="Back" name="BackOptions" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
+        <ui:Button text="Apply" name="Apply" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" enabled="true" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
+    </ui:VisualElement>
+</ui:UXML>

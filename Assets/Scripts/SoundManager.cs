@@ -27,7 +27,6 @@ public class SoundManager
     private AudioSource breathingSource;
     private AudioSource heartbeatSource;
 
-    private float masterVolume = 1.0f;
     private float defaultSfxVolume = 0.5f;
     private float defaultMusicVolume = 0.2f;
     private float defaultAmbienceSourceVolume = 0.1f;
@@ -44,7 +43,7 @@ public class SoundManager
     public void Initialize(SoundConfig config = null)
     {
         if (soundConfig != null)
-            return; 
+            return;
 
         // Load default config if none provided
         if (config == null)
@@ -53,7 +52,7 @@ public class SoundManager
         }
 
         soundConfig = config;
-        masterVolume = GameSettings.Instance.MasterVolume;
+        float masterVolume = GameSettings.Instance.MasterVolume;
         GameSettings.OnMasterVolumeChanged += OnMasterVolumeChanged;
 
         // Create audio container GameObject
@@ -97,7 +96,7 @@ public class SoundManager
         heartbeatSource.clip = soundConfig.heartbeatSound;
         heartbeatSource.loop = true;
         heartbeatSource.spatialBlend = 0f;
-        heartbeatSource.volume = defaultHeartbeatVolume;  
+        heartbeatSource.volume = defaultHeartbeatVolume;
         heartbeatSource.pitch = 1f;
         #endregion
 
@@ -242,15 +241,6 @@ public class SoundManager
         mainMenuSource.volume = masterVolume * defaultMainMenuVolume;
     }
 
-    public float GetMasterVolume()
-    {
-        return masterVolume;
-    }
-
-    public bool IsSoundOn()
-    {
-        return masterVolume >= 1.0f;
-    }
     #endregion
 }
 

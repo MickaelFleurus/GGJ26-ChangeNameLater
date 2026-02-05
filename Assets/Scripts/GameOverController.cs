@@ -108,11 +108,10 @@ public class GameOverController : MonoBehaviour
         yield return new WaitForSecondsRealtime(delayBeforeGameOverScreen);
 
         var inGameUI = FindObjectOfType<InGameUI>();
-        if (inGameUI != null && inGameUI.UIDocument != null)
+        if (inGameUI != null)
         {
-            var panel = inGameUI.UIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
-            if (panel != null)
-                panel.visible = true;
+            var panel = inGameUI.inGameUIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
+            panel.style.display = DisplayStyle.Flex;
         }
 
         yield return new WaitForSecondsRealtime(delayBeforeMainMenu);

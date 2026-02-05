@@ -7,24 +7,6 @@
             "id": "d1a6da3f-7284-4b44-bd0b-b34d87cfc647",
             "actions": [
                 {
-                    "name": "Up",
-                    "type": "Button",
-                    "id": "bfeb8ed2-beb2-4869-8176-29a995ad760c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Down",
-                    "type": "Button",
-                    "id": "023044b4-3c9e-490a-9b63-aec42be01019",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Select",
                     "type": "Button",
                     "id": "e86b7f17-c6f5-46af-b4f6-ffff4636f3bb",
@@ -43,128 +25,20 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Lower",
-                    "type": "Button",
-                    "id": "b45c16d4-8f08-4366-83ca-4d1be6d438cf",
-                    "expectedControlType": "",
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "29b92171-73b6-42ec-898d-de1b3afb9ad1",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Increase",
-                    "type": "Button",
-                    "id": "04b26eb9-32c0-41f3-897e-d064e7d881d7",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "2c9e3eb6-9763-4229-be9e-03aee59c7dd8",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "621ad319-e6eb-490c-93f0-dd5beef17a63",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5f5f2bb6-b387-4734-9a55-3354e07f7af6",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "09b3d2c0-142c-4af0-90ed-ba3e572b3b55",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c746d4f5-4646-4bb6-b746-2003757a1412",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bc1f18df-cbcd-42ee-b18e-b0823803576f",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7dd3f28e-3a21-4b14-a8a4-19f34ca81ea0",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8131cd06-c707-42bb-9a72-a7a2f99b8e64",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "41f19e24-9197-4f44-8160-f715ffe53a7d",
                     "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "05acf17a-a571-4560-8d51-1414c629c289",
-                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -196,91 +70,135 @@
                 },
                 {
                     "name": "",
-                    "id": "2ab8cbbd-270c-4681-9dd5-82123a7e0556",
-                    "path": "<Gamepad>/dpad/left",
+                    "id": "cafefe49-4f80-4d08-b05b-67f83191e661",
+                    "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lower",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "08a62eba-a0f6-46bd-93c0-9d28677b6602",
-                    "path": "<Gamepad>/leftStick/left",
+                    "id": "b3967424-ff9c-4782-afea-fc89cbe38920",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lower",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "45dffa7f-cc26-4192-a012-c9e189e846b0",
-                    "path": "<Keyboard>/a",
+                    "name": "2D Vector",
+                    "id": "3dda5177-bff7-4456-b6cb-dfbf43b7d97b",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lower",
-                    "isComposite": false,
+                    "action": "Move",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "e10880a8-989e-4093-9613-bf6713168e30",
+                    "name": "up",
+                    "id": "e9ce510f-bb39-4ffa-941b-f29898909142",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "3a23ed61-9fa2-4fab-8db7-3e98c470f737",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "e0fee875-501d-4ef1-8a61-5a6459f289f3",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lower",
+                    "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "c51a5367-a448-42a0-9893-4501e6e36033",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Increase",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b5bd429a-dd1a-4cd9-baaa-0f6ba72dd356",
+                    "name": "right",
+                    "id": "1c060cba-a6b8-401c-b025-d191df9aa406",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Increase",
+                    "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "739f1c3f-925e-419b-b005-d0dd668015d3",
-                    "path": "<Gamepad>/buttonWest",
+                    "name": "2D Vector",
+                    "id": "a8088acd-e659-487a-90bc-a6267a8033c6",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Increase",
-                    "isComposite": false,
+                    "action": "Move",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "4ff021b7-ab9c-4e41-aeab-259a35ea034f",
-                    "path": "<Gamepad>/leftStick/right",
+                    "name": "up",
+                    "id": "a187524e-9337-4c7e-a12d-fb1aaeed17d3",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Increase",
+                    "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "28a62596-f7b5-4f3c-a919-986ae5c92a30",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "378a0c2a-0132-4636-af5c-60091660a35a",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "ad09050d-70da-412a-84f7-b65206e0eed4",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

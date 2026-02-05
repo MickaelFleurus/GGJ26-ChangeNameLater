@@ -27,17 +27,14 @@ public class EndScene : MonoBehaviour, MenuInputs.IMenuActions
         mInputs.Dispose();
     }
 
-    public void OnUp(InputAction.CallbackContext context) { }
 
-    public void OnDown(InputAction.CallbackContext context) { }
-
-    public void OnSelect(InputAction.CallbackContext context)
+    void MenuInputs.IMenuActions.OnSelect(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene("MainScene");
         GameEvents.InvokeInGame();
     }
 
-    public void OnBack(InputAction.CallbackContext context)
+    void MenuInputs.IMenuActions.OnBack(InputAction.CallbackContext context)
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -46,6 +43,8 @@ public class EndScene : MonoBehaviour, MenuInputs.IMenuActions
 #endif
     }
 
-    public void OnIncrease(InputAction.CallbackContext context) { }
-    public void OnLower(InputAction.CallbackContext context) { }
+    void MenuInputs.IMenuActions.OnMove(InputAction.CallbackContext context)
+    {
+        throw new System.NotImplementedException();
+    }
 }

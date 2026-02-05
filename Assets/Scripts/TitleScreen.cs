@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 
-public class TitleScreen : MonoBehaviour
+public class TitleScreen : MonoBehaviour, INavigation
 {
     [SerializeField] public UIDocument titleScreenDocument;
     private ScrollView mCreditsView;
@@ -20,7 +23,9 @@ public class TitleScreen : MonoBehaviour
 
     private OptionsPanel mOptionPanel;
 
-    void Awake()
+    public List<List<VisualElement>> Navigation { get; set; }
+
+    private void Awake()
     {
         mCreditsView = titleScreenDocument.rootVisualElement.Q<ScrollView>("CreditsView");
 
@@ -31,24 +36,32 @@ public class TitleScreen : MonoBehaviour
         mOptionsButtons = titleScreenDocument.rootVisualElement.Q<VisualElement>("OptionsButtons");
 
         mMainMenuFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("Start");
-        mCreditsFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("BackOptions");
-        mOptionsFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("BackCredits");
-        mOptionPanel = new OptionsPanel(titleScreenDocument.rootVisualElement.Q<VisualElement>("Options"), titleScreenDocument.rootVisualElement.Q<Button>("Apply"));
+        mCreditsFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("BackCredits");
+        mOptionsFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("BackOptions");
+        mOptionPanel = new OptionsPanel(titleScreenDocument.rootVisualElement.Q<VisualElement>("Options"), titleScreenDocument.rootVisualElement.Q<Button>("Apply"), titleScreenDocument.rootVisualElement.Q<Button>("BackOptions"));
         mOptionPanel.CanCloseOptions += BackToTitle;
         mMainMenuFocusedButton.Focus();
         mMainMenuFocusedButton.clicked += StartGame;
         titleScreenDocument.rootVisualElement.Q<Button>("Exit").clicked += CloseGame;
         titleScreenDocument.rootVisualElement.Q<Button>("OptionsButton").clicked += ShowOptions;
-        titleScreenDocument.rootVisualElement.Q<Button>("OptionsButton").clicked += mOptionPanel.Show;
         titleScreenDocument.rootVisualElement.Q<Button>("CreditsButton").clicked += ShowCredits;
         mCreditsFocusedButton.clicked += BackToTitle;
-        mOptionsFocusedButton.clicked += BackToTitle;
-
+        titleScreenDocument.rootVisualElement.RegisterCallback<NavigationMoveEvent>(OnMove);
 
         LoadCredits();
+
+
+        Navigation = new List<List<VisualElement>>
+        {
+            new List<VisualElement> {
+            titleScreenDocument.rootVisualElement.Q<Button>("Start"),
+            titleScreenDocument.rootVisualElement.Q<Button>("OptionsButton"),
+            titleScreenDocument.rootVisualElement.Q<Button>("CreditsButton"),
+            titleScreenDocument.rootVisualElement.Q<Button>("Exit") }
+        };
     }
 
-    void Start()
+    private void Start()
     {
         SoundManager.Instance.StartMainMenuMusic();
     }
@@ -78,7 +91,7 @@ public class TitleScreen : MonoBehaviour
 
         mOptionsParent.style.display = DisplayStyle.Flex;
         mCreditsParent.style.display = DisplayStyle.None;
-        mOptionsFocusedButton.Focus();
+        mOptionPanel.OnShow();
     }
 
     private void BackToTitle()
@@ -89,7 +102,7 @@ public class TitleScreen : MonoBehaviour
 
         mOptionsParent.style.display = DisplayStyle.None;
         mCreditsParent.style.display = DisplayStyle.None;
-        mOptionsFocusedButton.Focus();
+        mMainMenuFocusedButton.Focus();
     }
 
     private void CloseGame()
@@ -137,5 +150,35 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    void OnMove(NavigationMoveEvent evt)
+    {
+        if (mOptionPanel.HasFocus)
+        {
+            mOptionPanel.MoveFocus(evt);
+        }
+        else
+        {
+            MoveFocus(evt);
+        }
+    }
 
+    public (int row, int col, bool found) GetFocusedElementPosition()
+    {
+        return NavigationExtensions.GetFocusedElementPosition(this);
+    }
+
+    public void SetFocusAt(VisualElement element)
+    {
+        NavigationExtensions.SetFocusAt(element);
+    }
+
+    public void SetFocusAt(int row, int col)
+    {
+        NavigationExtensions.SetFocusAt(this, row, col);
+    }
+
+    public void MoveFocus(NavigationMoveEvent evt)
+    {
+        NavigationExtensions.MoveFocus(this, evt);
+    }
 }
