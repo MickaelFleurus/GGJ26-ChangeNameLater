@@ -5,12 +5,14 @@ using UnityEngine.UIElements;
 
 public interface INavigation
 {
+    VisualElement LastSelectedElement { get; set; }
     List<List<VisualElement>> Navigation { get; set; }
 
     (int row, int col, bool found) GetFocusedElementPosition();
     void SetFocusAt(VisualElement element);
     void SetFocusAt(int row, int col);
     void MoveFocus(NavigationMoveEvent evt);
+
 }
 
 public static class NavigationExtensions
@@ -61,7 +63,11 @@ public static class NavigationExtensions
         var (row, col, found) = nav.GetFocusedElementPosition();
         Vector2 direction = evt.move;
         if (!found)
+        {
+            SetFocusAt(nav.LastSelectedElement);
             return;
+        }
+
         Func<int, int, int, int> nextIndex = (current, direction, limit) =>
         {
             current += direction;
@@ -108,5 +114,25 @@ public static class NavigationExtensions
             return false;
 
         return true;
+    }
+
+    public static void SetupFocusGuard(this INavigation nav, VisualElement root)
+    {
+        var catcher = root.Q<VisualElement>("FocusFallback");
+        root.RegisterCallback<FocusInEvent>(evt =>
+        {
+            if (evt.target is VisualElement ve && ve.focusable && evt.target != catcher)
+                nav.LastSelectedElement = ve;
+        });
+
+
+        catcher.RegisterCallback<PointerDownEvent>(_ =>
+        {
+            if (nav.LastSelectedElement != null)
+            {
+                nav.LastSelectedElement.schedule.Execute(() =>
+                    nav.LastSelectedElement.Focus());
+            }
+        });
     }
 }

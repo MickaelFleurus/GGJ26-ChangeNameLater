@@ -20,11 +20,14 @@ public class OptionsPanel : INavigation
     public bool HasFocus { get => mHasFocus; }
     public List<List<VisualElement>> Navigation { get; set; }
 
+    public VisualElement LastSelectedElement { get; set; }
+
     public OptionsPanel(VisualElement optionPanel, Button applyButton, Button backButton)
     {
         mOptionPanel = optionPanel;
         mApplyButton = applyButton;
         mBackButton = backButton;
+        LastSelectedElement = backButton;
 
         mFullScreen = mOptionPanel.Q<Toggle>("FullScreen");
         mMouseSensitivity = mOptionPanel.Q<Slider>("MouseSensitivity");

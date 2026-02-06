@@ -47,9 +47,11 @@ public class InGameUI : MonoBehaviour, INavigation
     private float mHintTimeLeft;
     private float mHintDuration = 10.0f;
     public List<List<VisualElement>> Navigation { get; set; }
+    public VisualElement LastSelectedElement { get; set; }
 
     void Awake()
     {
+        NavigationExtensions.SetupFocusGuard(this, inGameUIDocument.rootVisualElement);
         mPauseButtons = inGameUIDocument.rootVisualElement.Q<VisualElement>("PauseButtons");
         mPauseMenu = inGameUIDocument.rootVisualElement.Q<VisualElement>("PauseMenu");
         mContinueButton = inGameUIDocument.rootVisualElement.Q<Button>("ContinueButton");
@@ -64,6 +66,7 @@ public class InGameUI : MonoBehaviour, INavigation
         mContinueButton.clicked += HidePause;
         mQuitButton.clicked += CloseGame;
         mOptionsButton.clicked += ShowOptions;
+        LastSelectedElement = mContinueButton;
 
         Navigation = new List<List<VisualElement>>
         {

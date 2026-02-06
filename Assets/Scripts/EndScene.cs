@@ -11,6 +11,8 @@ public class EndScene : MonoBehaviour
     private Button mContinueButton;
     private Button mQuitButton;
 
+    public VisualElement LastSelectedElement { get; set; }
+
     void Start()
     {
         Label score = UIDocument.rootVisualElement.Q<Label>("Amount");
@@ -26,10 +28,12 @@ public class EndScene : MonoBehaviour
 
         UIDocument.rootVisualElement.RegisterCallback<NavigationMoveEvent>(OnMove);
 
+        SetupFocusGuard(UIDocument.rootVisualElement);
         mContinueButton.schedule.Execute(() =>
        {
            mContinueButton.Focus();
        });
+
     }
 
     void OnContinue()
@@ -65,6 +69,26 @@ public class EndScene : MonoBehaviour
                 mContinueButton.Focus();
             });
         }
+    }
+
+    public void SetupFocusGuard(VisualElement root)
+    {
+        root.RegisterCallback<FocusInEvent>(evt =>
+        {
+            if (evt.target is VisualElement ve && ve.focusable)
+                LastSelectedElement = ve;
+        });
+
+        var catcher = root.Q<VisualElement>("FocusFallback");
+
+        catcher.RegisterCallback<PointerDownEvent>(_ =>
+        {
+            if (LastSelectedElement != null)
+            {
+                LastSelectedElement.schedule.Execute(() =>
+                    LastSelectedElement.Focus());
+            }
+        });
     }
 
 }

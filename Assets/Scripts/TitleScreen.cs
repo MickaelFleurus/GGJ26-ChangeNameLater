@@ -19,14 +19,16 @@ public class TitleScreen : MonoBehaviour, INavigation
 
     private Button mMainMenuFocusedButton;
     private Button mCreditsFocusedButton;
-    private Button mOptionsFocusedButton;
 
     private OptionsPanel mOptionPanel;
 
     public List<List<VisualElement>> Navigation { get; set; }
+    public VisualElement LastSelectedElement { get; set; }
 
     private void Awake()
     {
+        NavigationExtensions.SetupFocusGuard(this, titleScreenDocument.rootVisualElement);
+        titleScreenDocument.rootVisualElement.RegisterCallback<FocusEvent>(FocusChanged);
         mCreditsView = titleScreenDocument.rootVisualElement.Q<ScrollView>("CreditsView");
 
         mCreditsParent = titleScreenDocument.rootVisualElement.Q<VisualElement>("Credits");
@@ -37,7 +39,7 @@ public class TitleScreen : MonoBehaviour, INavigation
 
         mMainMenuFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("Start");
         mCreditsFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("BackCredits");
-        mOptionsFocusedButton = titleScreenDocument.rootVisualElement.Q<Button>("BackOptions");
+
         mOptionPanel = new OptionsPanel(titleScreenDocument.rootVisualElement.Q<VisualElement>("Options"), titleScreenDocument.rootVisualElement.Q<Button>("Apply"), titleScreenDocument.rootVisualElement.Q<Button>("BackOptions"));
         mOptionPanel.CanCloseOptions += BackToTitle;
         mMainMenuFocusedButton.Focus();
@@ -50,7 +52,6 @@ public class TitleScreen : MonoBehaviour, INavigation
 
         LoadCredits();
 
-
         Navigation = new List<List<VisualElement>>
         {
             new List<VisualElement> {
@@ -59,6 +60,11 @@ public class TitleScreen : MonoBehaviour, INavigation
             titleScreenDocument.rootVisualElement.Q<Button>("CreditsButton"),
             titleScreenDocument.rootVisualElement.Q<Button>("Exit") }
         };
+    }
+
+    private void FocusChanged(FocusEvent evt)
+    {
+        Debug.Log("Focus put on: " + evt.currentTarget.ToString());
     }
 
     private void Start()

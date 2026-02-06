@@ -2,18 +2,19 @@
     <ui:Template name="OptionsButtons" src="project://database/Assets/UI/OptionsButtons.uxml?fileID=9197481963319205126&amp;guid=dfb5ff6ba2021447aba5ebaee8e7ea41&amp;type=3#OptionsButtons"/>
     <ui:Template name="OptionsPanel" src="project://database/Assets/UI/OptionsPanel.uxml?fileID=9197481963319205126&amp;guid=e94c5255318c94fbe93eb917814d7527&amp;type=3#OptionsPanel"/>
     <Style src="project://database/Assets/UI/style.uss?fileID=7433441132597879392&amp;guid=e0d226c8899d6421a968678f25768713&amp;type=3#style"/>
+    <ui:VisualElement name="FocusFallback" focusable="true" tabindex="-1" style="flex-grow: 1; position: absolute; width: auto; height: auto; top: 0; left: 0; bottom: 0; right: 0;"/>
     <ui:Image name="Background" style="background-image: resource(&quot;MainScreen&quot;); background-color: rgb(0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 1920px; height: 1080px; position: absolute;"/>
     <ui:Label text="Observed" name="GameName" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="title" style="position: absolute; align-self: center; margin-top: -20px;"/>
     <ui:VisualElement name="Buttons" style="width: 1920px; height: 231px; bottom: 0; position: absolute; flex-direction: row; flex-basis: auto; align-self: stretch; align-items: center; align-content: flex-start; justify-content: center;">
         <ui:VisualElement name="MainMenuButtons" class="title_screen_buttons_parent">
-            <ui:Button text="Start" name="Start" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
-            <ui:Button text="Options" name="OptionsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" display-tooltip-when-elided="false" triple-click-selects-line="false" parse-escape-sequences="false" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
-            <ui:Button text="Credits" name="CreditsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
-            <ui:Button text="Exit" name="Exit" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
+            <ui:Button text="Start" name="Start" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="unity_button main_menu_button item_text_style"/>
+            <ui:Button text="Options" name="OptionsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" display-tooltip-when-elided="false" triple-click-selects-line="false" parse-escape-sequences="false" class="unity_button main_menu_button item_text_style"/>
+            <ui:Button text="Credits" name="CreditsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="unity_button main_menu_button item_text_style"/>
+            <ui:Button text="Exit" name="Exit" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="unity_button main_menu_button item_text_style"/>
         </ui:VisualElement>
         <ui:Instance template="OptionsButtons" name="OptionsButtons" style="display: none;"/>
         <ui:VisualElement name="CreditsButtons" enabled="true" class="title_screen_buttons_parent" style="visibility: visible; display: none;">
-            <ui:Button text="Back" name="BackCredits" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="-1" class="unity_button main_menu_button item_text_style"/>
+            <ui:Button text="Back" name="BackCredits" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="unity_button main_menu_button item_text_style"/>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="Credits" class="title_screen_panel" style="display: none; visibility: visible;">
