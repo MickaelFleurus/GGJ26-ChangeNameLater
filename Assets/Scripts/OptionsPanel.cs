@@ -52,10 +52,11 @@ public class OptionsPanel : INavigation
     public void OnShow()
     {
         mHasFocus = true;
-        mFullScreen.value = Screen.fullScreen;
+        mFullScreen.value = GameSettings.Instance.mFullScreen;
         mMouseSensitivity.value = GameSettings.Instance.MouseSensitivity;
         mMasterVolume.value = GameSettings.Instance.MasterVolume;
         mMasterVolume.Focus();
+
         UpdateApplyButtonState();
     }
 
@@ -69,8 +70,10 @@ public class OptionsPanel : INavigation
 
     public void ApplyOptions()
     {
-        Screen.fullScreen = mFullScreen.value;
-        GameSettings.Instance.mFullScreen = Screen.fullScreen;
+        Screen.SetResolution(GameSettings.Instance.mScreenWidth, GameSettings.Instance.mScreenHeight,
+        mFullScreen.value ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+
+        GameSettings.Instance.mFullScreen = mFullScreen.value;
         GameSettings.Instance.MouseSensitivity = mMouseSensitivity.value;
         GameSettings.Instance.MasterVolume = mMasterVolume.value;
         UpdateApplyButtonState();
@@ -81,21 +84,18 @@ public class OptionsPanel : INavigation
     {
         GameSettings data = GameSettings.Instance;
 
-        if (mFullScreen.value != data.mFullScreen || mMasterVolume.value != data.MasterVolume || mMouseSensitivity.value != data.MouseSensitivity)
-        {
-            mHasChanges = true;
-        }
-        else
-        {
-            mHasChanges = false;
-        }
+        bool fullscreenChanged = mFullScreen.value != data.mFullScreen;
+        bool volumeChanged = !Mathf.Approximately(mMasterVolume.value, data.MasterVolume);
+        bool sensitivityChanged = !Mathf.Approximately(mMouseSensitivity.value, data.MouseSensitivity);
+
+        mHasChanges = fullscreenChanged || volumeChanged || sensitivityChanged;
         UpdateApplyButtonState();
     }
 
     private void OnMasterVolumeChanged(ChangeEvent<float> volume)
     {
-        GameSettings.InvokeMasterVolumeChanged(volume.newValue);
-        CheckSomethingChanged();
+        CheckSomethingChanged();  // Check first
+        GameSettings.InvokeMasterVolumeChanged(volume.newValue);  // Then invoke
     }
 
     private void UpdateApplyButtonState()
@@ -103,10 +103,12 @@ public class OptionsPanel : INavigation
         if (mHasChanges)
         {
             mApplyButton.RemoveFromClassList("button-disabled");
+            mApplyButton.SetEnabled(true);
         }
         else
         {
             mApplyButton.AddToClassList("button-disabled");
+            mApplyButton.SetEnabled(false);
         }
     }
 

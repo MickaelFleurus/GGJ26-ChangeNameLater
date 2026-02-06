@@ -14,6 +14,7 @@ public class GameSettings : ScriptableObject
             if (instance == null)
             {
                 instance = CreateInstance<GameSettings>();
+                instance.Load();
             }
             return instance;
         }
@@ -28,10 +29,12 @@ public class GameSettings : ScriptableObject
 
     [Header("Display Settings")]
     public bool mFullScreen = true;
+    public int mScreenWidth = 1920;
+    public int mScreenHeight = 1080;
 
     [Header("Audio Settings")]
     [SerializeField]
-    [Range(0f, 100f)]
+    [Range(0f, 1f)]
     private float mMasterVolume = 100f;
 
     public float MasterVolume
@@ -41,7 +44,7 @@ public class GameSettings : ScriptableObject
         {
             if (mMasterVolume != value)
             {
-                mMasterVolume = Mathf.Clamp(value, 0f, 100f);
+                mMasterVolume = Mathf.Clamp(value, 0f, 1f);
                 OnMasterVolumeChanged?.Invoke(mMasterVolume);
                 Save();
             }
@@ -51,8 +54,8 @@ public class GameSettings : ScriptableObject
 
     [Header("Controller Settings")]
     [SerializeField]
-    [Range(1f, 100f)]
-    private float mMouseSensitivity = 100f;
+    [Range(0f, 1f)]
+    private float mMouseSensitivity = 1f;
     public float MouseSensitivity
     {
         get => mMouseSensitivity;
@@ -60,7 +63,7 @@ public class GameSettings : ScriptableObject
         {
             if (mMouseSensitivity != value)
             {
-                mMouseSensitivity = Mathf.Clamp(value, 0f, 100f);
+                mMouseSensitivity = Mathf.Clamp(value, 0f, 1f);
                 OnMouseSentivityChanged?.Invoke(mMouseSensitivity);
                 Save();
             }
@@ -69,12 +72,6 @@ public class GameSettings : ScriptableObject
 
     private GameSettings()
     {
-    }
-
-    void OnEnable()
-    {
-        Debug.Log("loading");
-        Load();
     }
 
     public void ResetToDefaults()
@@ -104,5 +101,8 @@ public class GameSettings : ScriptableObject
             JsonUtility.FromJsonOverwrite(json, this);
             Debug.Log($"Settings loaded from {loadPath}");
         }
+
+        Screen.SetResolution(mScreenWidth, mScreenHeight,
+        mFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
     }
 }

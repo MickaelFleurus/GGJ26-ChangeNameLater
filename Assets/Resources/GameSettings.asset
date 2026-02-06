@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a53099f4dc66c43c3aa11ebddf6ebd63, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
-  mFullScreen: 0
-  mMasterVolume: 100
-  mMouseSensitivity: 100
+  mFullScreen: 1
+  mScreenWidth: 1920
+  mScreenHeight: 1080
+  mMasterVolume: 1
+  mMouseSensitivity: 0.407
