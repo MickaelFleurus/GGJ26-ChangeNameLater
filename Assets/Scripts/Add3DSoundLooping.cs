@@ -29,6 +29,11 @@ public class Add3DSoundLooping : MonoBehaviour
         GameSettings.OnMasterVolumeChanged += ChangeVolume;
     }
 
+    void OnDestroy()
+    {
+        GameSettings.OnMasterVolumeChanged -= ChangeVolume;
+    }
+
     public void StopClock()
     {
         audioSource.Stop();

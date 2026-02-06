@@ -71,8 +71,8 @@ public class GameOverController : MonoBehaviour
 
         // Generate shake offsets 
         float x = (Mathf.PerlinNoise(m_shakeSeed, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t;
-        float y = (Mathf.PerlinNoise(m_shakeSeed + 1f, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t * 0.3f; 
-        float z = (Mathf.PerlinNoise(m_shakeSeed + 2f, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t * 0.5f; 
+        float y = (Mathf.PerlinNoise(m_shakeSeed + 1f, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t * 0.3f;
+        float z = (Mathf.PerlinNoise(m_shakeSeed + 2f, Time.time * 25f) - 0.5f) * 2f * m_shakeIntensity * t * 0.5f;
 
         // Apply shake RELATIVE to original position (not accumulated)!!!!!!!!!!!!!!!!!!!!!!!
         shakeTarget.localPosition = m_originalShakePosition + new Vector3(x, y, z);
@@ -106,6 +106,7 @@ public class GameOverController : MonoBehaviour
     IEnumerator WonSequence()
     {
         yield return new WaitForSecondsRealtime(delayBeforeEndScreen);
+
         SceneManager.LoadScene("EndScreen");
     }
 
@@ -143,6 +144,7 @@ public class GameOverController : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(delayBeforeMainMenu);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("TitleScreen");
+
     }
 }

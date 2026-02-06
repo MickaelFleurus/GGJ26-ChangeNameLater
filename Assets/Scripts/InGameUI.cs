@@ -78,8 +78,7 @@ public class InGameUI : MonoBehaviour, INavigation
         mOnMaskOffFunc = () =>
             {
                 mCanSeeLoot = false;
-                if (mLootValue != null)
-                    mLootValue.visible = false;
+                mLootValue.visible = false;
                 ResetHoldState();
             };
         mOnMaskOnFunc = () =>
@@ -125,14 +124,10 @@ public class InGameUI : MonoBehaviour, INavigation
         mLootValue = inGameUIDocument.rootVisualElement.Q<Label>("ObjectValue");
         mMaskTimeSlider = inGameUIDocument.rootVisualElement.Q<Slider>("MaskTimeSlider");
 
-        if (mMaskTimeSlider != null && maskController != null)
-        {
-            mMaskTimeSlider.lowValue = 0f;
-            mMaskTimeSlider.highValue = maskController.MaxMaskTime;
-        }
+        mMaskTimeSlider.lowValue = 0f;
+        mMaskTimeSlider.highValue = maskController.MaxMaskTime;
 
         mHints.visible = false;
-        mLootValue.visible = false;
 
         var gameOverPanel = inGameUIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
         gameOverPanel.style.display = DisplayStyle.None;
@@ -152,10 +147,13 @@ public class InGameUI : MonoBehaviour, INavigation
 
     void ResetHoldState()
     {
-        mHoldTargetId = 0;
-        mHoldElapsed = 0f;
-        mHoldRequiredTime = 0f;
-        mHoldInteractable = null;
+        if (mHoldInteractable != null)
+        {
+            mHoldTargetId = 0;
+            mHoldElapsed = 0f;
+            mHoldRequiredTime = 0f;
+            mHoldInteractable = null;
+        }
     }
 
     void Update()
@@ -172,23 +170,12 @@ public class InGameUI : MonoBehaviour, INavigation
         // Handle pause menu input (works even when paused)
         HandlePauseInput();
 
-        if (mPauseMenu.visible) return;
+        if (mPauseMenu.style.display == DisplayStyle.Flex) return;
 
-        if (maskController != null && mMaskTimeSlider != null)
-        {
-            mMaskTimeSlider.highValue = maskController.MaxMaskTime;
-            mMaskTimeSlider.value = maskController.MaxMaskTime - maskController.CurrentMaskTime;
-        }
-
-        bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
+        mMaskTimeSlider.highValue = maskController.MaxMaskTime;
+        mMaskTimeSlider.value = maskController.MaxMaskTime - maskController.CurrentMaskTime;
 
         if (!mCanSeeLoot)
-        {
-            ResetHoldState();
-            return;
-        }
-
-        if (Camera.main == null)
         {
             ResetHoldState();
             return;
@@ -214,16 +201,16 @@ public class InGameUI : MonoBehaviour, INavigation
                     {
                         mLootValue.text = "Need " + door.GetValue() + " money";
                         ResetHoldState();
-                        return;
                     }
                     else if (GameEvents.CurrentMoney >= door.GetValue() && !isUnlocked)
                     {
                         GameEvents.InvokeDoorUnlocked();
                         isUnlocked = true;
-                        return;
                     }
+                    return;
                 }
 
+                bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
                 if (eHeld)
                 {
                     int targetId = hit.collider.GetInstanceID();
@@ -256,6 +243,7 @@ public class InGameUI : MonoBehaviour, INavigation
         ResetHoldState();
         if (mLootValue.visible)
             mLootValue.visible = false;
+
     }
 
 
@@ -331,7 +319,6 @@ public class InGameUI : MonoBehaviour, INavigation
 
     void OnMove(NavigationMoveEvent evt)
     {
-        Debug.Log("moving");
         if (mOptionPanel.HasFocus)
         {
             mOptionPanel.MoveFocus(evt);
