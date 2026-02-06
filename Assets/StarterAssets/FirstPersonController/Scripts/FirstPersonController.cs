@@ -298,8 +298,10 @@ namespace StarterAssets
 			mMannequin = mannequin;
 		}
 
-		public bool RotateTowardTarget(GameObject target, float rotationSpeed = 10f, float angleThreshold = 1f)
+		public bool RotateTowardTarget(GameObject target, float rotationSpeed = 10f, float angleThreshold = 1f, float pitchOffset = -15f)
 		{
+			if (target == null) return false;
+
 			Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
 			Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
 
@@ -308,10 +310,25 @@ namespace StarterAssets
 			if (angle <= angleThreshold)
 			{
 				transform.rotation = targetRotation;
+
+				// Also set camera pitch to look at target
+				Vector3 directionToCamera = target.transform.position - CinemachineCameraTarget.transform.position;
+				float targetPitch = Mathf.Asin(directionToCamera.y / directionToCamera.magnitude) * Mathf.Rad2Deg - pitchOffset;
+				_cinemachineTargetPitch = targetPitch;
+				CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+
 				return false;  // Rotation complete
 			}
 
 			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+			// Smoothly rotate camera pitch toward target
+			Vector3 directionToCameraSmooth = target.transform.position - CinemachineCameraTarget.transform.position;
+			float targetPitchSmooth = Mathf.Asin(directionToCameraSmooth.y / directionToCameraSmooth.magnitude) * Mathf.Rad2Deg - pitchOffset;
+			_cinemachineTargetPitch = Mathf.Lerp(_cinemachineTargetPitch, targetPitchSmooth, Time.deltaTime * rotationSpeed);
+			_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+			CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+
 			return true;  // Still rotating
 		}
 	}
