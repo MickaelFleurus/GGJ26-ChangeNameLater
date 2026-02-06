@@ -2037,6 +2037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathOnContact
   mannequinTag: Mannequin
   contactDistance: 1.5
+  m_maskController: {fileID: 80808250}
 --- !u!4 &89803843 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3721703043519738455, guid: e88c753ad89df964b9b8135f92f1c30e, type: 3}
@@ -45293,6 +45294,8 @@ MonoBehaviour:
   delayBeforeEndScreen: 0
   screenShakeDuration: 1
   screenShakeIntensity: 1
+  controller: {fileID: 80808251}
+  inGameUI: {fileID: 905884615}
 --- !u!1001 &1993650921
 PrefabInstance:
   m_ObjectHideFlags: 0

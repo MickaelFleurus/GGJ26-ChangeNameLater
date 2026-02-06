@@ -120,8 +120,6 @@ public class MaskController : MonoBehaviour
 
     void SetMannequinMovement(bool canMove)
     {
-        if (mannequins == null) return;
-
         for (int i = 0; i < mannequins.Length; i++)
         {
             if (mannequins[i] == null) continue;

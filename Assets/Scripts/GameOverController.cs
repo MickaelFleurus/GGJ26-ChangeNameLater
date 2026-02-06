@@ -20,6 +20,8 @@ public class GameOverController : MonoBehaviour
     [Header("Screen Shake")]
     [SerializeField] float screenShakeDuration = 1f;
     [SerializeField] float screenShakeIntensity = 0.5f;
+    [SerializeField] StarterAssets.FirstPersonController controller;
+    [SerializeField] InGameUI inGameUI;
 
     bool m_handling;
     bool m_handlingWon;
@@ -82,11 +84,10 @@ public class GameOverController : MonoBehaviour
 
     Transform GetShakeTarget()
     {
-        var fps = FindObjectOfType<StarterAssets.FirstPersonController>();
-        if (fps != null && fps.CinemachineCameraTarget != null)
-            return fps.CinemachineCameraTarget.transform;
-        var cam = Camera.main;
-        return cam != null ? cam.transform : null;
+        if (controller.CinemachineCameraTarget != null)
+            return controller.CinemachineCameraTarget.transform;
+
+        return Camera.main.transform;
     }
 
     void HandleGameLost()
@@ -136,12 +137,9 @@ public class GameOverController : MonoBehaviour
         yield return new WaitForSecondsRealtime(screenShakeDuration);
         yield return new WaitForSecondsRealtime(delayBeforeGameOverScreen);
 
-        var inGameUI = FindObjectOfType<InGameUI>();
-        if (inGameUI != null)
-        {
-            var panel = inGameUI.inGameUIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
-            panel.style.display = DisplayStyle.Flex;
-        }
+
+        var panel = inGameUI.inGameUIDocument.rootVisualElement.Q<VisualElement>("GameOverPanel");
+        panel.style.display = DisplayStyle.Flex;
 
         yield return new WaitForSecondsRealtime(delayBeforeMainMenu);
         SceneManager.LoadScene("TitleScreen");

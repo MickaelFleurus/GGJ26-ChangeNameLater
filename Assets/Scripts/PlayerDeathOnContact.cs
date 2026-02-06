@@ -14,27 +14,24 @@ public class PlayerDeathOnContact : MonoBehaviour
 
     static bool s_hasTriggered;
 
-    MaskController m_maskController;
+    [SerializeField] MaskController m_maskController;
 
     void Start()
     {
         s_hasTriggered = false; // reset when game scene loads so new game can trigger again
-        m_maskController = FindObjectOfType<MaskController>();
-        Debug.Log($"[PlayerDeathOnContact] Start: MaskController={(m_maskController != null ? "found" : "NOT FOUND")}, mannequinTag=\"{mannequinTag}\", contactDistance={contactDistance}");
     }
 
     void Update()
     {
         if (s_hasTriggered) return;
-        if (m_maskController == null || !m_maskController.IsMaskOn) return;
+        if (!m_maskController.IsMaskOn) return;
 
         var mannequins = m_maskController.mannequins;
-        if (mannequins == null || mannequins.Length == 0) return;
+        if (mannequins.Length == 0) return;
 
         Vector3 playerPos = transform.position;
         for (int i = 0; i < mannequins.Length; i++)
         {
-            if (mannequins[i] == null) continue;
             float d = Vector3.Distance(playerPos, mannequins[i].transform.position);
             if (d <= contactDistance)
             {
@@ -46,25 +43,11 @@ public class PlayerDeathOnContact : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (s_hasTriggered)
+        if (s_hasTriggered || !m_maskController.IsMaskOn || !IsMannequin(other.gameObject))
         {
             return;
         }
-        if (m_maskController == null)
-        {
-            return;
-        }
-        if (!m_maskController.IsMaskOn)
-        {
-            return;
-        }
-        if (!IsMannequin(other.gameObject))
-        {
-            var go = other.gameObject;
-            bool tagMatch = !string.IsNullOrEmpty(mannequinTag) && go.CompareTag(mannequinTag);
-            bool hasAI = go.GetComponent<IAstarAI>() != null;
-            return;
-        }
+
 
         TriggerDeath("trigger");
     }
@@ -77,10 +60,7 @@ public class PlayerDeathOnContact : MonoBehaviour
 
     bool IsMannequin(GameObject go)
     {
-        if (go == null) return false;
-        if (!string.IsNullOrEmpty(mannequinTag) && go.CompareTag(mannequinTag))
-            return true;
-        return go.GetComponent<IAstarAI>() != null;
+        return go.CompareTag(mannequinTag) || go.GetComponent<IAstarAI>() != null;
     }
 
 }

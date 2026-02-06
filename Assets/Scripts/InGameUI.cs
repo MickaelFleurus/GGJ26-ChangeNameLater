@@ -114,9 +114,6 @@ public class InGameUI : MonoBehaviour, INavigation
 
     void Start()
     {
-        if (maskController == null)
-            maskController = FindObjectOfType<MaskController>();
-
         inGameUIDocument.rootVisualElement.RegisterCallback<NavigationMoveEvent>(OnMove);
 
         mHints = inGameUIDocument.rootVisualElement.Q<Label>("Hints");
@@ -194,12 +191,12 @@ public class InGameUI : MonoBehaviour, INavigation
                 mLootValue.visible = true;
                 float requiredSeconds = interactable.GetRequiredHoldTime();
 
-                // Door: require enough money; show "Need X money" and block hold if not
+                // Door: require enough money; show "Need X €" and block hold if not
                 if (interactable is Door door)
                 {
                     if (GameEvents.CurrentMoney < door.GetValue())
                     {
-                        mLootValue.text = "Need " + door.GetValue() + " money";
+                        mLootValue.text = "Need " + door.GetValue() + " €";
                         ResetHoldState();
                     }
                     else if (GameEvents.CurrentMoney >= door.GetValue() && !isUnlocked)
