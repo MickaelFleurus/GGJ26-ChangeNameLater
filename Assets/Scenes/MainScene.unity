@@ -2038,6 +2038,7 @@ MonoBehaviour:
   mannequinTag: Mannequin
   contactDistance: 1.5
   m_maskController: {fileID: 80808250}
+  m_playerController: {fileID: 80808251}
 --- !u!4 &89803843 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3721703043519738455, guid: e88c753ad89df964b9b8135f92f1c30e, type: 3}

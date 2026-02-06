@@ -109,7 +109,7 @@ public class SoundManager
         GameEvents.OnMaskOff += PlayMaskOffSound;
         GameEvents.OnMaskOff += StopBreathingSound;
 
-        GameEvents.OnGameLost += PlayDeathSound;
+        GameEvents.OnDyingAnimationStart += PlayDeathSound;
         GameEvents.OnGameLost += StopBreathingSound;
         GameEvents.OnGameWon += PlayGameWonSound;
         GameEvents.onLootCollected += PlayMoneySound;
@@ -148,7 +148,7 @@ public class SoundManager
     void PlayMaskOnSound() => sfxSource.PlayOneShot(soundConfig.maskSound);
     void PlayMaskOffSound() => sfxSource.PlayOneShot(soundConfig.maskSound);
     void PlayGameWonSound() => sfxSource.PlayOneShot(soundConfig.doorOpen);
-    void PlayDeathSound() => sfxSource.PlayOneShot(soundConfig.deathSound);
+    void PlayDeathSound() { sfxSource.PlayOneShot(soundConfig.deathSound); }
     void PlayClickSound() => sfxSource.PlayOneShot(soundConfig.click);
     #endregion
 

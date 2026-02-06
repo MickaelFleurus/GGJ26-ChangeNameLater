@@ -72,10 +72,12 @@ namespace StarterAssets
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
+		private GameObject mMannequin = null;
 
 		private const float _threshold = 0.0001f;
 		private bool mGamePause = false;
 		private Action<bool> mGamePausedFunc;
+		private bool mIsDying = false;
 
 		private bool IsCurrentDeviceMouse
 		{
@@ -102,6 +104,7 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+			mIsDying = false;
 		}
 
 		void Destroy()
@@ -127,6 +130,14 @@ namespace StarterAssets
 		private void Update()
 		{
 			if (mGamePause) { return; }
+			if (mIsDying)
+			{
+				if (!RotateTowardTarget(mMannequin))
+				{
+					GameEvents.InvokeGameLost();
+					mIsDying = false;
+				}
+			}
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -134,7 +145,7 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
-			if (mGamePause) { return; }
+			if (mGamePause || mIsDying) { return; }
 			CameraRotation();
 		}
 
@@ -279,6 +290,29 @@ namespace StarterAssets
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+		}
+
+		public void TriggerDeathAnimation(GameObject mannequin)
+		{
+			mIsDying = true;
+			mMannequin = mannequin;
+		}
+
+		public bool RotateTowardTarget(GameObject target, float rotationSpeed = 10f, float angleThreshold = 1f)
+		{
+			Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
+			Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+
+			float angle = Quaternion.Angle(transform.rotation, targetRotation);
+
+			if (angle <= angleThreshold)
+			{
+				transform.rotation = targetRotation;
+				return false;  // Rotation complete
+			}
+
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+			return true;  // Still rotating
 		}
 	}
 }
