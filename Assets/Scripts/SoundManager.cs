@@ -109,7 +109,7 @@ public class SoundManager
         GameEvents.OnMaskOff += PlayMaskOffSound;
         GameEvents.OnMaskOff += StopBreathingSound;
 
-        GameEvents.OnGameLost += PlayDeathSound;
+        GameEvents.OnDyingAnimationStart += PlayDeathSound;
         GameEvents.OnGameLost += StopBreathingSound;
         GameEvents.OnGameWon += PlayGameWonSound;
         GameEvents.onLootCollected += PlayMoneySound;

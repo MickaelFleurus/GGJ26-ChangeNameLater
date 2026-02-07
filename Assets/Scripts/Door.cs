@@ -38,7 +38,10 @@ public class Door : MonoBehaviour, IInteractable
     public void Update()
     {
         if (Score.Instance.GetScoreFloat() >= requiredMoney && !isUnlocked)
+        {
             PlayDoorUnlockedSound();
+            GameEvents.InvokeNewHint("I think I heard the front door unlocking.");
+        }
     }
 
     public int GetValue() => requiredMoney;
@@ -58,7 +61,6 @@ public class Door : MonoBehaviour, IInteractable
         {
             GameEvents.InvokeDoorOpen();
             GameEvents.InvokeGameWon();
-            Destroy(gameObject);
         }
     }
 }

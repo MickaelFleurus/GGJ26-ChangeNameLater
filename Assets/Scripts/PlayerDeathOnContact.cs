@@ -1,5 +1,6 @@
 using UnityEngine;
 using Pathfinding;
+using StarterAssets;
 
 /// <summary>
 /// When the player (mask ON) touches a mannequin, invokes GameEvents.InvokeGameLost() once per game.
@@ -15,6 +16,7 @@ public class PlayerDeathOnContact : MonoBehaviour
     static bool s_hasTriggered;
 
     [SerializeField] MaskController m_maskController;
+    [SerializeField] FirstPersonController m_playerController;
 
     void Start()
     {
@@ -35,7 +37,7 @@ public class PlayerDeathOnContact : MonoBehaviour
             float d = Vector3.Distance(playerPos, mannequins[i].transform.position);
             if (d <= contactDistance)
             {
-                TriggerDeath("distance");
+                TriggerDeath("distance", mannequins[i]);
                 return;
             }
         }
@@ -49,13 +51,18 @@ public class PlayerDeathOnContact : MonoBehaviour
         }
 
 
-        TriggerDeath("trigger");
+        TriggerDeath("trigger", other.gameObject);
     }
 
-    void TriggerDeath(string source)
+    void TriggerDeath(string source, GameObject mannequin)
     {
         s_hasTriggered = true;
-        GameEvents.InvokeGameLost();
+        var mannequins = m_maskController.mannequins;
+        for (int i = 0; i < mannequins.Length; i++)
+        { mannequins[i].GetComponent<IAstarAI>().canMove = false; }
+        m_maskController.MaskOff();
+        m_playerController.TriggerDeathAnimation(mannequin);
+        GameEvents.InvokeDyingAnimationStart();
     }
 
     bool IsMannequin(GameObject go)

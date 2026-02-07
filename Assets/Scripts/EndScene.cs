@@ -27,6 +27,8 @@ public class EndScene : MonoBehaviour
         mQuitButton.clicked += OnExit;
 
         UIDocument.rootVisualElement.RegisterCallback<NavigationMoveEvent>(OnMove);
+        UnityEngine.Cursor.visible = true;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
 
         SetupFocusGuard(UIDocument.rootVisualElement);
         mContinueButton.schedule.Execute(() =>

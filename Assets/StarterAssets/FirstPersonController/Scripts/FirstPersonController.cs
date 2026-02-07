@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Cinemachine;
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -54,6 +56,9 @@ namespace StarterAssets
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
+		[SerializeField] private CinemachineVirtualCamera mVirtualCamera;
+		[SerializeField] private GameObject mCameraRoot;
+
 
 		// player
 		private float _speed;
@@ -72,10 +77,12 @@ namespace StarterAssets
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
+		private GameObject mMannequin = null;
 
 		private const float _threshold = 0.0001f;
 		private bool mGamePause = false;
 		private Action<bool> mGamePausedFunc;
+		private bool mIsDying = false;
 
 		private bool IsCurrentDeviceMouse
 		{
@@ -102,6 +109,7 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+			mIsDying = false;
 		}
 
 		void Destroy()
@@ -127,6 +135,15 @@ namespace StarterAssets
 		private void Update()
 		{
 			if (mGamePause) { return; }
+			if (mIsDying)
+			{
+				RotateTowardTarget(mMannequin);
+				GameEvents.InvokeGameLost();
+				mIsDying = false;
+				mGamePause = true;
+				return;
+
+			}
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -134,7 +151,7 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
-			if (mGamePause) { return; }
+			if (mGamePause || mIsDying) { return; }
 			CameraRotation();
 		}
 
@@ -279,6 +296,34 @@ namespace StarterAssets
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+		}
+
+		public void TriggerDeathAnimation(GameObject mannequin)
+		{
+			mIsDying = true;
+			mMannequin = mannequin.transform.GetChild(0).GetChild(0).gameObject;
+		}
+
+		public void RotateTowardTarget(GameObject target)
+		{
+			mVirtualCamera.Follow = mCameraRoot.transform;
+
+			var body = mVirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+			if (body != null)
+				mVirtualCamera.DestroyCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+			mVirtualCamera.AddCinemachineComponent<CinemachineHardLockToTarget>();
+
+			var composer = mVirtualCamera.GetCinemachineComponent<CinemachineComposer>();
+
+			if (!composer)
+				composer = mVirtualCamera.AddCinemachineComponent<CinemachineComposer>();
+
+			composer.m_HorizontalDamping = 0f;
+			composer.m_VerticalDamping = 0f;
+
+			mVirtualCamera.LookAt = target.transform;
+			mVirtualCamera.m_Lens.FieldOfView = 40f;
 		}
 	}
 }

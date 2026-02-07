@@ -21,6 +21,7 @@ public class InGameUI : MonoBehaviour, INavigation
 
     private Action mOnMaskOffFunc;
     private Action mOnMaskOnFunc;
+    private Action mOnDead;
     private Action<int, LootType> mOnLootCollectedFunc;
 
     private bool mCanSeeLoot = false;
@@ -34,6 +35,7 @@ public class InGameUI : MonoBehaviour, INavigation
     private IInteractable mHoldInteractable;
 
     // Pause menu
+    private VisualElement mInGameUI;
     private VisualElement mPauseMenu;
     private VisualElement mPauseButtons;
     private VisualElement mOptionsPanelVisual;
@@ -49,9 +51,12 @@ public class InGameUI : MonoBehaviour, INavigation
     public List<List<VisualElement>> Navigation { get; set; }
     public VisualElement LastSelectedElement { get; set; }
 
+    private bool mDead = false;
+
     void Awake()
     {
         NavigationExtensions.SetupFocusGuard(this, inGameUIDocument.rootVisualElement);
+        mInGameUI = inGameUIDocument.rootVisualElement.Q<VisualElement>("InGameUI");
         mPauseButtons = inGameUIDocument.rootVisualElement.Q<VisualElement>("PauseButtons");
         mPauseMenu = inGameUIDocument.rootVisualElement.Q<VisualElement>("PauseMenu");
         mContinueButton = inGameUIDocument.rootVisualElement.Q<Button>("ContinueButton");
@@ -92,10 +97,12 @@ public class InGameUI : MonoBehaviour, INavigation
             if (mAmountCollected != null)
                 mAmountCollected.text = mTotalCollected.ToString();
         };
+        mOnDead = () => { mDead = true; mInGameUI.visible = false; };
 
         GameEvents.OnMaskOff += mOnMaskOffFunc;
         GameEvents.OnMaskEquipped += mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData += mOnLootCollectedFunc;
+        GameEvents.OnDyingAnimationStart += mOnDead;
     }
 
     void ShowHint(string hint)
@@ -110,6 +117,7 @@ public class InGameUI : MonoBehaviour, INavigation
         GameEvents.OnMaskOff -= mOnMaskOffFunc;
         GameEvents.OnMaskEquipped -= mOnMaskOnFunc;
         GameEvents.OnLootCollectedWithData -= mOnLootCollectedFunc;
+        GameEvents.OnDyingAnimationStart -= mOnDead;
     }
 
     void Start()
@@ -132,6 +140,7 @@ public class InGameUI : MonoBehaviour, INavigation
         mTotalCollected = 0;
         GameEvents.CurrentMoney = mTotalCollected;
         mAmountCollected.text = mTotalCollected.ToString();
+        GameEvents.OnNewHint += ShowHint;
         ShowHint("Press F to put on the mask. You can see and collect item this way. Be careful, the mannequin moves when the mask is on...");
     }
 
@@ -155,6 +164,8 @@ public class InGameUI : MonoBehaviour, INavigation
 
     void Update()
     {
+        if (mDead) return;
+
         if (mHints.visible)
         {
             mHintTimeLeft = mHintTimeLeft - Time.unscaledDeltaTime;
@@ -198,13 +209,14 @@ public class InGameUI : MonoBehaviour, INavigation
                     {
                         mLootValue.text = "Need " + door.GetValue() + " €";
                         ResetHoldState();
+                        return;
                     }
                     else if (GameEvents.CurrentMoney >= door.GetValue() && !isUnlocked)
                     {
                         GameEvents.InvokeDoorUnlocked();
                         isUnlocked = true;
+                        return;
                     }
-                    return;
                 }
 
                 bool eHeld = Keyboard.current != null && Keyboard.current[Key.E].isPressed;
@@ -271,6 +283,7 @@ public class InGameUI : MonoBehaviour, INavigation
     private void ShowPause()
     {
         mPauseMenu.style.display = DisplayStyle.Flex;
+        mInGameUI.visible = false;
         mContinueButton.focusable = true;
         GameEvents.InvokeGamePaused(true);
         Time.timeScale = 0f;
@@ -286,6 +299,7 @@ public class InGameUI : MonoBehaviour, INavigation
     private void HidePause()
     {
         mPauseMenu.style.display = DisplayStyle.None;
+        mInGameUI.visible = true;
         GameEvents.InvokeGamePaused(false);
         Time.timeScale = 1f;
 

@@ -129,4 +129,9 @@ public class MaskController : MonoBehaviour
                 ai.canMove = canMove;
         }
     }
+
+    public void MaskOff()
+    {
+        GameEvents.InvokeMaskOff();
+    }
 }

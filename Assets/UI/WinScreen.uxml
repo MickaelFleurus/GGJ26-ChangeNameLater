@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/style.uss?fileID=7433441132597879392&amp;guid=e0d226c8899d6421a968678f25768713&amp;type=3#style"/>
     <ui:VisualElement name="FocusFallback" focusable="true" tabindex="-1" style="flex-grow: 1; position: absolute; width: auto; height: auto; top: 0; left: 0; bottom: 0; right: 0;"/>
-    <ui:Image style="position: absolute; background-image: resource(&quot;MainScreen&quot;); background-color: rgb(0, 0, 0); width: 1920px; height: 1080px; -unity-background-image-tint-color: rgba(255, 255, 255, 0.47);"/>
+    <ui:Image style="position: absolute; background-image: resource(&quot;MainScreen&quot;); background-color: rgb(0, 0, 0); width: 1920px; height: 1080px; -unity-background-image-tint-color: rgba(255, 255, 255, 0.47); left: 0; top: 0; right: 0; bottom: 0;"/>
     <ui:Label text="You survived" name="Win" emoji-fallback-support="false" enable-rich-text="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" class="credit_title" style="font-size: 85px; text-shadow: 2px 2px 0 rgb(0, 0, 0); width: 1920px;"/>
     <ui:VisualElement name="Content" class="title_screen_panel" style="height: 55%;">
         <ui:Label text="You left the house after {}." name="Time" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" double-click-selects-word="false" display-tooltip-when-elided="false" class="option_font item_text_style" style="margin-bottom: 50px;"/>
@@ -9,7 +9,7 @@
         <ui:Label text="Will you dare to go back and try to do better?" name="Challenge" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" double-click-selects-word="false" display-tooltip-when-elided="false" class="option_font item_text_style" style="margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0; width: 1665px; bottom: auto; top: 55%;"/>
     </ui:VisualElement>
     <ui:VisualElement name="Buttons" focusable="false" style="height: 170px; width: 1920px; bottom: 25px; position: absolute; align-items: center; flex-direction: row; align-self: center; justify-content: center;">
-        <ui:Button text="Restart" name="Restart" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" selectable="true" class="unity-button item_text_style"/>
-        <ui:Button text="Exit" name="Exit" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" display-tooltip-when-elided="false" double-click-selects-word="false" selectable="true" focusable="true" class="item_text_style"/>
+        <ui:Button text="Restart" name="Restart" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" selectable="false" focusable="true" class="unity-button item_text_style"/>
+        <ui:Button text="Exit" name="Exit" enable-rich-text="false" emoji-fallback-support="false" triple-click-selects-line="false" display-tooltip-when-elided="false" double-click-selects-word="false" selectable="false" focusable="true" class="item_text_style"/>
     </ui:VisualElement>
 </ui:UXML>
