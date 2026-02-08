@@ -16,4 +16,4 @@ MonoBehaviour:
   mScreenWidth: 1920
   mScreenHeight: 1080
   mMasterVolume: 1
-  mMouseSensitivity: 0.407
+  mMouseSensitivity: 0.15
