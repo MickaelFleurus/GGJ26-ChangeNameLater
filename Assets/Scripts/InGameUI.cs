@@ -313,6 +313,12 @@ public class InGameUI : MonoBehaviour, INavigation
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        // In WebGL, just exit fullscreen
+        if (Screen.fullScreen)
+        {
+            Screen.fullScreen = false;
+        }
 #else
         Application.Quit();
 #endif

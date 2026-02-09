@@ -1927,7 +1927,7 @@ PrefabInstance:
       objectReference: {fileID: 1260744670}
     - target: {fileID: 8575682186974579702, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: RotationSpeed
-      value: 50
+      value: 20.1
       objectReference: {fileID: 0}
     - target: {fileID: 8575682186974579702, guid: 61fdb8017ab6c4a40b482d05c1d331af, type: 3}
       propertyPath: mVirtualCamera
